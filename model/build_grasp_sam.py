@@ -65,7 +65,8 @@ def load_sam_decoder(sam_encoder_type, checkpoint_dict):
                 # print(k[13:])
                 new_state_dict[k[13:]] = v
         
-        decoder.load_state_dict(new_state_dict)
+        # decoder.load_state_dict(new_state_dict) # commented
+        decoder.load_state_dict(new_state_dict, strict=False)
 
     else:
         print("default sam decoder is loading")
@@ -94,11 +95,15 @@ def load_sam_decoder(sam_encoder_type, checkpoint_dict):
                 if 'mask_decoder' in k:
                     new_state_dict[k[13:]] = v
                     
-            decoder.load_state_dict(new_state_dict)
+            # decoder.load_state_dict(new_state_dict) # commented
+            decoder.load_state_dict(new_state_dict, strict=False)
+
             
         else:
             state_dict = torch.load(checkpoint_path)
-            decoder.load_state_dict(state_dict)
+
+            # decoder.load_state_dict(state_dict) # commented
+            decoder.load_state_dict(state_dict, strict=False)
             
     return decoder
     

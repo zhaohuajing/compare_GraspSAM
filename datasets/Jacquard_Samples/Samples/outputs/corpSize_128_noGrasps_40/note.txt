@@ -1,0 +1,249 @@
+(GraspSAM) root@25ceba144c19:~/graspnet_ws/src/GraspSam_ros2/compare_GraspSAM# python eval.py   --root ./datasets/Jacquard_Samples/Samples/   --ckp_path ./pretrained_checkpoint/mobile_sam.pt   --sam-encoder-type vit_t
+len jaccquard: 48
+len jaccquard: 48
+default sam encoder is loading
+default sam decoder is loading
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 85.51806640625 MB
+Reserved : 92.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 100.00% | correct : 1,  failed : 0
+Allocated: 96.646484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 50.00% | correct : 1,  failed : 1
+Allocated: 96.646484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 33.33% | correct : 1,  failed : 2
+Allocated: 96.521484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 25.00% | correct : 1,  failed : 3
+Allocated: 96.646484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 40.00% | correct : 2,  failed : 3
+Allocated: 96.521484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 33.33% | correct : 2,  failed : 4
+Allocated: 96.646484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 28.57% | correct : 2,  failed : 5
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 25.00% | correct : 2,  failed : 6
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 22.22% | correct : 2,  failed : 7
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 20.00% | correct : 2,  failed : 8
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 27.27% | correct : 3,  failed : 8
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 33.33% | correct : 4,  failed : 8
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 38.46% | correct : 5,  failed : 8
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 42.86% | correct : 6,  failed : 8
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 46.67% | correct : 7,  failed : 8
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 43.75% | correct : 7,  failed : 9
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 47.06% | correct : 8,  failed : 9
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 44.44% | correct : 8,  failed : 10
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 42.11% | correct : 8,  failed : 11
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 40.00% | correct : 8,  failed : 12
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 38.10% | correct : 8,  failed : 13
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 40.91% | correct : 9,  failed : 13
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 43.48% | correct : 10,  failed : 13
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 41.67% | correct : 10,  failed : 14
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 40.00% | correct : 10,  failed : 15
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 42.31% | correct : 11,  failed : 15
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 40.74% | correct : 11,  failed : 16
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 42.86% | correct : 12,  failed : 16
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 44.83% | correct : 13,  failed : 16
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 43.33% | correct : 13,  failed : 17
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 41.94% | correct : 13,  failed : 18
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 40.62% | correct : 13,  failed : 19
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 39.39% | correct : 13,  failed : 20
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 38.24% | correct : 13,  failed : 21
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 37.14% | correct : 13,  failed : 22
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 36.11% | correct : 13,  failed : 23
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 35.14% | correct : 13,  failed : 24
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 34.21% | correct : 13,  failed : 25
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 33.33% | correct : 13,  failed : 26
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 32.50% | correct : 13,  failed : 27
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 31.71% | correct : 13,  failed : 28
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 30.95% | correct : 13,  failed : 29
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 30.23% | correct : 13,  failed : 30
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 29.55% | correct : 13,  failed : 31
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 28.89% | correct : 13,  failed : 32
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 28.26% | correct : 13,  failed : 33
+Allocated: 95.896484375 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 27.66% | correct : 13,  failed : 34
+Allocated: 96.58203125 MB
+Reserved : 134.0 MB
+Total    : 5918.4375 MB
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 27.08% | correct : 13,  failed : 35
+

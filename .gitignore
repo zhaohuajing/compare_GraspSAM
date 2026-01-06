@@ -21,3 +21,4 @@ pretrained_checkpoint
 *.pt
 pretrained_checkpoint/*.pt
 pretrained_checkpoint/*.pth
+GroundingDINO/

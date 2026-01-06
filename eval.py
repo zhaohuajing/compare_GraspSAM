@@ -23,6 +23,33 @@ from skimage.filters import gaussian
 from data.utils.grasp_utils import *
 
 
+
+# ------------------------------------------------------------------
+# Added: Fix for old Ultralytics checkpoints expecting `ultralytics.yolo`
+# ------------------------------------------------------------------
+import sys
+import types 
+
+try:
+    import ultralytics
+    import ultralytics.models.yolo
+    sys.modules["ultralytics.yolo"] = ultralytics.models.yolo
+except Exception as e:
+    print("Warning: Ultralytics aliasing failed:", e)
+
+
+# import random, numpy as np
+# random.seed(0)
+# np.random.seed(0)
+# torch.manual_seed(0)
+# torch.cuda.manual_seed_all(0)
+
+
+# ------------------------------------------------------------------
+# Added part ends
+# ------------------------------------------------------------------
+
+
 def post_process_output(q_img, cos_img, sin_img, width_img):
     """
     Post-process the raw output of the GG-CNN, convert to numpy arrays, apply filtering.
@@ -94,10 +121,18 @@ def main(args, i=0):
     
     if args.dataset_name == "jacquard":
         
-        train_dataset = JacquardDataset(root=args.root, crop_size=1024, include_mask=True, 
+        # train_dataset = JacquardDataset(root=args.root, crop_size=1024, include_mask=True, 
+        #                                 random_rotate=False, random_zoom=False,
+        #                                 start=0.0, end=0.9, seen=True)
+        # test_dataset = JacquardDataset(root=args.root, crop_size=1024, include_mask=True, 
+        #                                random_rotate=False, random_zoom=False,   
+        #                                start=0.9, end=1.0, seen=False)
+
+
+        train_dataset = JacquardDataset(root=args.root, crop_size=512, include_mask=True, 
                                         random_rotate=False, random_zoom=False,
                                         start=0.0, end=0.9, seen=True)
-        test_dataset = JacquardDataset(root=args.root, crop_size=1024, include_mask=True, 
+        test_dataset = JacquardDataset(root=args.root, crop_size=512, include_mask=True, 
                                        random_rotate=False, random_zoom=False,   
                                        start=0.9, end=1.0, seen=False)
 
@@ -118,24 +153,34 @@ def main(args, i=0):
         test_indices = indices[split:]
         test_sampler = torch.utils.data.sampler.SubsetRandomSampler(test_indices)
 
-        test_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, pin_memory=False,
-                                                  num_workers=4, shuffle=False, sampler=test_sampler)
+        # test_loader = torch.utils.data.DataLoader(train_dataset, batch_size=args.batch_size, pin_memory=False,
+        #                                           num_workers=4, shuffle=False, sampler=test_sampler)
+
+        test_loader = torch.utils.data.DataLoader(train_dataset, batch_size=1, pin_memory=False,
+                                                  num_workers=0, shuffle=False, sampler=test_sampler) # modified num_workers: 4->0
         
         print("test_dataset size : {}".format(len(test_indices)))
     else:
-        test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.batch_size, pin_memory=False, 
-                                                  num_workers=4, shuffle=False)
+        # test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.batch_size, pin_memory=False, 
+        #                                           num_workers=4, shuffle=False)
+        test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=1, pin_memory=False, 
+                                                  num_workers=0, shuffle=False) # modified num_workers: 4->0
 
     
-    model = setup_model(model_type="bs_grasp_sam", sam_encoder_type="eff_vit_t_w_ad")
-    
+    # model = setup_model(model_type="bs_grasp_sam", sam_encoder_type="eff_vit_t_w_ad") # commented out to avoid hardcoding encoder type to (non-existing) efficent sam cpk
+    # model = setup_model(model_type="bs_grasp_sam",sam_encoder_type="vit_h") #added 
+    model = setup_model(model_type="bs_grasp_sam",sam_encoder_type=args.sam_encoder_type)
+
     model   = model.to(args.device)
 
     ckp_path = args.ckp_path
 
+    '''
     print("loading checkpoint from : ", ckp_path.split("/")[-1])
     
-    state_dict = torch.load(ckp_path, map_location=args.device)
+    # state_dict = torch.load(ckp_path, map_location=args.device) # commented out
+    state_dict = torch.load(ckp_path, map_location=args.device, weights_only=True) #added
+
 
     if "module." in list(state_dict["model"].keys())[0]:
         from collections import OrderedDict
@@ -145,7 +190,43 @@ def main(args, i=0):
                 
         state_dict = new_state_dict
 
-    model.load_state_dict(state_dict["model"], strict=False)
+    model.load_state_dict(state_dict["model"], strict=False) # commented out
+    '''
+
+    #--------------------
+    # Added
+    #--------------------
+
+    print("loading checkpoint from : ", os.path.basename(ckp_path))
+
+    ckpt = torch.load(ckp_path, map_location="cpu")  # CPU load is safer for big pickles
+
+    # Common patterns:
+    # 1) {"model": state_dict, ...}
+    # 2) {"state_dict": state_dict, ...}
+    # 3) directly a state_dict
+    if isinstance(ckpt, dict) and "model" in ckpt and isinstance(ckpt["model"], dict):
+        sd = ckpt["model"]
+    elif isinstance(ckpt, dict) and "state_dict" in ckpt and isinstance(ckpt["state_dict"], dict):
+        sd = ckpt["state_dict"]
+    elif isinstance(ckpt, dict):
+        sd = ckpt  # might already be a state_dict-like dict
+    else:
+        raise RuntimeError(f"Unexpected checkpoint type: {type(ckpt)}")
+
+    # Strip DataParallel "module." prefix if present
+    if len(sd) > 0:
+        k0 = next(iter(sd.keys()))
+        if k0.startswith("module."):
+            sd = {k[7:]: v for k, v in sd.items()}
+
+    missing, unexpected = model.load_state_dict(sd, strict=False)
+    print("loaded. missing:", len(missing), "unexpected:", len(unexpected))
+
+    #--------------------
+    # Added end
+    #--------------------
+
     
     print("-"*80) 
      
@@ -163,6 +244,10 @@ def main(args, i=0):
     with torch.no_grad():
         
         for idx, data in enumerate(test_loader):
+
+            torch.cuda.empty_cache() # temporally added
+
+
             images, masks, grasps, didx, rot, zoom_factor = data
             images = images.to(args.device)    
             masks = masks.to(args.device)
@@ -172,6 +257,13 @@ def main(args, i=0):
             targets = {}
             targets["masks"] = masks
             targets["grasps"] = grasps    
+
+
+            print("Allocated:", torch.cuda.memory_allocated() / 1024**2, "MB")
+            print("Reserved :", torch.cuda.memory_reserved() / 1024**2, "MB")
+            print("Total    :", torch.cuda.get_device_properties(0).total_memory / 1024**2, "MB")
+
+            # input()
                 
             grasp_pred, mask_pred = model.total_forward(imgs=images, targets=targets)    
             
@@ -195,9 +287,73 @@ def main(args, i=0):
                                           no_grasps=1, 
                                           grasp_width=w_out)
             else:
+
+                #------------------------------
+                # Added to force scalar rot/zoom_factor/didx before calling get_gtbb
+                #------------------------------
+
+                # ---- make dataloader outputs scalar (batch_size=1 expected) ----
+                
+
+                def _scalar(x):
+                    # tensor -> python scalar
+                    if isinstance(x, torch.Tensor):
+                        return x.item() if x.numel() == 1 else x[0].item()
+                    # list/tuple -> first element
+                    if isinstance(x, (list, tuple)):
+                        return _scalar(x[0])
+                    # numpy scalar -> python scalar
+                    try:
+                        import numpy as np
+                        if isinstance(x, np.ndarray):
+                            return x.item() if x.size == 1 else x.reshape(-1)[0].item()
+                    except Exception:
+                        pass
+                    return x
+
+                didx_s = int(_scalar(didx))
+                rot_s = float(_scalar(rot))
+                zoom_s = float(_scalar(zoom_factor))
+
+                # then use these
+                gtbb = test_dataset.get_gtbb(didx_s, rot_s, zoom_s)
+
+                #------------------------------
+                # Added part ends
+                #------------------------------
+
+
+                #------------------------------
+                # Add a one-off visualization for one sample
+                #------------------------------
+
+                from data.utils.grasp_utils import GraspRectangles, detect_grasps
+                import matplotlib.pyplot as plt
+
+                gs = detect_grasps(q_out, ang_out, width_img=w_out, no_grasps=5)
+                gt = gtbb  # already a GraspRectangles
+
+                fig, ax = plt.subplots(1)
+                ax.imshow(images[0].permute(1,2,0).cpu().numpy(), cmap='gray')
+
+                gt.plot(ax, color='green')
+                for g in gs:
+                    g.plot(ax, color='red')
+
+                plt.show()
+                plt.savefig(f"sample_{idx}.png")
+                plt.close()
+
+   
+                #------------------------------
+                # Added part ends
+                #------------------------------
+
                 success = calculate_iou_match(q_out, ang_out, 
-                                              test_dataset.get_gtbb(didx, rot, zoom_factor), 
-                                              no_grasps=1, 
+                                              # test_dataset.get_gtbb(didx, rot, zoom_factor), 
+                                              gtbb,
+                                              # no_grasps=1, 
+                                              no_grasps=40, 
                                               grasp_width=w_out)
             
             if success:
@@ -225,6 +381,15 @@ if __name__ == "__main__":
     parser.add_argument("--split", type=float, default=0.01)
     parser.add_argument("--root", type=str, help="dataset root")
     parser.add_argument("--ckp_path", type=str, help="ckp_path")
+
+    # Added to avoid hard-coding encode type
+    parser.add_argument(
+        "--sam-encoder-type",
+        type=str,
+        default="vit_h",
+        help="SAM backbone type (vit_h, vit_l, vit_b, vit_t, eff_vit_t, eff_vit_t_w_ad)"
+    )
+
 
     args = parser.parse_args()
     exp_name = time.strftime('%c', time.localtime(time.time()))

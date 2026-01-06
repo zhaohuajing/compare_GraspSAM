@@ -14,8 +14,6 @@ from .base_grasp_data import BaseGraspDataset
 from .utils import grasp_utils as gu
 from .utils import image_utils as iu
 
-import glob
-
 
 class JacquardDataset(BaseGraspDataset):
     """
@@ -30,37 +28,34 @@ class JacquardDataset(BaseGraspDataset):
         :param kwargs: kwargs for GraspDatasetBase
         """
         super(JacquardDataset, self).__init__(**kwargs)
-        
+
+        import glob
         # graspf = glob.glob(os.path.join(file_path, '*', '*_grasps.txt'))
-        # graspf = glob.glob('/SSDc/jongwon_kim/Datasets/Jacquard_Dataset' + '/*/*/' + '*_grasps.txt')
-
-        graspf = glob.glob(os.path.join(root, '**', '*_grasps.txt'), recursive=True) #edited to avoid hard-coded path
-
-
+        graspf = glob.glob('/SSDc/jongwon_kim/Datasets/Jacquard_Dataset' + '/*/*/' + '*_grasps.txt')
         graspf.sort()
         l = len(graspf)
         print("len jaccquard:", l)
 
 
-        # if self.seen:
-        #     with open(os.path.join('split/jacquard/seen.obj'), 'rb') as f:
-        #         idxs = pickle.load(f)
+        if self.seen:
+            with open(os.path.join('split/jacquard/seen.obj'), 'rb') as f:
+                idxs = pickle.load(f)
 
-        #     graspf = list(filter(lambda x: x.split('.')[0].split('/')[-1].split("_")[0] + "_" + x.split('.')[0].split('/')[-1].split("_")[1] in idxs, graspf))
-        #     # graspf = list(filter(lambda x: x.split('/')[-1].split('.')[0] in idxs, graspf))
+            graspf = list(filter(lambda x: x.split('.')[0].split('/')[-1].split("_")[0] + "_" + x.split('.')[0].split('/')[-1].split("_")[1] in idxs, graspf))
+            # graspf = list(filter(lambda x: x.split('/')[-1].split('.')[0] in idxs, graspf))
             
-        #     split = int(np.floor(0.9 * len(graspf)))
-        #     if self.train:
-        #         graspf = graspf[:split]
+            split = int(np.floor(0.9 * len(graspf)))
+            if self.train:
+                graspf = graspf[:split]
                 
-        #     else:
-        #         graspf = graspf[split:]
+            else:
+                graspf = graspf[split:]
         
-        # else:
-        #     with open(os.path.join('split/jacquard/unseen.obj'), 'rb') as f:
-        #         idxs = pickle.load(f)
+        else:
+            with open(os.path.join('split/jacquard/unseen.obj'), 'rb') as f:
+                idxs = pickle.load(f)
 
-        #     graspf = list(filter(lambda x: x.split('.')[0].split('/')[-1].split("_")[0] + "_" + x.split('.')[0].split('/')[-1].split("_")[1] in idxs, graspf))
+            graspf = list(filter(lambda x: x.split('.')[0].split('/')[-1].split("_")[0] + "_" + x.split('.')[0].split('/')[-1].split("_")[1] in idxs, graspf))
 
 
         if l == 0:
@@ -90,14 +85,10 @@ class JacquardDataset(BaseGraspDataset):
         # self.mask_files = maskf[int(l*start):int(l*end)]
 
 
-        # if self.seen:
-        #     pass
-        # else:
-        #     pass
-
-        # Disable seen/unseen filtering for custom Jacquard samples
-        pass
-
+        if self.seen:
+            pass
+        else:
+            pass
         
         
     def get_gtbb(self, idx, rot=0, zoom=1.0):

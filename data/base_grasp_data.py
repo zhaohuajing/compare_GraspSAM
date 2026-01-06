@@ -173,6 +173,10 @@ class BaseGraspDataset(torch.utils.data.Dataset):
         
         if vis:
             # raw_image = Image.open(self.rgb_files[idx]).convert("RGB")
+
+            if not self.include_mask: # added: Fix for include_mask=False crash
+                mask = torch.zeros(1, x.shape[-2], x.shape[-1])
+
             if self.include_prompt:
                 return x, mask, grasps, idx, rot, zoom_factor, bbs, prompt
             else: 
