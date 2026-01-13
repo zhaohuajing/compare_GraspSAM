@@ -8,7 +8,7 @@ os.environ["CUDA_DEVICE_ORDER"]="PCI_BUS_ID"
 os.environ['CUDA_LAUNCH_BLOCKING'] = "1"
 
 import numpy as np
-
+import json
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -82,7 +82,7 @@ def post_process_output(q_img, cos_img, sin_img, width_img):
 
     return q_img, ang_img, width_img
 
-def calculate_iou_match(grasp_q, grasp_angle, ground_truth_bbs, no_grasps=1, grasp_width=None):
+def calculate_iou_match(grasp_q, grasp_angle, ground_truth_bbs, no_grasps=1, grasp_width=None, gs=None): #added gs input
     """
     Calculate grasp success using the IoU (Jacquard) metric (e.g. in https://arxiv.org/abs/1301.3592)
     A success is counted if grasp rectangle has a 25% IoU with a ground truth, and is withing 30 degrees.
@@ -98,12 +98,17 @@ def calculate_iou_match(grasp_q, grasp_angle, ground_truth_bbs, no_grasps=1, gra
         gt_bbs = GraspRectangles.load_from_array(ground_truth_bbs)
     else:
         gt_bbs = ground_truth_bbs
-    gs = detect_grasps(grasp_q, grasp_angle, width_img=grasp_width, no_grasps=no_grasps)
+
+
+    if gs == None:
+        gs = detect_grasps(grasp_q, grasp_angle, width_img=grasp_width, no_grasps=no_grasps)
+
     for g in gs:
         if g.max_iou(gt_bbs) > 0.25:
             return True
     else:
         return False
+
 
 def setup_model(model_type, sam_encoder_type):
     if model_type == "bs_grasp_sam":
@@ -114,27 +119,100 @@ def setup_model(model_type, sam_encoder_type):
 
     return model
 
+
+
+#-----------------------------
+# Add function for data saving
+#----------------------------
+
+def grasp_to_dict(g):
+    """
+    Convert a GraspSAM grasp (object OR tensor/array) into JSON-safe dict
+    """
+    # Case 1: Grasp object
+    if hasattr(g, "center"):
+        return {
+            "x": float(g.center[0]),
+            "y": float(g.center[1]),
+            "angle": float(g.angle),
+            "width": float(g.width),
+            "score": float(getattr(g, "score", 0.0)),
+        }
+
+    # Case 2: Tensor or ndarray [x, y, angle, width, score?]
+    import numpy as np
+    if hasattr(g, "detach"):
+        g = g.detach().cpu().numpy()
+
+    if isinstance(g, (list, tuple, np.ndarray)):
+        return {
+            "x": float(g[0]),
+            "y": float(g[1]),
+            "angle": float(g[2]),
+            "width": float(g[3]),
+            "score": float(g[4]) if len(g) > 4 else 0.0,
+        }
+
+    raise TypeError(f"Unsupported grasp type: {type(g)}")
+
+#-----------------------------
+# Added function ends
+#----------------------------
+
 def main(args, i=0):
     GPU_NUM = args.gpu_num    
     args.device = torch.device(f'cuda:{GPU_NUM}' if torch.cuda.is_available() else 'cpu')
 
+    # no_grasps = 10
+    no_grasps = args.no_grasps
+
+
+
+    #-----------------------------
+    # Add to save info to log file
+    #----------------------------
+
+
+    run_id = time.strftime("%Y%m%d_%H%M%S")
+    out_dir = f"grasp_outputs/run_{run_id}"
+
+    # out_dir = "grasp_outputs/sample4"
+    os.makedirs(out_dir, exist_ok=True)
+
+    log_path = os.path.join(out_dir, "note.txt")
+    log_f = open(log_path, "a")   # append mode
+
+    log_f.write("\n" + "="*60 + "\n")
+    log_f.write(f"New run | encoder={args.sam_encoder_type} | no_grasps={no_grasps}\n")
+    log_f.write("="*60 + "\n")
+
+    # Add to save info to log file
+    def log_print(*args): 
+        msg = " ".join(str(a) for a in args)
+        print(msg)
+        log_f.write(msg + "\n")
+        log_f.flush()   # ensure it's written immediately
+
+    #-----------------------------
+    # Added part end
+    #----------------------------
     
     if args.dataset_name == "jacquard":
         
-        # train_dataset = JacquardDataset(root=args.root, crop_size=1024, include_mask=True, 
-        #                                 random_rotate=False, random_zoom=False,
-        #                                 start=0.0, end=0.9, seen=True)
-        # test_dataset = JacquardDataset(root=args.root, crop_size=1024, include_mask=True, 
-        #                                random_rotate=False, random_zoom=False,   
-        #                                start=0.9, end=1.0, seen=False)
-
-
-        train_dataset = JacquardDataset(root=args.root, crop_size=512, include_mask=True, 
+        train_dataset = JacquardDataset(root=args.root, crop_size=1024, include_mask=True, 
                                         random_rotate=False, random_zoom=False,
                                         start=0.0, end=0.9, seen=True)
-        test_dataset = JacquardDataset(root=args.root, crop_size=512, include_mask=True, 
+        test_dataset = JacquardDataset(root=args.root, crop_size=1024, include_mask=True, 
                                        random_rotate=False, random_zoom=False,   
                                        start=0.9, end=1.0, seen=False)
+
+
+        # train_dataset = JacquardDataset(root=args.root, crop_size=256, include_mask=True, 
+        #                                 random_rotate=False, random_zoom=False,
+        #                                 start=0.0, end=0.9, seen=True)
+        # test_dataset = JacquardDataset(root=args.root, crop_size=256, include_mask=True, 
+        #                                random_rotate=False, random_zoom=False,   
+        #                                start=0.9, end=1.0, seen=False)
 
     elif args.dataset_name == "grasp_anything":
         
@@ -159,10 +237,10 @@ def main(args, i=0):
         test_loader = torch.utils.data.DataLoader(train_dataset, batch_size=1, pin_memory=False,
                                                   num_workers=0, shuffle=False, sampler=test_sampler) # modified num_workers: 4->0
         
-        print("test_dataset size : {}".format(len(test_indices)))
+        log_print("test_dataset size : {}".format(len(test_indices)))
     else:
         # test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=args.batch_size, pin_memory=False, 
-        #                                           num_workers=4, shuffle=False)
+                                                  # num_workers=4, shuffle=False)
         test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=1, pin_memory=False, 
                                                   num_workers=0, shuffle=False) # modified num_workers: 4->0
 
@@ -194,10 +272,10 @@ def main(args, i=0):
     '''
 
     #--------------------
-    # Added
+    # Added check point loading session
     #--------------------
 
-    print("loading checkpoint from : ", os.path.basename(ckp_path))
+    log_print("loading checkpoint from : ", os.path.basename(ckp_path))
 
     ckpt = torch.load(ckp_path, map_location="cpu")  # CPU load is safer for big pickles
 
@@ -221,14 +299,14 @@ def main(args, i=0):
             sd = {k[7:]: v for k, v in sd.items()}
 
     missing, unexpected = model.load_state_dict(sd, strict=False)
-    print("loaded. missing:", len(missing), "unexpected:", len(unexpected))
+    log_print("loaded. missing:", len(missing), "unexpected:", len(unexpected))
 
     #--------------------
-    # Added end
+    # Added part ends
     #--------------------
 
     
-    print("-"*80) 
+    log_print("-"*80) 
      
     ld = len(test_loader)
     results = {"correct": 0, "failed": 0, 
@@ -258,12 +336,12 @@ def main(args, i=0):
             targets["masks"] = masks
             targets["grasps"] = grasps    
 
+            if idx == 0: # added for cuda usage inspection
+                log_print("Allocated:", torch.cuda.memory_allocated() / 1024**2, "MB")
+                log_print("Reserved :", torch.cuda.memory_reserved() / 1024**2, "MB")
+                log_print("Total    :", torch.cuda.get_device_properties(0).total_memory / 1024**2, "MB")
 
-            print("Allocated:", torch.cuda.memory_allocated() / 1024**2, "MB")
-            print("Reserved :", torch.cuda.memory_reserved() / 1024**2, "MB")
-            print("Total    :", torch.cuda.get_device_properties(0).total_memory / 1024**2, "MB")
-
-            # input()
+                # input()
                 
             grasp_pred, mask_pred = model.total_forward(imgs=images, targets=targets)    
             
@@ -277,9 +355,13 @@ def main(args, i=0):
                     results['g_losses'][ln] = 0
                 results['g_losses'][ln] += l.item() / ld
 
+
+            
+
             q_out, ang_out, w_out = post_process_output(lossd['pred']['pos'], lossd['pred']['cos'],
                                                         lossd['pred']['sin'], lossd['pred']['width'])
-                    
+
+            
 
             if args.seen_set:
                 success = calculate_iou_match(q_out, ang_out, 
@@ -318,20 +400,42 @@ def main(args, i=0):
                 # then use these
                 gtbb = test_dataset.get_gtbb(didx_s, rot_s, zoom_s)
 
-                #------------------------------
-                # Added part ends
-                #------------------------------
-
 
                 #------------------------------
                 # Add a one-off visualization for one sample
                 #------------------------------
+
+                # out_dir = "grasp_outputs"
+                os.makedirs(out_dir, exist_ok=True)    
 
                 from data.utils.grasp_utils import GraspRectangles, detect_grasps
                 import matplotlib.pyplot as plt
 
                 gs = detect_grasps(q_out, ang_out, width_img=w_out, no_grasps=5)
                 gt = gtbb  # already a GraspRectangles
+
+
+
+                #--------------------------
+                # Added for output inspection
+                #--------------------------
+                log_print("idx = ", idx)
+                log_print("q_out:", type(q_out), q_out.shape, q_out.min(), q_out.max())
+                log_print("ang_out:", ang_out.shape,
+                          np.degrees(ang_out.min()), np.degrees(ang_out.max()), "deg")
+
+                log_print("Detected grasps:", len(gs))
+
+                #--------------------------
+                # Added part ends
+                #--------------------------
+
+                # added for result inspection
+                log_print(f"Detected {len(gs)} grasps:")
+                for i, g in enumerate(gs):
+                    log_print(f"  Grasp {i}: center=({g.center[0]:.1f}, {g.center[1]:.1f}), "
+                          f"angle={np.degrees(g.angle):.1f} deg, width={g.width:.1f}px")
+
 
                 fig, ax = plt.subplots(1)
                 ax.imshow(images[0].permute(1,2,0).cpu().numpy(), cmap='gray')
@@ -341,10 +445,88 @@ def main(args, i=0):
                     g.plot(ax, color='red')
 
                 plt.show()
-                plt.savefig(f"sample_{idx}.png")
+                plt.savefig(os.path.join(out_dir, f"sample_{idx}.png"))
                 plt.close()
 
-   
+
+                #-----------------------------
+                # Add data saving for grasps
+                #-----------------------------
+
+                # Save dense grasp maps per sample
+
+                np.savez(
+                    os.path.join(out_dir, f"sample_{idx}_maps.npz"),
+                    q=q_out,
+                    angle=ang_out,
+                    width=w_out
+                )
+
+                # Convert grasps to a clean array and save
+
+                grasp_array = np.array([
+                    [
+                        g.center[0],     # x (px)
+                        g.center[1],     # y (px)
+                        g.angle,         # rad
+                        g.width          # px
+                    ]
+                    for g in gs
+                ], dtype=np.float32)
+
+
+                #  Save as npy
+                np.save(
+                    os.path.join(out_dir, f"sample_{idx}_grasps.npy"),
+                    grasp_array
+                )
+
+                #  Save as human-readable JSON
+                # grasp_list = [
+                #     {
+                #         "x": float(g.center[0]),
+                #         "y": float(g.center[1]),
+                #         "angle_rad": float(g.angle),
+                #         "angle_deg": float(np.degrees(g.angle)),
+                #         "width_px": float(g.width)
+                #     }
+                #     for g in gs
+                # ]
+
+                json_path = os.path.join(out_dir, f"sample_{idx}_grasps.json")
+
+                # with open(os.path.join(out_dir, f"sample_{idx}_grasps.json"), "w") as f:
+                #     json.dump(grasp_list, f, indent=2)
+
+
+                # out_json = {
+                #     "sample_id": idx,
+                #     "num_grasps": len(grasps),
+                #     "grasps": []
+                # }
+
+                # for g in grasps:
+                #     out_json["grasps"].append([
+                #         float(g.center[0]),
+                #         float(g.center[1]),
+                #         float(g.angle),
+                #         float(g.width),
+                #         float(g.score)
+                #     ])
+
+                # with open(json_path, "w") as f:
+                #     json.dump(out_json, f, indent=2)
+
+                grasp_dicts = []
+                for g in gs:
+                    grasp_dicts.append(grasp_to_dict(g))
+
+                with open(json_path, "w") as f:
+                    json.dump(grasp_dicts, f, indent=2)
+
+
+
+
                 #------------------------------
                 # Added part ends
                 #------------------------------
@@ -353,8 +535,9 @@ def main(args, i=0):
                                               # test_dataset.get_gtbb(didx, rot, zoom_factor), 
                                               gtbb,
                                               # no_grasps=1, 
-                                              no_grasps=40, 
-                                              grasp_width=w_out)
+                                              no_grasps=no_grasps, 
+                                              grasp_width=w_out,
+                                              gs=gs)
             
             if success:
                 results["correct"] += 1
@@ -364,13 +547,17 @@ def main(args, i=0):
             success_rate = 100 * results["correct"] / (results["correct"] + results["failed"])
             
             
-            print("success rate : {:.2f}% | correct : {},  failed : {}".format(success_rate, results["correct"], results["failed"]))
+            log_print("success rate : {:.2f}% | correct : {},  failed : {}".format(success_rate, results["correct"], results["failed"]))
+
+    log_f.close()
+
 
     return 100 * results["correct"] / (results["correct"] + results["failed"])
 
 
 
 if __name__ == "__main__":
+
     parser = argparse.ArgumentParser()
     
     parser.add_argument("--gpu-num", type=int, default=0, help="gpu id number")
@@ -381,6 +568,8 @@ if __name__ == "__main__":
     parser.add_argument("--split", type=float, default=0.01)
     parser.add_argument("--root", type=str, help="dataset root")
     parser.add_argument("--ckp_path", type=str, help="ckp_path")
+    parser.add_argument("--no-grasps", type=int, default=10, help="Top-K grasps to evaluate")
+
 
     # Added to avoid hard-coding encode type
     parser.add_argument(
