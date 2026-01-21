@@ -411,7 +411,7 @@ def main(args, i=0):
                 from data.utils.grasp_utils import GraspRectangles, detect_grasps
                 import matplotlib.pyplot as plt
 
-                gs = detect_grasps(q_out, ang_out, width_img=w_out, no_grasps=5)
+                gs = detect_grasps(q_out, ang_out, width_img=w_out, no_grasps=no_grasps)
                 gt = gtbb  # already a GraspRectangles
 
 
@@ -568,7 +568,7 @@ if __name__ == "__main__":
     parser.add_argument("--split", type=float, default=0.01)
     parser.add_argument("--root", type=str, help="dataset root")
     parser.add_argument("--ckp_path", type=str, help="ckp_path")
-    parser.add_argument("--no-grasps", type=int, default=10, help="Top-K grasps to evaluate")
+    parser.add_argument("--no-grasps", type=int, default=5, help="Top-K grasps to evaluate")
 
 
     # Added to avoid hard-coding encode type

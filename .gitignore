@@ -17,6 +17,8 @@ pretrained_checkpoint
 *.jpg
 # *.png
 *.safetensors
+*.npz
+
 
 *.pt
 pretrained_checkpoint/*.pt

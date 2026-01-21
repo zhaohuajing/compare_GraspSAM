@@ -20,6 +20,8 @@ from utils.utils import TrainProgress
 from skimage.filters import gaussian
 from data.utils.grasp_utils import *
 
+# Note: use "python train.py   --root ./datasets/Jacquard_Samples/Samples/   --save   --sam-encoder-type vit_t   --gpu-num 0"
+
 def calculate_iou_match(grasp_q, grasp_angle, ground_truth_bbs, no_grasps=1, grasp_width=None):
     """
     Calculate grasp success using the IoU (Jacquard) metric (e.g. in https://arxiv.org/abs/1301.3592)
@@ -275,7 +277,7 @@ def main(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--sam-encoder-type", type=str, default="eff_vit_t_w_ad")
-    parser.add_argument("--gpu-num", type=int, default=6, help="gpu id number")
+    parser.add_argument("--gpu-num", type=int, default=0, help="gpu id number") # default: 6->0
 
     parser.add_argument("--dataset-name", type=str, default="jacquard", help="dataset name")
     parser.add_argument("--root", type=str, help="dataset root")
@@ -288,7 +290,7 @@ if __name__ == "__main__":
     parser.add_argument("--print-freq", type=int, default=50)
     
     parser.add_argument("--save", action='store_true')
-    parser.add_argument("--save-dir", type=str, default="final_result")
+    parser.add_argument("--save-dir", type=str, default="trained_checkpoint")
     parser.add_argument("--resume-ckp", type=str, default=None)
 
     parser.add_argument("--validate", action='store_true')
