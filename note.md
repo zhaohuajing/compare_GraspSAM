@@ -62,3 +62,10 @@ PY
    36  cd ..
    37  python eval.py --root ./datasets/Jacquard_Samples/Samples/1a9fa4c269cfcc1b738e43095496b061/ --ckp_path ./pretrained_checkpoint/sam_vit_b_01ec64.pth --sam-encoder-type vit_b
    38  docker exec -it graspsam_dev bash -lc 'source /opt/conda/etc/profile.d/conda.sh && conda activate GraspSAM && echo CONDA_PREFIX=$CONDA_PREFIX && strings $CONDA_PREFIX/lib/libstdc++.so.6 | grep GLIBCXX_3.4.29 || echo "NO 3.4.29 in conda libstdc++"'
+
+
+root@495346281fc8:~/graspnet_ws/src/graspsam_ros2/graspsam_docker# ls /media/Grasp-Anything/scene_description/
+Display all 994860 possibilities? (y or n)
+
+root@495346281fc8:~/graspnet_ws/src/graspsam_ros2/graspsam_docker# ls /media/Grasp-Anything/mask/
+Display all 1872664 possibilities? (y or n)

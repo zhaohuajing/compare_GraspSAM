@@ -101,31 +101,96 @@ class BaseGraspDataset(torch.utils.data.Dataset):
 
         if self.include_prompt:
             prompt = self.get_prompt(idx)
-            
-        ocid = True
-        if ocid:
-            pos_img, ang_img, width_img = bbs.draw((self.crop_size, self.crop_size))
-            pos_img = cv2.resize(pos_img, (self.output_size, self.output_size), interpolation=cv2.INTER_NEAREST)
-            ang_img = cv2.resize(ang_img, (self.output_size, self.output_size), interpolation=cv2.INTER_NEAREST)
-            width_img = cv2.resize(width_img, (self.output_size, self.output_size), interpolation=cv2.INTER_NEAREST)
 
+        #---------------------------------------
+        # Added lines to skip when has_gt=False
+        #---------------------------------------
+        bbs = self.get_gtbb(idx, rot, zoom_factor)
+
+        # if len(bbs) == 0:
+        #     # No GT (inference mode)
+        #     pos_img = np.zeros((self.output_size, self.output_size), dtype=np.float32)
+        #     ang_img = np.zeros((self.output_size, self.output_size), dtype=np.float32)
+        #     width_img = np.zeros((self.output_size, self.output_size), dtype=np.float32)
+        # else:
+        #     # pos_img, ang_img, width_img = bbs.draw(
+        #     #     (self.output_size, self.output_size)
+        #     # )
+
+        #     #----------------------------------------
+        #     # Added lines end. Following lines (bbs.draw()) indented
+        #     #----------------------------------------
+                        
+        #     ocid = True
+        #     if ocid:
+        #         pos_img, ang_img, width_img = bbs.draw((self.crop_size, self.crop_size))
+        #         pos_img = cv2.resize(pos_img, (self.output_size, self.output_size), interpolation=cv2.INTER_NEAREST)
+        #         ang_img = cv2.resize(ang_img, (self.output_size, self.output_size), interpolation=cv2.INTER_NEAREST)
+        #         width_img = cv2.resize(width_img, (self.output_size, self.output_size), interpolation=cv2.INTER_NEAREST)
+
+        #     else:
+        #         pos_img, ang_img, width_img = bbs.draw((self.output_size, self.output_size))
+        #     # print(np.unique(width_img))
+
+
+
+        if (bbs is None) or (not hasattr(bbs, "grs")) or (len(bbs.grs) == 0):
+            # Inference mode: no GT grasps
+            pos_img = np.zeros((self.output_size, self.output_size), dtype=np.float32)
+            ang_img = np.zeros((self.output_size, self.output_size), dtype=np.float32)
+            width_img = np.zeros((self.output_size, self.output_size), dtype=np.float32)
         else:
-            pos_img, ang_img, width_img = bbs.draw((self.output_size, self.output_size))
-        # print(np.unique(width_img))
+            # Training / evaluation with GT
+            ocid = True
+            if ocid:
+                pos_img, ang_img, width_img = bbs.draw((self.crop_size, self.crop_size))
+                pos_img = cv2.resize(pos_img, (self.output_size, self.output_size), interpolation=cv2.INTER_NEAREST)
+                ang_img = cv2.resize(ang_img, (self.output_size, self.output_size), interpolation=cv2.INTER_NEAREST)
+                width_img = cv2.resize(width_img, (self.output_size, self.output_size), interpolation=cv2.INTER_NEAREST)
+            else:
+                pos_img, ang_img, width_img = bbs.draw((self.output_size, self.output_size))
+
+        #----------------------------------------
+        #  Added lines end. Following lines (bbs.draw()) indented
+        #----------------------------------------
+
         width_img = np.clip(width_img, 0.0, self.output_size / 2) / (self.output_size / 2)
 
+        # commented out
+        # if self.include_depth and self.include_rgb:
+        #     x = self.numpy_to_torch(
+        #         np.concatenate(
+        #             (np.expand_dims(depth_img, 0),
+        #              rgb_img),
+        #             0
+        #         )
+        #     )
+
+        # replaced with below
         if self.include_depth and self.include_rgb:
+            if rgb_img.ndim == 3:
+                rgb_img = np.transpose(rgb_img, (2, 0, 1))   # HWC → CHW
             x = self.numpy_to_torch(
                 np.concatenate(
-                    (np.expand_dims(depth_img, 0),
-                     rgb_img),
-                    0
+                    (np.expand_dims(depth_img, 0), rgb_img),
+                    axis=0
                 )
             )
+        # added lines end
+
         elif self.include_depth:
             x = self.numpy_to_torch(depth_img)
+
         elif self.include_rgb:
+            # x = self.numpy_to_torch(rgb_img) # commented
+            # added below
+            if rgb_img.ndim == 3:
+                rgb_img = np.transpose(rgb_img, (2, 0, 1))  # HWC → CHW
+            # added ends
             x = self.numpy_to_torch(rgb_img)
+
+        print("Input tensor shape:", x.shape)
+
 
         pos = self.numpy_to_torch(pos_img)
         cos = self.numpy_to_torch(np.cos(2*ang_img))

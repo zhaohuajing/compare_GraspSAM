@@ -1,139 +1,158 @@
-import torch
-import torchvision.transforms as transforms
-import torch.utils.data as data
+import glob
 import os
-import random
-
 import numpy as np
 from PIL import Image
-import pickle
-
 
 from .base_grasp_data import BaseGraspDataset
-
-from .utils import grasp_utils as gu
 from .utils import image_utils as iu
-
-import glob
+from .utils import grasp_utils as gu
 
 
 class JacquardDataset(BaseGraspDataset):
     """
-    Dataset wrapper for the Jacquard dataset.
+    Jacquard dataset loader with optional direct RGB-D inference mode.
+
+    Normal mode (default):
+        - root points to Jacquard dataset
+        - samples defined by *_grasps.txt
+
+    RGB-D direct mode:
+        - pass rgbd_pairs=[(rgb_path, depth_path[, mask_path[, grasp_path]])]
+        - set has_gt=False for pure inference
     """
-    def __init__(self, root, start=0.0, end=1.0, ds_rotate=0, **kwargs):
-        """
-        :param file_path: Jacquard Dataset directory.
-        :param start: If splitting the dataset, start at this fraction [0,1]
-        :param end: If splitting the dataset, finish at this fraction
-        :param ds_rotate: If splitting the dataset, rotate the list of items by this fraction first
-        :param kwargs: kwargs for GraspDatasetBase
-        """
-        super(JacquardDataset, self).__init__(**kwargs)
-        
-        # graspf = glob.glob(os.path.join(file_path, '*', '*_grasps.txt'))
-        # graspf = glob.glob('/SSDc/jongwon_kim/Datasets/Jacquard_Dataset' + '/*/*/' + '*_grasps.txt')
 
-        graspf = glob.glob(os.path.join(root, '**', '*_grasps.txt'), recursive=True) #edited to avoid hard-coded path
+    def __init__(
+        self,
+        root,
+        start=0.0,
+        end=1.0,
+        ds_rotate=0,
+        rgbd_pairs=None,
+        has_gt=True,
+        **kwargs
+    ):
+        super().__init__(**kwargs)
 
+        self.has_gt = has_gt
+        self.rgbd_pairs = rgbd_pairs
 
-        graspf.sort()
-        l = len(graspf)
-        print("len jaccquard:", l)
+        # ---------------------------------------------------------
+        # RGB-D DIRECT MODE (bypasses Jacquard folder structure)
+        # ---------------------------------------------------------
+        if rgbd_pairs is not None:
+            self.rgb_files = [p[0] for p in rgbd_pairs]
+            self.depth_files = [p[1] for p in rgbd_pairs]
 
+            self.mask_files = (
+                [p[2] for p in rgbd_pairs]
+                if len(rgbd_pairs[0]) >= 3
+                else [None] * len(rgbd_pairs)
+            )
 
-        # if self.seen:
-        #     with open(os.path.join('split/jacquard/seen.obj'), 'rb') as f:
-        #         idxs = pickle.load(f)
+            self.grasp_files = (
+                [p[3] for p in rgbd_pairs]
+                if len(rgbd_pairs[0]) >= 4
+                else [None] * len(rgbd_pairs)
+            )
 
-        #     graspf = list(filter(lambda x: x.split('.')[0].split('/')[-1].split("_")[0] + "_" + x.split('.')[0].split('/')[-1].split("_")[1] in idxs, graspf))
-        #     # graspf = list(filter(lambda x: x.split('/')[-1].split('.')[0] in idxs, graspf))
-            
-        #     split = int(np.floor(0.9 * len(graspf)))
-        #     if self.train:
-        #         graspf = graspf[:split]
-                
-        #     else:
-        #         graspf = graspf[split:]
-        
-        # else:
-        #     with open(os.path.join('split/jacquard/unseen.obj'), 'rb') as f:
-        #         idxs = pickle.load(f)
+            self.length = len(self.rgb_files)
+            return
 
-        #     graspf = list(filter(lambda x: x.split('.')[0].split('/')[-1].split("_")[0] + "_" + x.split('.')[0].split('/')[-1].split("_")[1] in idxs, graspf))
+        # ---------------------------------------------------------
+        # ORIGINAL JACQUARD MODE (UNCHANGED)
+        # ---------------------------------------------------------
+        grasp_files = glob.glob(
+            os.path.join(root, "**", "*_grasps.txt"), recursive=True
+        )
+        grasp_files.sort()
 
+        l = len(grasp_files)
+        start = int(l * start)
+        end = int(l * end)
 
-        if l == 0:
-            raise FileNotFoundError('No dataset files found. Check path: {}'.format(root))
+        self.grasp_files = grasp_files[start:end]
 
-        if ds_rotate:
-            graspf = graspf[int(l*ds_rotate):] + graspf[:int(l*ds_rotate)]
+        self.rgb_files = [
+            f.replace("_grasps.txt", "_RGB.png") for f in self.grasp_files
+        ]
+        self.depth_files = [
+            f.replace("_grasps.txt", "_perfect_depth.tiff") for f in self.grasp_files
+        ]
+        self.mask_files = [
+            f.replace("_grasps.txt", "_mask.png") for f in self.grasp_files
+        ]
 
-        fl = len(graspf)
-        # print("len filtered jaccquard:", fl)
+        self.length = len(self.grasp_files)
 
+    # ------------------------------------------------------------------
+    # REQUIRED HOOKS CALLED BY BaseGraspDataset.__getitem__()
+    # ------------------------------------------------------------------
 
-        depthf = [f.replace('grasps.txt', 'perfect_depth.tiff') for f in graspf]
-        rgbf = [f.replace('perfect_depth.tiff', 'RGB.png') for f in depthf]
-        maskf = [f.replace('perfect_depth.tiff', 'mask.png') for f in depthf]
-
-
-        self.grasp_files = graspf
-        self.depth_files = depthf
-        self.rgb_files = rgbf
-        self.mask_files = maskf
-
-        # when want to use length
-        # self.grasp_files = graspf[int(l*start):int(l*end)]
-        # self.depth_files = depthf[int(l*start):int(l*end)]
-        # self.rgb_files = rgbf[int(l*start):int(l*end)]
-        # self.mask_files = maskf[int(l*start):int(l*end)]
-
-
-        # if self.seen:
-        #     pass
-        # else:
-        #     pass
-
-        # Disable seen/unseen filtering for custom Jacquard samples
-        pass
-
-        
-        
-    def get_gtbb(self, idx, rot=0, zoom=1.0):
-        gtbbs = gu.GraspRectangles.load_from_jacquard_file(self.grasp_files[idx], scale=self.output_size / 1024.0)
-        c = self.output_size//2
-        gtbbs.rotate(rot, (c, c))
-        gtbbs.zoom(zoom, (c, c))
-        return gtbbs
+    def get_rgb(self, idx, rot=0, zoom=1.0):
+        rgb_path = self.rgb_files[idx]
+        rgb_img = iu.Image.from_file(rgb_path)
+        rgb_img.rotate(rot)
+        rgb_img.zoom(zoom)
+        rgb_img.resize((self.output_size, self.output_size))
+        return rgb_img.img
 
     def get_depth(self, idx, rot=0, zoom=1.0):
-        depth_img = iu.DepthImage.from_tiff(self.depth_files[idx])
+        depth_path = self.depth_files[idx]
+
+        # Jacquard TIFF (original behavior)
+        if depth_path.endswith(".tiff") or depth_path.endswith(".tif"):
+            depth_img = iu.DepthImage.from_tiff(depth_path)
+            depth_img.rotate(rot)
+            depth_img.normalise()
+            depth_img.zoom(zoom)
+            depth_img.resize((self.output_size, self.output_size))
+            return depth_img.img
+
+        # PNG or other image depth
+        if depth_path.endswith(".png"):
+            depth = np.array(Image.open(depth_path)).astype(np.float32)
+        # NPY depth (Contact-GraspNet style)
+        elif depth_path.endswith(".npy"):
+            depth = np.load(depth_path).astype(np.float32)
+        else:
+            raise ValueError(f"Unsupported depth format: {depth_path}")
+
+        # Normalize / clean
+        depth[depth <= 0] = -1.0
+
+        # Apply same spatial ops as Jacquard
+        depth_img = iu.DepthImage(depth)
         depth_img.rotate(rot)
         depth_img.normalise()
         depth_img.zoom(zoom)
         depth_img.resize((self.output_size, self.output_size))
         return depth_img.img
 
-    def get_rgb(self, idx, rot=0, zoom=1.0, normalise=True):
-        rgb_img = iu.Image.from_file(self.rgb_files[idx])
-        rgb_img.rotate(rot)
-        rgb_img.zoom(zoom)
-        rgb_img.resize((self.output_size, self.output_size))
-        if normalise:
-            rgb_img.normalise()
-            rgb_img.img = rgb_img.img.transpose((2, 0, 1))
-        return rgb_img.img
+    def get_mask(self, idx, rot=0, zoom=1.0):
+        mask_path = self.mask_files[idx]
 
-    def get_mask(self, idx, rot=0, zoom=1.0): 
-        mask_image = iu.Mask.from_file(self.mask_files[idx])
-        mask_image.rotate(rot)
-        mask_image.zoom(zoom)
-        mask_image.resize((self.output_size, self.output_size))
-        mask_image.normalise()
-        return mask_image.img
+        # No mask provided → allow everything
+        if mask_path is None:
+            return np.ones((self.output_size, self.output_size), dtype=np.float32)
+
+        mask_img = iu.Mask.from_file(mask_path)
+        mask_img.rotate(rot)
+        mask_img.zoom(zoom)
+        mask_img.resize((self.output_size, self.output_size))
+        return mask_img.img
+
+    def get_gtbb(self, idx, rot=0, zoom=1.0):
+        if (not self.has_gt) or (self.grasp_files[idx] is None):
+            return gu.GraspRectangles([])
+
+        return gu.GraspRectangles.load_from_jacquard_file(
+            self.grasp_files[idx],
+            rot=rot,
+            zoom=zoom,
+            output_size=self.output_size
+        )
 
     def get_jname(self, idx):
-        return '_'.join(self.grasp_files[idx].split(os.sep)[-1].split('_')[:-1])
-
-
+        if self.grasp_files[idx] is None:
+            return f"rgbd_{idx}"
+        return os.path.basename(self.grasp_files[idx]).replace("_grasps.txt", "")

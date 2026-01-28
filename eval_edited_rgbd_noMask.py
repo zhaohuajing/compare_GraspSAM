@@ -44,7 +44,6 @@ except Exception as e:
 # torch.manual_seed(0)
 # torch.cuda.manual_seed_all(0)
 
-import cv2 
 
 # ------------------------------------------------------------------
 # Added part ends
@@ -157,43 +156,6 @@ def grasp_to_dict(g):
     raise TypeError(f"Unsupported grasp type: {type(g)}")
 
 #-----------------------------
-# Add function for extracting bounding box from instance mask
-#----------------------------
-
-def bbox_from_mask(mask, pad=10):
-    """
-    mask: HxW, nonzero = object
-    pad: pixels of padding around bbox
-    """
-    ys, xs = np.where(mask > 0)
-    if len(xs) == 0 or len(ys) == 0:
-        return None
-
-    x_min, x_max = xs.min(), xs.max()
-    y_min, y_max = ys.min(), ys.max()
-
-    x_min = max(0, x_min - pad)
-    y_min = max(0, y_min - pad)
-    x_max = min(mask.shape[1] - 1, x_max + pad)
-    y_max = min(mask.shape[0] - 1, y_max + pad)
-
-    return x_min, y_min, x_max, y_max
-
-#-----------------------------
-# Add function for croping RGB, depth, and mask consistently
-#----------------------------
-
-
-def crop_with_bbox(img, bbox):
-    """
-    img: HxW or HxWxC
-    bbox: (x_min, y_min, x_max, y_max)
-    """
-    x_min, y_min, x_max, y_max = bbox
-    return img[y_min:y_max, x_min:x_max]
-
-
-#-----------------------------
 # Added function ends
 #----------------------------
 
@@ -278,8 +240,6 @@ def main(args, i=0):
             output_size=1024,
             include_mask=True
         )
-
-        depth_available = True
 
 
     
@@ -390,67 +350,10 @@ def main(args, i=0):
             masks = masks.to(args.device)
             grasps = [g.to(args.device) for g in grasps]
             # grasps = grasps.to(args.device)
-
+        
             targets = {}
             targets["masks"] = masks
-            targets["grasps"] = grasps 
-        
-            #--------------------------------------------------
-            # Added for custom mask loading and image resizing
-            #--------------------------------------------------
-
-            # Load instance mask (scene-level)
-            mask_full = np.load("./datasets/sample_scene_ucn/im_label.npy")  # or pass path via args
-            mask_full = (mask_full == 1).astype(np.uint8)  # pick instance 1
-
-            bbox = bbox_from_mask(mask_full, pad=20)
-            if bbox is None:
-                print("No object found in mask, skipping sample")
-                continue
-
-            x_min, y_min, x_max, y_max = bbox
-
-            # Convert RGB tensor to numpy for cropping
-            rgb_full = images[0].permute(1, 2, 0).cpu().numpy()
-
-            rgb_crop = crop_with_bbox(rgb_full, bbox)
-            mask_crop = crop_with_bbox(mask_full, bbox)
-
-            # Optional: depth crop if you use depth
-            # if depth_available:
-            #     depth_full = images[1].permute(1, 2, 0).cpu().numpy()
-            #     depth_crop = crop_with_bbox(depth_full, bbox)
-
-
-            # Resize crop to model input size
-            TARGET_SIZE = 1024 #384
-
-            rgb_crop_resized = cv2.resize(
-                rgb_crop, (TARGET_SIZE, TARGET_SIZE),
-                interpolation=cv2.INTER_LINEAR
-            )
-
-            mask_crop_resized = cv2.resize(
-                mask_crop, (TARGET_SIZE, TARGET_SIZE),
-                interpolation=cv2.INTER_NEAREST
-            )
-
-            mask_crop = mask_crop.astype(np.float32)
-            mask_crop = (mask_crop > 0).astype(np.float32)
-
-            mask_crop_tensor = torch.from_numpy(mask_crop)[None, None].to(args.device)
-
-            rgb_crop_tensor = torch.from_numpy(rgb_crop_resized).float().permute(2, 0, 1)
-            rgb_crop_tensor = rgb_crop_tensor.unsqueeze(0).to(args.device)
-
-            targets = {
-                "masks": mask_crop_tensor   # shape [B, 1, H, W], float {0,1}
-            }
-
-            #------------------------------
-            # Added lines end
-            #------------------------------
-
+            targets["grasps"] = grasps    
 
             if idx == 0: # added for cuda usage inspection
                 log_print("Allocated:", torch.cuda.memory_allocated() / 1024**2, "MB")
@@ -459,15 +362,10 @@ def main(args, i=0):
 
                 # input()
                 
-
-            # Commented out original lines
-            # '''    
-            # grasp_pred, mask_pred = model.total_forward(imgs=images, targets=targets)    # commented out
-            grasp_pred, mask_pred = model.total_forward(imgs=rgb_crop_tensor,targets=targets)
-            #     "masks": mask_crop_tensor   # shape [B, 1, H, W], float {0,1}
-            # }) # replaced
-
+            grasp_pred, mask_pred = model.total_forward(imgs=images, targets=targets)    
+            
             lossd = model.compute_loss(grasp_pred, mask_pred, targets, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+
 
             loss = lossd["g_loss"]
             results['g_loss'] += loss.item() / ld
@@ -476,12 +374,13 @@ def main(args, i=0):
                     results['g_losses'][ln] = 0
                 results['g_losses'][ln] += l.item() / ld
 
+
+            
+
             q_out, ang_out, w_out = post_process_output(lossd['pred']['pos'], lossd['pred']['cos'],
                                                         lossd['pred']['sin'], lossd['pred']['width'])
 
-            # '''
-
-
+            
 
             if args.seen_set:
                 success = calculate_iou_match(q_out, ang_out, 
@@ -534,20 +433,6 @@ def main(args, i=0):
                 gs = detect_grasps(q_out, ang_out, width_img=w_out, no_grasps=no_grasps)
                 gt = gtbb  # already a GraspRectangles
 
-                #--------------------------
-                # Added to map grasps back to full image coordinates
-                #--------------------------
-
-                scale_x = (x_max - x_min) / TARGET_SIZE
-                scale_y = (y_max - y_min) / TARGET_SIZE
-
-                for g in gs:
-                    g.center[0] = x_min + g.center[0] * scale_x
-                    g.center[1] = y_min + g.center[1] * scale_y
-                    g.length *= scale_x
-                    g.width *= scale_y
-
-
 
 
                 #--------------------------
@@ -572,12 +457,7 @@ def main(args, i=0):
 
 
                 fig, ax = plt.subplots(1)
-                # ax.imshow(images[0].permute(1,2,0).cpu().numpy(), cmap='gray')
-                rgb_vis = images[0].permute(1, 2, 0).cpu().numpy()
-                rgb_vis = np.clip(rgb_vis, 0, 1)  # IMPORTANT for imshow
-
-                ax.imshow(rgb_vis)
-
+                ax.imshow(images[0].permute(1,2,0).cpu().numpy(), cmap='gray')
 
                 gt.plot(ax, color='green')
                 for g in gs:
@@ -585,44 +465,6 @@ def main(args, i=0):
 
                 plt.show()
                 plt.savefig(os.path.join(out_dir, f"sample_{idx}.png"))
-                plt.close()
-
-                fig, ax = plt.subplots(1, figsize=(6, 6))
-                im = ax.imshow(
-                    np.degrees(ang_out),
-                    # cmap='Greys', #'hsv',
-                    vmin=-90,
-                    vmax=90
-                )
-                ax.set_title("Grasp Angle Map (degrees)")
-                plt.colorbar(im, ax=ax)
-                plt.savefig(os.path.join(out_dir, f"sample_{idx}_angle.png"))
-                plt.close()
-
-
-
-                # --------------------------
-                # Visualize grasp quality map
-                # --------------------------
-
-                fig, ax = plt.subplots(1, figsize=(6, 6))
-
-                # IMPORTANT: clamp visualization range so low values are visible
-                im = ax.imshow(
-                    q_out,
-                    # cmap='Greys', #'jet',
-                    vmin=0.0,
-                    vmax=max(0.05, np.percentile(q_out, 99.5))
-                )
-
-                for g in gs:
-                    g.plot(ax, color='white')
-
-                ax.set_title("Grasp Quality Map (q_out)")
-                plt.colorbar(im, ax=ax, fraction=0.046)
-
-                plt.tight_layout()
-                plt.savefig(os.path.join(out_dir, f"sample_{idx}_qmap.png"))
                 plt.close()
 
 

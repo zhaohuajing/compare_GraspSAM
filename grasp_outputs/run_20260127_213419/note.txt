@@ -1,0 +1,21 @@
+
+============================================================
+New run | encoder=vit_b | no_grasps=5
+============================================================
+loading checkpoint from :  sam_vit_b_01ec64.pth
+loaded. missing: 507 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 399.86962890625 MB
+Reserved : 438.0 MB
+Total    : 5918.4375 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.00088091404 0.34042144
+ang_out: (1024, 1024) -56.99269 53.2548 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(183.0, 666.0), angle=-0.8 deg, width=1040.3px
+  Grasp 1: center=(353.0, 621.0), angle=19.8 deg, width=313.1px
+  Grasp 2: center=(380.0, 635.0), angle=14.1 deg, width=633.5px
+  Grasp 3: center=(57.0, 974.0), angle=-17.0 deg, width=60.2px
+  Grasp 4: center=(313.0, 669.0), angle=-36.7 deg, width=98.2px
+success rate : 0.00% | correct : 0,  failed : 1
