@@ -44,14 +44,10 @@ except Exception as e:
 # torch.manual_seed(0)
 # torch.cuda.manual_seed_all(0)
 
-import cv2 
 
 # ------------------------------------------------------------------
 # Added part ends
 # ------------------------------------------------------------------
-
-# sample command: (GraspSAM) root@1ea777512d03:~/graspnet_ws/src/graspsam_ros2/compare_GraspSAM# 
-# python eval.py --dataset_name from_rgbd --ckp_path ./pretrained_checkpoint/sam_vit_b_01ec64.pth   --sam-encoder-type vit_b
 
 
 def post_process_output(q_img, cos_img, sin_img, width_img):
@@ -160,43 +156,6 @@ def grasp_to_dict(g):
     raise TypeError(f"Unsupported grasp type: {type(g)}")
 
 #-----------------------------
-# Add function for extracting bounding box from instance mask
-#----------------------------
-
-def bbox_from_mask(mask, pad=10):
-    """
-    mask: HxW, nonzero = object
-    pad: pixels of padding around bbox
-    """
-    ys, xs = np.where(mask > 0)
-    if len(xs) == 0 or len(ys) == 0:
-        return None
-
-    x_min, x_max = xs.min(), xs.max()
-    y_min, y_max = ys.min(), ys.max()
-
-    x_min = max(0, x_min - pad)
-    y_min = max(0, y_min - pad)
-    x_max = min(mask.shape[1] - 1, x_max + pad)
-    y_max = min(mask.shape[0] - 1, y_max + pad)
-
-    return x_min, y_min, x_max, y_max
-
-#-----------------------------
-# Add function for croping RGB, depth, and mask consistently
-#----------------------------
-
-
-def crop_with_bbox(img, bbox):
-    """
-    img: HxW or HxWxC
-    bbox: (x_min, y_min, x_max, y_max)
-    """
-    x_min, y_min, x_max, y_max = bbox
-    return img[y_min:y_max, x_min:x_max]
-
-
-#-----------------------------
 # Added function ends
 #----------------------------
 
@@ -204,18 +163,17 @@ def main(args, i=0):
     GPU_NUM = args.gpu_num    
     args.device = torch.device(f'cuda:{GPU_NUM}' if torch.cuda.is_available() else 'cpu')
 
-    # Added CLI flags
     # no_grasps = 10
     no_grasps = args.no_grasps
-    use_crop = args.use_crop   # <<< toggle here
+
+
 
     #-----------------------------
     # Add to save info to log file
     #----------------------------
 
 
-    # run_id = time.strftime("%Y%m%d_%H%M%S")
-    run_id = time.strftime("%Y%m%d") #_%H%M%S")
+    run_id = time.strftime("%Y%m%d_%H%M%S")
     out_dir = f"grasp_outputs/run_{run_id}"
 
     # out_dir = "grasp_outputs/sample4"
@@ -265,25 +223,6 @@ def main(args, i=0):
                                             random_rotate=False, random_zoom=False,
                                             start=0.9, end=1.0, seen=False)
 
-    # Added option to test with local rgbd files
-
-    elif args.dataset_name == "from_rgbd":
-
-        rgbd_root="./datasets/sample_scene_ucn",
-        rgbd_pairs = [
-            ("./datasets/sample_scene_ucn/from_rgbd-color.png", "./datasets/sample_scene_ucn/from_rgbd-depth.png"),
-            # or ("color.png", "0.npy")
-        ]
-
-        test_dataset = JacquardDataset(
-            root=rgbd_root,
-            rgbd_pairs=rgbd_pairs,
-            has_gt=False,
-            output_size=1024,
-            include_mask=True
-        )
-
-        depth_available = True
     
     if args.seen_set:
         indices = list(range(test_dataset.__len__()))
@@ -386,91 +325,16 @@ def main(args, i=0):
 
             torch.cuda.empty_cache() # temporally added
 
+
             images, masks, grasps, didx, rot, zoom_factor = data
             images = images.to(args.device)    
             masks = masks.to(args.device)
             grasps = [g.to(args.device) for g in grasps]
             # grasps = grasps.to(args.device)
-
+        
             targets = {}
             targets["masks"] = masks
-            targets["grasps"] = grasps 
-        
-            #--------------------------------------------------
-            # Added for custom mask loading and image resizing
-            #--------------------------------------------------
-
-            # Load instance mask (scene-level)
-            mask_full = np.load("./datasets/sample_scene_ucn/im_label.npy")  # or pass path via args
-            mask_full = (mask_full == 1).astype(np.uint8)  # pick instance 1
-
-            bbox = bbox_from_mask(mask_full, pad=20)
-            if bbox is None:
-                print("No object found in mask, skipping sample")
-                continue
-
-            x_min, y_min, x_max, y_max = bbox
-
-            # Convert RGB tensor to numpy for cropping
-            rgb_full = images[0].permute(1, 2, 0).cpu().numpy()
-
-            if use_crop:
-                # Resize crop to model input size
-                TARGET_SIZE = 1024 #384
-
-                rgb_crop = crop_with_bbox(rgb_full, bbox)
-                mask_crop = crop_with_bbox(mask_full, bbox)
-
-                # Optional: depth crop if you use depth
-                # if depth_available:
-                #     depth_full = images[1].permute(1, 2, 0).cpu().numpy()
-                #     depth_crop = crop_with_bbox(depth_full, bbox)
-
-                rgb_crop_resized = cv2.resize(
-                    rgb_crop, (TARGET_SIZE, TARGET_SIZE),
-                    interpolation=cv2.INTER_LINEAR
-                )
-
-                mask_crop_resized = cv2.resize(
-                    mask_crop, (TARGET_SIZE, TARGET_SIZE),
-                    interpolation=cv2.INTER_NEAREST
-                )
-
-                # mask_crop = mask_crop.astype(np.float32)
-                # mask_crop = (mask_crop > 0).astype(np.float32)
-
-                # mask_crop_tensor = torch.from_numpy(mask_crop)[None, None].to(args.device)
-
-                # rgb_crop_tensor = torch.from_numpy(rgb_crop_resized).float().permute(2, 0, 1)
-                # rgb_crop_tensor = rgb_crop_tensor.unsqueeze(0).to(args.device)
-
-                rgb_input = rgb_crop_resized
-                mask_input = mask_crop_resized
-
-
-            else:
-                # No crop: use full image & full mask
-                x_min, y_min = 0, 0
-                x_max, y_max = mask_full.shape[1], mask_full.shape[0]
-
-                rgb_input = rgb_full
-                mask_input = mask_full
-
-            mask_input = (mask_input > 0).astype(np.float32)
-
-            mask_tensor = torch.from_numpy(mask_input)[None, None].to(args.device)
-            rgb_tensor = torch.from_numpy(rgb_input).float().permute(2, 0, 1)
-            rgb_tensor = rgb_tensor.unsqueeze(0).to(args.device)
-
-            targets = {
-                "masks": mask_tensor
-            }
-
-
-            #------------------------------
-            # Added lines end
-            #------------------------------
-
+            targets["grasps"] = grasps    
 
             if idx == 0: # added for cuda usage inspection
                 log_print("Allocated:", torch.cuda.memory_allocated() / 1024**2, "MB")
@@ -479,17 +343,10 @@ def main(args, i=0):
 
                 # input()
                 
-
-            #-------------------------------------
-            # Commented out original lines with training loss
-            #-------------------------------------
-            '''    
-            # grasp_pred, mask_pred = model.total_forward(imgs=images, targets=targets)    # commented out
-            grasp_pred, mask_pred = model.total_forward(imgs=rgb_crop_tensor,targets=targets)
-            #     "masks": mask_crop_tensor   # shape [B, 1, H, W], float {0,1}
-            # }) # replaced
-
+            grasp_pred, mask_pred = model.total_forward(imgs=images, targets=targets)    
+            
             lossd = model.compute_loss(grasp_pred, mask_pred, targets, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+
 
             loss = lossd["g_loss"]
             results['g_loss'] += loss.item() / ld
@@ -498,36 +355,13 @@ def main(args, i=0):
                     results['g_losses'][ln] = 0
                 results['g_losses'][ln] += l.item() / ld
 
+
+            
+
             q_out, ang_out, w_out = post_process_output(lossd['pred']['pos'], lossd['pred']['cos'],
                                                         lossd['pred']['sin'], lossd['pred']['width'])
 
-            '''
-
-            #-------------------------------------
-            # Added new lines to run inference mode without loss
-            #-------------------------------------
-
-            (grasp_pred, mask_pred) = model.total_forward(
-                imgs=rgb_tensor,
-                targets=targets
-            )
-
-            # grasp_pred is a list:
-            # [pos, cos, sin, width]
-            pos_pred, cos_pred, sin_pred, width_pred = grasp_pred
-
-            q_out, ang_out, w_out = post_process_output(
-                pos_pred,
-                cos_pred,
-                sin_pred,
-                width_pred
-            )
-
-
-            #------------------------------
-            # Added lines end
-            #------------------------------
-
+            
 
             if args.seen_set:
                 success = calculate_iou_match(q_out, ang_out, 
@@ -577,49 +411,10 @@ def main(args, i=0):
                 from data.utils.grasp_utils import GraspRectangles, detect_grasps
                 import matplotlib.pyplot as plt
 
-                gs = detect_grasps(q_out, ang_out, width_img=w_out, no_grasps=no_grasps)
+                gs = detect_grasps(q_out, ang_out, width_img=w_out, no_grasps=5)
                 gt = gtbb  # already a GraspRectangles
 
-                #--------------------------
-                # Added to map grasps back to full image coordinates
-                #--------------------------
 
-                if use_crop:
-                    scale_x = (x_max - x_min) / TARGET_SIZE
-                    scale_y = (y_max - y_min) / TARGET_SIZE
-
-                    for g in gs:
-                        cx, cy = g.center
-                        g.center = (
-                            x_min + cx * scale_x,
-                            y_min + cy * scale_y
-                        )
-                        g.length *= scale_x
-                        g.width  *= scale_y
-
-                # for g in gs:
-                #     g.center[0] = x_min + g.center[0] * scale_x
-                #     g.center[1] = y_min + g.center[1] * scale_y
-                #     g.length *= scale_x
-                #     g.width *= scale_y
-
-                # for g in gs:
-                #     cx, cy = g.center
-
-                #     new_cx = x_min + cx * scale_x
-                #     new_cy = y_min + cy * scale_y
-
-                #     g.center = (new_cx, new_cy)
-                #     g.length = g.length * scale_x
-                #     g.width  = g.width  * scale_y
-
-                # optional debug print    
-                # if idx == 0: 
-                #     for g in gs[:3]:
-                #         log_print(
-                #             f"Mapped grasp: center=({g.center[0]:.1f}, {g.center[1]:.1f}), "
-                #             f"angle={np.degrees(g.angle):.1f} deg, width={g.width:.1f}px"
-                #         )
 
                 #--------------------------
                 # Added for output inspection
@@ -632,7 +427,7 @@ def main(args, i=0):
                 log_print("Detected grasps:", len(gs))
 
                 #--------------------------
-                # Added for output visualization
+                # Added part ends
                 #--------------------------
 
                 # added for result inspection
@@ -641,23 +436,9 @@ def main(args, i=0):
                     log_print(f"  Grasp {i}: center=({g.center[0]:.1f}, {g.center[1]:.1f}), "
                           f"angle={np.degrees(g.angle):.1f} deg, width={g.width:.1f}px")
 
-                # --------------------------
-                # Visualize grasp rectangles
-                # --------------------------
 
                 fig, ax = plt.subplots(1)
-                # ax.imshow(images[0].permute(1,2,0).cpu().numpy(), cmap='gray')
-                rgb_vis = rgb_full # images[0].permute(1, 2, 0).cpu().numpy()
-                # rgb_vis = np.clip(rgb_vis, 0, 1)  # IMPORTANT for imshow
-
-                # If normalized to [-1, 1]
-                rgb_vis = (rgb_vis - rgb_vis.min()) / (rgb_vis.max() - rgb_vis.min() + 1e-6)
-
-                # Or if ImageNet normalized, undo normalization explicitly
-                rgb_vis = np.clip(rgb_vis, 0.0, 1.0)
-
-                ax.imshow(rgb_vis)
-
+                ax.imshow(images[0].permute(1,2,0).cpu().numpy(), cmap='gray')
 
                 gt.plot(ax, color='green')
                 for g in gs:
@@ -665,66 +446,6 @@ def main(args, i=0):
 
                 plt.show()
                 plt.savefig(os.path.join(out_dir, f"sample_{idx}.png"))
-                plt.close()
-
-                # --------------------------
-                # Visualize grasp angle map
-                # --------------------------
-
-                fig, ax = plt.subplots(1, figsize=(6, 6))
-                # im = ax.imshow(
-                #     np.degrees(ang_out),
-                #     # cmap='Greys', #'hsv',
-                #     # vmin=-90,
-                #     # vmax=90
-                # )
-
-                ax.imshow(rgb_vis)
-                im = ax.imshow(np.degrees(ang_out), 
-                          cmap='hsv', 
-                          alpha=0.5,
-                          vmin=-90, vmax=90)
-
-
-
-                ax.set_title("Grasp Angle Map (degrees)")
-                plt.colorbar(im, ax=ax)
-                plt.savefig(os.path.join(out_dir, f"sample_{idx}_angle.png"))
-                plt.close()
-
-
-
-                # --------------------------
-                # Visualize grasp quality map
-                # --------------------------
-
-                fig, ax = plt.subplots(1, figsize=(6, 6))
-
-                # IMPORTANT: clamp visualization range so low values are visible
-                # im = ax.imshow(
-                #     q_out,
-                #     # cmap='Greys', #'jet',
-                #     vmin=0.0,
-                #     vmax=max(0.05, np.percentile(q_out, 99.5))
-                # )
-
-                ax.imshow(rgb_vis)
-                im = ax.imshow(q_out, 
-                          cmap='jet', 
-                          # alpha=0.8,
-                          vmin=0.0,
-                          vmax=np.percentile(q_out, 99.5),
-                          )
-
-
-                for g in gs:
-                    g.plot(ax, color='white')
-
-                ax.set_title("Grasp Quality Map (q_out)")
-                plt.colorbar(im, ax=ax, fraction=0.046)
-
-                plt.tight_layout()
-                plt.savefig(os.path.join(out_dir, f"sample_{idx}_qmap.png"))
                 plt.close()
 
 
@@ -847,8 +568,7 @@ if __name__ == "__main__":
     parser.add_argument("--split", type=float, default=0.01)
     parser.add_argument("--root", type=str, help="dataset root")
     parser.add_argument("--ckp_path", type=str, help="ckp_path")
-    parser.add_argument("--no-grasps", type=int, default=5, help="Top-K grasps to evaluate")
-    parser.add_argument("--use_crop", type=bool, default=False, help="Enable mask-based crop before inference")
+    parser.add_argument("--no-grasps", type=int, default=10, help="Top-K grasps to evaluate")
 
 
     # Added to avoid hard-coding encode type

@@ -681,7 +681,7 @@ def main(args, i=0):
 
                 ax.imshow(rgb_vis)
                 im = ax.imshow(np.degrees(ang_out), 
-                          cmap='hsv', 
+                          # cmap='hsv', 
                           alpha=0.5,
                           vmin=-90, vmax=90)
 
@@ -710,10 +710,10 @@ def main(args, i=0):
 
                 ax.imshow(rgb_vis)
                 im = ax.imshow(q_out, 
-                          cmap='jet', 
-                          # alpha=0.8,
-                          vmin=0.0,
-                          vmax=np.percentile(q_out, 99.5),
+                          # cmap='jet', 
+                          alpha=0.5,
+                          # vmin=0.0,
+                          # vmax=np.percentile(q_out, 99.5),
                           )
 
 
