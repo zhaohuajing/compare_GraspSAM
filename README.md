@@ -146,6 +146,40 @@ This implementation focuses on **correctness and reproducibility**, not final pe
 
 
 ---
+
+# Update: Custom RGB-D Inference with Optional Mask-Based Cropping
+
+This repository has been extended to support direct inference on custom RGB-D inputs, with optional instance-mask-guided cropping for focused grasp prediction.
+
+
+### Key features
+
+- Run GraspSAM on: Arbitrary RGB-D image pairs (from_rgbd)
+- External instance masks supported (e.g., from Unseen Object Clustering)
+- Optional mask-based crop + resize before inference
+- Correct mapping of predicted grasps back to original image coordinates
+- Full visualization and data export for analysis
+
+## Running on custom RGB-D inputs
+
+Prepare a directory containing:
+```
+datasets/sample_scene_ucn/
+├── from_rgbd-color.png
+├── from_rgbd-depth.png
+├── im_label.npy        # instance segmentation (HxW)
+
+```
+
+Run inference:
+```
+python eval.py \
+  --dataset_name from_rgbd \
+  --ckp_path pretrained_checkpoint/mobile_sam.pt \
+  --sam-encoder-type vit_t \
+  --no-grasps 5
+
+```
 ---
 
 
