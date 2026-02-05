@@ -147,7 +147,7 @@ This implementation focuses on **correctness and reproducibility**, not final pe
 
 ---
 
-# Update: Custom RGB-D Inference with Optional Mask-Based Cropping
+## Update: Custom RGB-D Inference with Optional Mask-Based Cropping
 
 This repository has been extended to support direct inference on custom RGB-D inputs, with optional instance-mask-guided cropping for focused grasp prediction.
 
@@ -160,7 +160,7 @@ This repository has been extended to support direct inference on custom RGB-D in
 - Correct mapping of predicted grasps back to original image coordinates
 - Full visualization and data export for analysis
 
-## Running on custom RGB-D inputs
+### Running on custom RGB-D inputs
 
 Prepare a directory containing:
 ```

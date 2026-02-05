@@ -402,7 +402,7 @@ def main(args, i=0):
 
             # Load instance mask (scene-level)
             mask_full = np.load("./datasets/sample_scene_ucn/im_label.npy")  # or pass path via args
-            mask_full = (mask_full == 1).astype(np.uint8)  # pick instance 1
+            mask_full = (mask_full == 2).astype(np.uint8)  # pick instance 1 if only one detected, or check masks if multiple instances detected
 
             bbox = bbox_from_mask(mask_full, pad=20)
             if bbox is None:
@@ -667,6 +667,7 @@ def main(args, i=0):
                 plt.savefig(os.path.join(out_dir, f"sample_{idx}.png"))
                 plt.close()
 
+                '''
                 # --------------------------
                 # Visualize grasp angle map
                 # --------------------------
@@ -693,7 +694,7 @@ def main(args, i=0):
                 plt.close()
 
 
-
+                '''
                 # --------------------------
                 # Visualize grasp quality map
                 # --------------------------

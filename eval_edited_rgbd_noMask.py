@@ -457,7 +457,20 @@ def main(args, i=0):
 
 
                 fig, ax = plt.subplots(1)
-                ax.imshow(images[0].permute(1,2,0).cpu().numpy(), cmap='gray')
+                # ax.imshow(images[0].permute(1,2,0).cpu().numpy(), cmap='gray')
+
+                rgb_vis = images[0].permute(1, 2, 0).cpu().numpy()
+                # rgb_vis = np.clip(rgb_vis, 0, 1)  # IMPORTANT for imshow
+
+                # If normalized to [-1, 1]
+                rgb_vis = (rgb_vis - rgb_vis.min()) / (rgb_vis.max() - rgb_vis.min() + 1e-6)
+
+                # Or if ImageNet normalized, undo normalization explicitly
+                rgb_vis = np.clip(rgb_vis, 0.0, 1.0)
+
+                ax.imshow(rgb_vis)
+
+
 
                 gt.plot(ax, color='green')
                 for g in gs:
