@@ -525,7 +525,7 @@ def detect_grasps(q_img, ang_img, width_img=None, no_grasps=1):
     :return: list of Grasps
     """
     # default threshold_abs=0.2; change to 0.02 for debug purpose
-    local_max = peak_local_max(q_img, min_distance=20, threshold_abs=0.01, num_peaks=no_grasps)
+    local_max = peak_local_max(q_img, min_distance=20, threshold_abs=0.02, num_peaks=no_grasps)
     
     grasps = []
     for grasp_point_array in local_max:
@@ -537,6 +537,20 @@ def detect_grasps(q_img, ang_img, width_img=None, no_grasps=1):
         if width_img is not None:
             g.length = width_img[grasp_point]
             g.width = g.length / 2
+
+
+            # -------------------------------
+            # Added restriction for WIDTH CLAMP (pixel space)
+            # -------------------------------
+            MIN_WIDTH_PX = 15
+            MAX_WIDTH_PX = 40
+
+            if g.width < MIN_WIDTH_PX or g.width > MAX_WIDTH_PX:
+                continue
+
+            #------------------------------
+            # Added lines end
+            #------------------------------
 
         grasps.append(g)
 

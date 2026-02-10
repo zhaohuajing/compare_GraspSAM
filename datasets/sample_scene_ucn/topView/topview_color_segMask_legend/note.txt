@@ -1,0 +1,7 @@
+[start_behavior-5] im_color shape: (480, 640, 3)
+[start_behavior-5] labels shape: (480, 640)
+[start_behavior-5] unique labels: [0 1 2]
+[start_behavior-5] pixel counts per label:
+[start_behavior-5]   label 0: 304584 pixels
+[start_behavior-5]   label 1: 1425 pixels
+[start_behavior-5]   label 2: 1191 pixels

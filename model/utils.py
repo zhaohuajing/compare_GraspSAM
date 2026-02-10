@@ -77,6 +77,16 @@ def masks_to_boxes(masks):
 
     Returns a [N, 4] tensors, with the boxes in xyxy format
     """
+
+    """ 
+    Added line
+    """
+    masks = masks.float()
+
+    """ 
+    Added line ends
+    """
+
     if masks.numel() == 0:
         return torch.zeros((0, 4), device=masks.device)
     
