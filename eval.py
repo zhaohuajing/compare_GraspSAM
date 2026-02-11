@@ -428,18 +428,57 @@ def main(args, i=0):
             #--------------------------------------------------
 
             # Load instance mask (scene-level)
-            mask_full = np.load("./datasets/sample_scene_ucn/im_label.npy")  # or pass path via args
-            mask_full = (mask_full == 2).astype(np.uint8)  # 2 for top-down gazebo rgbd cylinder; pick instance 1 if only one detected, or check masks if multiple instances detected
+            # mask_full = np.load("./datasets/sample_scene_ucn/im_label.npy")  # or pass path via args
+            # mask_full = (mask_full == 2).astype(np.uint8)  # 2 for top-down gazebo rgbd cylinder; pick instance 1 if only one detected, or check masks if multiple instances detected
 
-            bbox = bbox_from_mask(mask_full, pad=20) # used 20
-            if bbox is None:
-                print("No object found in mask, skipping sample")
-                continue
 
-            x_min, y_min, x_max, y_max = bbox
+            # -------------------------------------------------
+            # Load UCN instance mask and select instance 
+            # -------------------------------------------------
+            mask_np = np.load("./datasets/sample_scene_ucn/im_label.npy")
 
-            # Convert RGB tensor to numpy for cropping
-            rgb_full = images[0].permute(1, 2, 0).cpu().numpy()
+            # Select object instance = 2
+            mask_np = (mask_np == 2).astype(np.float32)
+
+            # print("Mask values:", mask_np[200])
+            print("Mask shape:", mask_np.shape)
+
+
+            # Resize to model resolution (1024×1024)
+            mask_np = cv2.resize(
+                mask_np,
+                (1024, 1024),
+                interpolation=cv2.INTER_NEAREST
+            )
+
+            # Convert to tensor [B, 1, H, W]
+            mask_tensor_full = torch.from_numpy(mask_np)[None, None].to(args.device)
+
+            print("Mask unique values:", torch.unique(mask_tensor_full))
+            # print("Mask values:", mask_tensor_full)
+
+            plt.imshow(mask_np, cmap='gray')
+            # plt.title("Binary Mask Instance 2")
+            plt.show()
+
+
+
+            # bbox = bbox_from_mask(mask_full, pad=20) # used 20
+            # if bbox is None:
+            #     print("No object found in mask, skipping sample")
+            #     continue
+
+            # x_min, y_min, x_max, y_max = bbox
+
+            # # Convert RGB tensor to numpy for cropping
+            # rgb_full = images[0].permute(1, 2, 0).cpu().numpy()
+
+
+            rgb_tensor_full = images            # already normalized correctly
+            # mask_tensor_full = masks.float()    # ensure float
+
+
+
             # Depth: load explicitly from file
             depth_full = cv2.imread(
                 "./datasets/sample_scene_ucn/from_rgbd-depth.png",
@@ -451,68 +490,147 @@ def main(args, i=0):
                 (1024, 1024),
                 interpolation=cv2.INTER_NEAREST
             )
-
-
             # If depth is in mm (Gazebo / ROS often is), convert to meters
             if depth_full.max() > 10.0:
                 depth_full *= 0.001
+
+
+            # Ensure depth matches RGB resolution
+            H_full, W_full = rgb_tensor_full.shape[2:]
+            if depth_full.shape[0] != H_full or depth_full.shape[1] != W_full:
+                depth_full = cv2.resize(
+                    depth_full,
+                    (W_full, H_full),
+                    interpolation=cv2.INTER_NEAREST
+                )
+
+
 
             if use_crop:
                 # Resize crop to model input size
                 TARGET_SIZE = 1024 #384
 
-                rgb_crop = crop_with_bbox(rgb_full, bbox)
-                mask_crop = crop_with_bbox(mask_full, bbox)
+                # rgb_crop = crop_with_bbox(rgb_full, bbox)
+                # mask_crop = crop_with_bbox(mask_full, bbox)
 
-                depth_crop = crop_with_bbox(depth_full, bbox)
+                # depth_crop = crop_with_bbox(depth_full, bbox)
 
-                # Optional: depth crop if you use depth
-                # if depth_available:
+                # # Optional: depth crop if you use depth
+                # # if depth_available:
 
             
-                rgb_crop_resized = cv2.resize(
-                    rgb_crop, (TARGET_SIZE, TARGET_SIZE),
-                    interpolation=cv2.INTER_LINEAR
-                )
+                # rgb_crop_resized = cv2.resize(
+                #     rgb_crop, (TARGET_SIZE, TARGET_SIZE),
+                #     interpolation=cv2.INTER_LINEAR
+                # )
 
-                mask_crop_resized = cv2.resize(
-                    mask_crop, (TARGET_SIZE, TARGET_SIZE),
-                    interpolation=cv2.INTER_NEAREST
-                )
+                # mask_crop_resized = cv2.resize(
+                #     mask_crop, (TARGET_SIZE, TARGET_SIZE),
+                #     interpolation=cv2.INTER_NEAREST
+                # )
 
-                depth_crop_resized = cv2.resize(
-                    depth_crop, (TARGET_SIZE, TARGET_SIZE),
-                    interpolation=cv2.INTER_NEAREST
-                )
+                # depth_crop_resized = cv2.resize(
+                #     depth_crop, (TARGET_SIZE, TARGET_SIZE),
+                #     interpolation=cv2.INTER_NEAREST
+                # )
 
-                # mask_crop = mask_crop.astype(np.float32)
-                # mask_crop = (mask_crop > 0).astype(np.float32)
+                # # mask_crop = mask_crop.astype(np.float32)
+                # # mask_crop = (mask_crop > 0).astype(np.float32)
 
-                # mask_crop_tensor = torch.from_numpy(mask_crop)[None, None].to(args.device)
+                # # mask_crop_tensor = torch.from_numpy(mask_crop)[None, None].to(args.device)
 
-                # rgb_crop_tensor = torch.from_numpy(rgb_crop_resized).float().permute(2, 0, 1)
-                # rgb_crop_tensor = rgb_crop_tensor.unsqueeze(0).to(args.device)
+                # # rgb_crop_tensor = torch.from_numpy(rgb_crop_resized).float().permute(2, 0, 1)
+                # # rgb_crop_tensor = rgb_crop_tensor.unsqueeze(0).to(args.device)
 
-                rgb_input = rgb_crop_resized
-                mask_input = mask_crop_resized
-                depth_input = depth_crop_resized
+                # rgb_input = rgb_crop_resized
+                # mask_input = mask_crop_resized
+                # depth_input = depth_crop_resized
+
+                # ---------- find bounding box from mask ----------
+                mask_np = mask_tensor_full[0, 0].cpu().numpy()
+
+                ys, xs = np.where(mask_np > 0)
+
+                if len(xs) == 0:
+                    print("Warning: empty mask, skipping crop.")
+                    rgb_tensor = rgb_tensor_full
+                    mask_tensor = mask_tensor_full
+                    depth_crop = depth_full
+                    x_min = 0
+                    y_min = 0
+                    scale_x = 1.0
+                    scale_y = 1.0
+                else:
+                    x_min, x_max = xs.min(), xs.max()
+                    y_min, y_max = ys.min(), ys.max()
+
+                    # Add margin
+                    margin = 20
+                    x_min = max(0, x_min - margin)
+                    x_max = min(W_full, x_max + margin)
+                    y_min = max(0, y_min - margin)
+                    y_max = min(H_full, y_max + margin)
+
+                    # ---------- crop tensors ----------
+                    rgb_crop = rgb_tensor_full[:, :, y_min:y_max, x_min:x_max]
+                    mask_crop = mask_tensor_full[:, :, y_min:y_max, x_min:x_max]
+                    depth_crop = depth_full[y_min:y_max, x_min:x_max]
+
+                    # ---------- resize tensors ----------
+                    rgb_tensor = F.interpolate(
+                        rgb_crop,
+                        size=(TARGET_SIZE, TARGET_SIZE),
+                        mode='bilinear',
+                        align_corners=False
+                    )
+
+                    mask_tensor = F.interpolate(
+                        mask_crop,
+                        size=(TARGET_SIZE, TARGET_SIZE),
+                        mode='nearest'
+                    )
+
+                    depth_crop = cv2.resize(
+                        depth_crop,
+                        (TARGET_SIZE, TARGET_SIZE),
+                        interpolation=cv2.INTER_NEAREST
+                    )
+
+                    scale_x = TARGET_SIZE / (x_max - x_min)
+                    scale_y = TARGET_SIZE / (y_max - y_min)
+
+                depth_input = depth_crop
 
 
             else:
                 # No crop: use full image & full mask
-                x_min, y_min = 0, 0
-                x_max, y_max = mask_full.shape[1], mask_full.shape[0]
+                # x_min, y_min = 0, 0
+                # x_max, y_max = mask_full.shape[1], mask_full.shape[0]
 
-                rgb_input = rgb_full
-                mask_input = mask_full
+                # rgb_input = rgb_full
+                # mask_input = mask_full
 
                 depth_input = depth_full
 
-            mask_input = (mask_input > 0).astype(np.float32)
+                rgb_tensor = rgb_tensor_full
+                mask_tensor = mask_tensor_full
+                depth_input = depth_full
+                x_min = 0
+                y_min = 0
+                scale_x = 1.0
+                scale_y = 1.0
 
-            mask_tensor = torch.from_numpy(mask_input)[None, None].to(args.device)
-            rgb_tensor = torch.from_numpy(rgb_input).float().permute(2, 0, 1)
-            rgb_tensor = rgb_tensor.unsqueeze(0).to(args.device)
+            # mask_input = mask_input.astype(np.float32)
+
+            # mask_input = (mask_input > 0).astype(np.float32)
+
+            # # rgb_input = rgb_input / 255.0
+            # # rgb_input = (rgb_input - 0.5) / 0.5
+
+
+            # mask_tensor = torch.from_numpy(mask_input)[None, None].to(args.device)
+            # rgb_tensor = torch.from_numpy(rgb_input).float().permute(2, 0, 1)
+            # rgb_tensor = rgb_tensor.unsqueeze(0).to(args.device)
 
             targets = {
                 "masks": mask_tensor
@@ -537,7 +655,7 @@ def main(args, i=0):
             #-------------------------------------
             '''    
             # grasp_pred, mask_pred = model.total_forward(imgs=images, targets=targets)    # commented out
-            grasp_pred, mask_pred = model.total_forward(imgs=rgb_crop_tensor,targets=targets)
+            grasp_pred, mask_pred = model.total_forward(imgs=rgb_tensor,targets=targets)
             #     "masks": mask_crop_tensor   # shape [B, 1, H, W], float {0,1}
             # }) # replaced
 
@@ -574,6 +692,14 @@ def main(args, i=0):
                 sin_pred,
                 width_pred
             )
+
+            #-----------------------------------------
+            # Apply binary mask to suppress background [add args control later]
+            #---------------------------------------------
+            mask_np_resized = mask_tensor[0,0].cpu().numpy()
+
+            q_out *= mask_np_resized
+            w_out *= mask_np_resized
 
 
             #------------------------------
@@ -634,18 +760,43 @@ def main(args, i=0):
                 # Added to map grasps back to full image coordinates
                 #--------------------------
 
-                if use_crop:
-                    scale_x = (x_max - x_min) / TARGET_SIZE
-                    scale_y = (y_max - y_min) / TARGET_SIZE
+                # if use_crop:
+                #     scale_x = (x_max - x_min) / TARGET_SIZE
+                #     scale_y = (y_max - y_min) / TARGET_SIZE
+
+                #     for g in gs:
+                #         cx, cy = g.center
+                #         # g.center = (
+                #         #     x_min + cx * scale_x,
+                #         #     y_min + cy * scale_y
+                #         # )
+                #         g.center = (
+                #             x_min + g.center[0] / scale_x,
+                #             y_min + g.center[1] / scale_y
+                #         )
+                #         g.length *= scale_x
+                #         g.width  *= scale_y
+
+                if use_crop and len(gs) > 0:
+
+                    crop_w = (x_max - x_min)
+                    crop_h = (y_max - y_min)
+
+                    scale_back_x = crop_w / TARGET_SIZE
+                    scale_back_y = crop_h / TARGET_SIZE
 
                     for g in gs:
                         cx, cy = g.center
-                        g.center = (
-                            x_min + cx * scale_x,
-                            y_min + cy * scale_y
-                        )
-                        g.length *= scale_x
-                        g.width  *= scale_y
+
+                        new_cx = x_min + cx * scale_back_x
+                        new_cy = y_min + cy * scale_back_y
+
+                        g.center = (new_cx, new_cy)
+
+                        # length = grasp rectangle length direction
+                        g.length *= scale_back_x
+                        g.width  *= scale_back_y
+
 
                 # for g in gs:
                 #     g.center[0] = x_min + g.center[0] * scale_x
@@ -697,7 +848,8 @@ def main(args, i=0):
 
                 fig, ax = plt.subplots(1)
                 # ax.imshow(images[0].permute(1,2,0).cpu().numpy(), cmap='gray')
-                rgb_vis = rgb_full # images[0].permute(1, 2, 0).cpu().numpy()
+                # rgb_vis = rgb_full # images[0].permute(1, 2, 0).cpu().numpy()
+                rgb_vis = images[0].permute(1, 2, 0).cpu().numpy()
                 # rgb_vis = np.clip(rgb_vis, 0, 1)  # IMPORTANT for imshow
 
                 # If normalized to [-1, 1]
@@ -716,6 +868,15 @@ def main(args, i=0):
                 plt.show()
                 plt.savefig(os.path.join(out_dir, f"sample_{idx}.png"))
                 plt.close()
+
+
+                fig, ax = plt.subplots(1)
+                plt.imshow(mask_np, cmap='gray')
+                plt.title("Binary Mask Instance 2")
+                plt.show()
+                plt.savefig(os.path.join(out_dir, f"sample_{idx}_masks.png"))
+                plt.close()
+
 
                 '''
                 # --------------------------
@@ -759,12 +920,13 @@ def main(args, i=0):
                 #     vmax=max(0.05, np.percentile(q_out, 99.5))
                 # )
 
-                ax.imshow(rgb_vis)
+                # ax.imshow(rgb_vis)
                 im = ax.imshow(q_out, 
                           cmap='jet', 
                           alpha=0.9,
                           vmin=0.0,
                           vmax=np.percentile(q_out, 99.5),
+                          # vmax=1,
                           )
 
 
@@ -772,7 +934,7 @@ def main(args, i=0):
                     g.plot(ax, color='white')
 
                 ax.set_title("Grasp Quality Map (q_out)")
-                plt.colorbar(im, ax=ax, fraction=0.046)
+                plt.colorbar(im, ax=ax) #, fraction=0.046)
 
                 plt.tight_layout()
                 plt.savefig(os.path.join(out_dir, f"sample_{idx}_qmap.png"))
@@ -805,7 +967,7 @@ def main(args, i=0):
                 ], dtype=np.float32)
 
 
-                #  Save as npy
+                #  Save grasp as npy and json
                 np.save(
                     os.path.join(out_dir, f"sample_{idx}_grasps.npy"),
                     grasp_array
@@ -855,7 +1017,6 @@ def main(args, i=0):
                     json.dump(grasp_dicts, f, indent=2)
 
 
-
                 # -----------------------------
                 # Convert grasp rectangle to 6D poses
                 # -----------------------------
@@ -873,7 +1034,7 @@ def main(args, i=0):
                         if not (0.02 <= width_m <= 0.08):
                             continue
 
-                        print(
+                        log_print(
                             f"6D grasp: pos={pos}, "
                             f"yaw={np.rad2deg(g.angle):.1f}°, "
                             f"width={width_m:.3f} m"

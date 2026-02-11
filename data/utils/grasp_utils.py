@@ -542,7 +542,7 @@ def detect_grasps(q_img, ang_img, width_img=None, no_grasps=1):
             # -------------------------------
             # Added restriction for WIDTH CLAMP (pixel space)
             # -------------------------------
-            MIN_WIDTH_PX = 15
+            MIN_WIDTH_PX = 20
             MAX_WIDTH_PX = 40
 
             if g.width < MIN_WIDTH_PX or g.width > MAX_WIDTH_PX:
