@@ -438,7 +438,7 @@ def main(args, i=0):
             mask_np = np.load("./datasets/sample_scene_ucn/im_label.npy")
 
             # Select object instance = 2
-            mask_np = (mask_np == 2).astype(np.float32)
+            mask_np = (mask_np == 1).astype(np.float32)
 
             # print("Mask values:", mask_np[200])
             print("Mask shape:", mask_np.shape)
@@ -504,47 +504,9 @@ def main(args, i=0):
                     interpolation=cv2.INTER_NEAREST
                 )
 
-
-
             if use_crop:
                 # Resize crop to model input size
                 TARGET_SIZE = 1024 #384
-
-                # rgb_crop = crop_with_bbox(rgb_full, bbox)
-                # mask_crop = crop_with_bbox(mask_full, bbox)
-
-                # depth_crop = crop_with_bbox(depth_full, bbox)
-
-                # # Optional: depth crop if you use depth
-                # # if depth_available:
-
-            
-                # rgb_crop_resized = cv2.resize(
-                #     rgb_crop, (TARGET_SIZE, TARGET_SIZE),
-                #     interpolation=cv2.INTER_LINEAR
-                # )
-
-                # mask_crop_resized = cv2.resize(
-                #     mask_crop, (TARGET_SIZE, TARGET_SIZE),
-                #     interpolation=cv2.INTER_NEAREST
-                # )
-
-                # depth_crop_resized = cv2.resize(
-                #     depth_crop, (TARGET_SIZE, TARGET_SIZE),
-                #     interpolation=cv2.INTER_NEAREST
-                # )
-
-                # # mask_crop = mask_crop.astype(np.float32)
-                # # mask_crop = (mask_crop > 0).astype(np.float32)
-
-                # # mask_crop_tensor = torch.from_numpy(mask_crop)[None, None].to(args.device)
-
-                # # rgb_crop_tensor = torch.from_numpy(rgb_crop_resized).float().permute(2, 0, 1)
-                # # rgb_crop_tensor = rgb_crop_tensor.unsqueeze(0).to(args.device)
-
-                # rgb_input = rgb_crop_resized
-                # mask_input = mask_crop_resized
-                # depth_input = depth_crop_resized
 
                 # ---------- find bounding box from mask ----------
                 mask_np = mask_tensor_full[0, 0].cpu().numpy()
@@ -696,10 +658,12 @@ def main(args, i=0):
             #-----------------------------------------
             # Apply binary mask to suppress background [add args control later]
             #---------------------------------------------
-            mask_np_resized = mask_tensor[0,0].cpu().numpy()
 
-            q_out *= mask_np_resized
-            w_out *= mask_np_resized
+            if args.use_hard_mask:
+                mask_np_resized = mask_tensor[0,0].cpu().numpy()
+
+                q_out *= mask_np_resized
+                w_out *= mask_np_resized
 
 
             #------------------------------
@@ -1089,6 +1053,7 @@ if __name__ == "__main__":
     parser.add_argument("--ckp_path", type=str, help="ckp_path")
     parser.add_argument("--no-grasps", type=int, default=5, help="Top-K grasps to evaluate")
     parser.add_argument("--use_crop", type=bool, default=False, help="Enable mask-based crop before inference")
+    parser.add_argument("--use_hard_mask", type=bool, default=True, help="Enable removing background using mask")
 
 
     # Added to avoid hard-coding encode type
