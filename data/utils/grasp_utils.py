@@ -515,7 +515,7 @@ class Grasp:
             self.width * scale)
 
 
-def detect_grasps(q_img, ang_img, width_img=None, no_grasps=1):
+def detect_grasps(q_img, ang_img, width_img=None, no_grasps=1, use_crop=0):
     """
     Detect grasps in a network output.
     :param q_img: Q image network output
@@ -528,6 +528,9 @@ def detect_grasps(q_img, ang_img, width_img=None, no_grasps=1):
     local_max = peak_local_max(q_img, min_distance=20, threshold_abs=0.02, num_peaks=no_grasps)
     
     grasps = []
+    loop_count = 0
+
+
     for grasp_point_array in local_max:
         grasp_point = tuple(grasp_point_array)
 
@@ -542,9 +545,14 @@ def detect_grasps(q_img, ang_img, width_img=None, no_grasps=1):
             # -------------------------------
             # Added restriction for WIDTH CLAMP (pixel space)
             # -------------------------------
-            MIN_WIDTH_PX = 20
-            MAX_WIDTH_PX = 40
 
+            if not use_crop:
+                MIN_WIDTH_PX = 25
+                MAX_WIDTH_PX = 55
+            else: 
+                MIN_WIDTH_PX = 180
+                MAX_WIDTH_PX = 380
+                
             if g.width < MIN_WIDTH_PX or g.width > MAX_WIDTH_PX:
                 continue
 
@@ -553,5 +561,7 @@ def detect_grasps(q_img, ang_img, width_img=None, no_grasps=1):
             #------------------------------
 
         grasps.append(g)
+
+
 
     return grasps
