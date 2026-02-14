@@ -468,6 +468,8 @@ class Grasp:
         xo = np.cos(self.angle)
         yo = np.sin(self.angle)
 
+        # NOTE!!!! Here y is center[0] and x is center[1]
+
         y1 = self.center[0] + self.length / 2 * yo
         x1 = self.center[1] - self.length / 2 * xo
         y2 = self.center[0] - self.length / 2 * yo

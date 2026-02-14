@@ -764,7 +764,8 @@ def main(args, i=0):
 
                             # gs outputs are defined with respect to the cropped image; 
                             # projected back to the orignal rgb image as new_center, new_length, and new_width 
-                            cx, cy = g.center
+                            # cx, cy = g.center
+                            cy, cx = g.center
 
                             # new_cx = x_min + cx * scale_back_x
                             # new_cy = y_min + cy * scale_back_y
@@ -780,8 +781,8 @@ def main(args, i=0):
                             # g.length = g.length * scale_back_x
                             # g.width  = g.width  * scale_back_y
 
-                            g.length /= scale_y
-                            g.width  /= scale_x
+                            g.length /= scale_x
+                            g.width  /= scale_y
 
                         g0 = gs[0]
                         print("FULL grasp[0] center(y,x) =", g0.center)
