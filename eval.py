@@ -145,23 +145,43 @@ def grasp_to_dict(g):
     """
     # Case 1: Grasp object
     if hasattr(g, "center"):
-        return {
-            "x": float(g.center[0]),
-            "y": float(g.center[1]),
+        # return {
+        #     "x": float(g.center[1]), # order of center is (y,x) according to grasp_utils
+        #     "y": float(g.center[0]),
+        #     "angle": float(g.angle),
+        #     "width": float(g.width),
+        #     "score": float(getattr(g, "score", 0.0),),
+        # }
+
+        d = {
+            # g.center is (y, x)
+            "x": float(g.center[1]),
+            "y": float(g.center[0]),
             "angle": float(g.angle),
-            "width": float(g.width),
+            "width_px": float(g.width),
+            "length_px": float(getattr(g, "length", 0.0)),
             "score": float(getattr(g, "score", 0.0)),
         }
 
+        # Optional 6D fields (added after rectangle_to_pose_topdown)
+        if hasattr(g, "pos") and g.pos is not None:
+            d["pos"] = [float(v) for v in np.asarray(g.pos).reshape(-1)]  # [x,y,z] in meters
+        if hasattr(g, "quat") and g.quat is not None:
+            d["quat"] = [float(v) for v in np.asarray(g.quat).reshape(-1)]  # keep the same order returned by your util
+        if hasattr(g, "width_m") and g.width_m is not None:
+            d["width_m"] = float(g.width_m)
+
+        return d
+
+
     # Case 2: Tensor or ndarray [x, y, angle, width, score?]
-    import numpy as np
     if hasattr(g, "detach"):
         g = g.detach().cpu().numpy()
 
     if isinstance(g, (list, tuple, np.ndarray)):
         return {
-            "x": float(g[0]),
-            "y": float(g[1]),
+            "x": float(g[1]),
+            "y": float(g[0]),
             "angle": float(g[2]),
             "width": float(g[3]),
             "score": float(g[4]) if len(g) > 4 else 0.0,
@@ -248,8 +268,8 @@ def main(args, i=0):
     #----------------------------
 
 
-    # run_id = time.strftime("%Y%m%d_%H%M%S")
-    run_id = time.strftime("%Y%m%d") #_%H%M%S")
+    run_id = time.strftime("%Y%m%d_%H")
+    # run_id = time.strftime("%Y%m%d") #_%H%M%S")
     out_dir = f"grasp_outputs/run_{run_id}"
 
     # out_dir = "grasp_outputs/sample4"
@@ -303,7 +323,7 @@ def main(args, i=0):
 
     elif args.dataset_name == "from_rgbd":
 
-        rgbd_root="./datasets/sample_scene_ucn",
+        rgbd_root="./datasets/sample_scene_ucn"
         rgbd_pairs = [
             ("./datasets/sample_scene_ucn/from_rgbd-color.png", "./datasets/sample_scene_ucn/from_rgbd-depth.png"),
             # or ("color.png", "0.npy")
@@ -830,8 +850,35 @@ def main(args, i=0):
                     # added for result inspection
                     log_print(f"Detected {len(gs)} grasps:")
                     for i, g in enumerate(gs):
-                        log_print(f"  Grasp {i}: center=({g.center[0]:.1f}, {g.center[1]:.1f}), "
+                        log_print(f"  Grasp {i}: center (y,x)=({g.center[0]:.1f}, {g.center[1]:.1f}), "
                               f"angle={np.degrees(g.angle):.1f} deg, width={g.width:.1f}px")
+
+                    # -----------------------------
+                    # Convert grasp rectangle to 6D poses
+                    # -----------------------------
+
+                    for g in gs:
+                        try:
+                            g.pos, g.quat, g.width_m = rectangle_to_pose_topdown(
+                                g,
+                                depth_input, # depth_image
+                                intrinsics,
+                                grasp_height_offset=0.01,  # optional 1cm lift
+                            )
+
+                            # Metric width filtering (recommended)
+                            if not (0.02 <= g.width_m <= 0.08):
+                                continue
+
+                            log_print(
+                                f"6D grasp: pos={g.pos}, quat={g.quat}, "
+                                f"yaw={np.rad2deg(g.angle):.1f}°, "
+                                f"width={g.width_m:.3f} m"
+                            )
+
+                        except ValueError as e:
+                            continue
+
 
                     # --------------------------
                     # Visualize grasp rectangles
@@ -970,8 +1017,8 @@ def main(args, i=0):
 
                     grasp_array = np.array([
                         [
-                            g.center[0],     # x (px)
-                            g.center[1],     # y (px)
+                            g.center[1],     # x (px)
+                            g.center[0],     # y (px)
                             g.angle,         # rad
                             g.width          # px
                         ]
@@ -1029,32 +1076,7 @@ def main(args, i=0):
                         json.dump(grasp_dicts, f, indent=2)
 
 
-                    # -----------------------------
-                    # Convert grasp rectangle to 6D poses
-                    # -----------------------------
-
-                    for g in gs:
-                        try:
-                            pos, quat, width_m = rectangle_to_pose_topdown(
-                                g,
-                                depth_input, # depth_image
-                                intrinsics,
-                                grasp_height_offset=0.01,  # optional 1cm lift
-                            )
-
-                            # Metric width filtering (recommended)
-                            if not (0.02 <= width_m <= 0.08):
-                                continue
-
-                            log_print(
-                                f"6D grasp: pos={pos}, "
-                                f"yaw={np.rad2deg(g.angle):.1f}°, "
-                                f"width={width_m:.3f} m"
-                            )
-
-                        except ValueError as e:
-                            continue
-
+                    
 
                     #------------------------------
                     # Added part ends
@@ -1105,7 +1127,7 @@ if __name__ == "__main__":
     parser.add_argument("--no-grasps", type=int, default=5, help="Top-K grasps to evaluate")
 
     # Added to choose (1) whether to crop theinput image and mask, and (2) whether to use mask to additionally remove background
-    parser.add_argument("--use_crop", type=int, default=0, help="Enable mask-based crop before inference: 1 for true, 0 for false")
+    parser.add_argument("--use_crop", type=int, default=1, help="Enable mask-based crop before inference: 1 for true, 0 for false")
     parser.add_argument("--remove_background", type=int, default=1, help="Enable removing background using mask: 1 for true, 0 for false")
     # parser.add_argument("--use_crop", action="store_true", help="Enable mask-based crop before inference")
     # parser.add_argument("--remove_background", action="store_true", help="Remove background using mask")
