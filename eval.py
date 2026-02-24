@@ -1015,22 +1015,64 @@ def main(args, i=0):
 
                     # Convert grasps to a clean array and save
 
-                    grasp_array = np.array([
-                        [
-                            g.center[1],     # x (px)
-                            g.center[0],     # y (px)
-                            g.angle,         # rad
-                            g.width          # px
-                        ]
-                        for g in gs
-                    ], dtype=np.float32)
+                    # grasp_array = np.array([
+                    #     [
+                    #         g.center[1],     # x (px)
+                    #         g.center[0],     # y (px)
+                    #         g.angle,         # rad
+                    #         g.width,          # px
+                    #         # [float(v) for v in np.asarray(g.pos).reshape(-1)], # [x,y,z] in meters
+                    #         # [float(v) for v in np.asarray(g.quat).reshape(-1)],  # keep the same order returned by your util
+                    #         # g.width_m
+                    #     ]
+                    #     for g in gs
+                    # ], dtype=np.float32)
 
 
-                    #  Save grasp as npy and json
-                    np.save(
-                        os.path.join(out_dir, f"sample_{idx}_grasps.npy"),
-                        grasp_array
+                    # #  Save grasp as npy and json
+                    # np.save(
+                    #     os.path.join(out_dir, f"sample_{idx}_grasps.npy"),
+                    #     grasp_array
+                    # )
+
+                    # Save as npz: after you computed g.pos/g.quat/g.width_m for each g (if you want those)
+                    N = len(gs)
+
+                    centers_yx = np.array([g.center for g in gs], dtype=np.float32)          # (N,2) [y,x]
+                    # centers_xy = np.stack([centers_yx[:,1], centers_yx[:,0]], axis=1)        # (N,2) [x,y]
+
+                    angles = np.array([g.angle for g in gs], dtype=np.float32)               # (N,)
+                    width_px = np.array([g.width for g in gs], dtype=np.float32)             # (N,)
+                    length_px = np.array([getattr(g, "length", 0.0) for g in gs], dtype=np.float32)
+                    scores = np.array([getattr(g, "score", 0.0) for g in gs], dtype=np.float32)
+
+                    # Optional 6D (fill NaN if not present)
+                    pos = np.full((N, 3), np.nan, dtype=np.float32)
+                    quat = np.full((N, 4), np.nan, dtype=np.float32)
+                    width_m = np.full((N,), np.nan, dtype=np.float32)
+
+                    for i, g in enumerate(gs):
+                        if getattr(g, "pos", None) is not None:
+                            pos[i] = np.asarray(g.pos, dtype=np.float32).reshape(3)
+                        if getattr(g, "quat", None) is not None:
+                            quat[i] = np.asarray(g.quat, dtype=np.float32).reshape(4)
+                        if getattr(g, "width_m", None) is not None:
+                            width_m[i] = float(g.width_m)
+
+                    np.savez(
+                        os.path.join(out_dir, f"sample_{idx}_grasps.npz"),
+                        # center_xy=centers_xy,      # (N,2)
+                        center_yx=centers_yx,      # (N,2)
+                        angle=angles,              # (N,)
+                        width_px=width_px,         # (N,)
+                        length_px=length_px,       # (N,)
+                        score=scores,              # (N,)
+                        pos=pos,                   # (N,3)
+                        quat=quat,                 # (N,4)
+                        width_m=width_m            # (N,)
                     )
+
+
 
                     #  Save as human-readable JSON
                     # grasp_list = [
@@ -1045,28 +1087,6 @@ def main(args, i=0):
                     # ]
 
                     json_path = os.path.join(out_dir, f"sample_{idx}_grasps.json")
-
-                    # with open(os.path.join(out_dir, f"sample_{idx}_grasps.json"), "w") as f:
-                    #     json.dump(grasp_list, f, indent=2)
-
-
-                    # out_json = {
-                    #     "sample_id": idx,
-                    #     "num_grasps": len(grasps),
-                    #     "grasps": []
-                    # }
-
-                    # for g in grasps:
-                    #     out_json["grasps"].append([
-                    #         float(g.center[0]),
-                    #         float(g.center[1]),
-                    #         float(g.angle),
-                    #         float(g.width),
-                    #         float(g.score)
-                    #     ])
-
-                    # with open(json_path, "w") as f:
-                    #     json.dump(out_json, f, indent=2)
 
                     grasp_dicts = []
                     for g in gs:

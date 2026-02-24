@@ -85,7 +85,7 @@ def rectangle_to_pose_topdown(
     #   - yaw from grasp angle
     #   - flip gripper to point downward
     yaw = grasp.angle
-    rot = R.from_euler("z", yaw) * R.from_euler("x", np.pi)
+    rot = R.from_euler("z", yaw) # * R.from_euler("x", np.pi)
     quaternion = rot.as_quat()  # (x, y, z, w)
 
     # Metric gripper width

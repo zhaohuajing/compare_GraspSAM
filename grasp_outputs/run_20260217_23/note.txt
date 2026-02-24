@@ -1101,3 +1101,449 @@ Detected grasps: 1
 Detected 1 grasps:
   Grasp 0: center (y,x)=(473.2, 457.7), angle=26.2 deg, width=27.0px
 6D grasp: pos=[-0.03112922 -0.0323265   0.70800001], quat=[9.73900738e-01 2.26974344e-01 1.38981702e-17 5.96342211e-17], yaw=26.2°, width=0.022 m
+
+============================================================
+New run | encoder=vit_t | no_grasps=30
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 101.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.05633643
+ang_out: (1024, 1024) -87.43773 87.79559 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.55419921875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.49946654
+ang_out: (1024, 1024) -41.137623 60.43291 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.30871102
+ang_out: (1024, 1024) -82.10733 87.16908 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.23681640625 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.53198993
+ang_out: (1024, 1024) -70.34771 76.45153 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.46240234375 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.48656932
+ang_out: (1024, 1024) -71.81034 80.86467 deg
+Detected grasps: 1
+Detected 1 grasps:
+  Grasp 0: center (y,x)=(488.5, 450.1), angle=-2.5 deg, width=26.7px
+6D grasp: pos=[-0.01835826 -0.03711561  0.70800001], quat=[ 9.99764550e-01 -2.16989622e-02 -1.32867823e-18  6.12179228e-17], yaw=-2.5°, width=0.021 m
+
+============================================================
+New run | encoder=vit_t | no_grasps=30
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 101.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.36685947
+ang_out: (1024, 1024) -77.992096 77.1928 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.55419921875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0067603057
+ang_out: (1024, 1024) -81.31119 77.30422 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.3397453
+ang_out: (1024, 1024) -84.466484 86.572235 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.23681640625 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.2976826
+ang_out: (1024, 1024) -71.721535 68.033516 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.46240234375 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.31527635
+ang_out: (1024, 1024) -83.98404 87.96031 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.92919921875 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.21791625
+ang_out: (1024, 1024) -73.00898 78.990395 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.13623046875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.062441282
+ang_out: (1024, 1024) -76.11869 82.36542 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.39715454
+ang_out: (1024, 1024) -59.353153 69.250786 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.92919921875 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.7179724
+ang_out: (1024, 1024) -75.99563 75.61412 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.7088749
+ang_out: (1024, 1024) -49.519493 70.69368 deg
+Detected grasps: 0
+Detected 0 grasps:
+
+============================================================
+New run | encoder=vit_t | no_grasps=30
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 101.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.761
+ang_out: (1024, 1024) -81.042305 80.360504 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.55419921875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.028249713
+ang_out: (1024, 1024) -88.55683 87.71584 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.11665767
+ang_out: (1024, 1024) -86.653305 78.783485 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.23681640625 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.20357902
+ang_out: (1024, 1024) -61.748535 74.75656 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.46240234375 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.06389293
+ang_out: (1024, 1024) -76.88859 70.7703 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.92919921875 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.5023586
+ang_out: (1024, 1024) -68.055016 60.443203 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.13623046875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0220255
+ang_out: (1024, 1024) -85.38407 88.60941 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.1313783
+ang_out: (1024, 1024) -76.068924 75.61369 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.92919921875 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.02180622
+ang_out: (1024, 1024) -79.99179 85.04136 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.12868582
+ang_out: (1024, 1024) -56.5762 65.80586 deg
+Detected grasps: 0
+Detected 0 grasps:
+
+============================================================
+New run | encoder=vit_t | no_grasps=30
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 101.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.035622735
+ang_out: (1024, 1024) -83.69395 85.77365 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.55419921875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.34195116
+ang_out: (1024, 1024) -74.393715 81.42311 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.036238544
+ang_out: (1024, 1024) -68.72468 77.63598 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.23681640625 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.13994652
+ang_out: (1024, 1024) -69.79507 71.71452 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.46240234375 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.039901
+ang_out: (1024, 1024) -71.15811 73.77536 deg
+Detected grasps: 4
+Detected 4 grasps:
+  Grasp 0: center (y,x)=(439.6, 499.5), angle=-16.0 deg, width=26.8px
+  Grasp 1: center (y,x)=(477.1, 466.4), angle=-5.3 deg, width=36.1px
+  Grasp 2: center (y,x)=(472.7, 459.8), angle=-8.3 deg, width=32.5px
+  Grasp 3: center (y,x)=(474.9, 463.1), angle=-5.9 deg, width=36.2px
+6D grasp: pos=[-0.05746933 -0.00718367  0.70800001], quat=[ 9.90272981e-01 -1.39138142e-01 -8.51975404e-18  6.06367318e-17], yaw=-16.0°, width=0.021 m
+6D grasp: pos=[-0.02793648 -0.02753739  0.70800001], quat=[ 9.98939566e-01 -4.60406636e-02 -2.81917757e-18  6.11674071e-17], yaw=-5.3°, width=0.029 m
+6D grasp: pos=[-0.03112922 -0.03112922  0.70800001], quat=[ 9.97350331e-01 -7.27483180e-02 -4.45454974e-18  6.10700945e-17], yaw=-8.3°, width=0.026 m
+6D grasp: pos=[-0.02953285 -0.0293333   0.70800001], quat=[ 9.98679675e-01 -5.13702850e-02 -3.14552275e-18  6.11514934e-17], yaw=-5.9°, width=0.029 m
+
+============================================================
+New run | encoder=vit_t | no_grasps=30
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 101.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.46503904
+ang_out: (1024, 1024) -52.856285 81.665 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.55419921875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.22814661
+ang_out: (1024, 1024) -82.54655 73.918465 deg
+Detected grasps: 2
+Detected 2 grasps:
+  Grasp 0: center (y,x)=(457.4, 500.6), angle=5.6 deg, width=29.2px
+  Grasp 1: center (y,x)=(424.4, 497.3), angle=23.7 deg, width=25.4px
+6D grasp: pos=[-0.04390018 -0.00658503  0.70800001], quat=[9.98805651e-01 4.88597152e-02 2.99179469e-18 6.11592072e-17], yaw=5.6°, width=0.023 m
+6D grasp: pos=[-0.07024029 -0.00897958  0.70800001], quat=[9.78740459e-01 2.05102692e-01 1.25589178e-17 5.99305685e-17], yaw=23.7°, width=0.020 m
+
+============================================================
+New run | encoder=vit_t | no_grasps=30
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 101.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.2824199
+ang_out: (1024, 1024) -82.43638 85.210846 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.55419921875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.748386
+ang_out: (1024, 1024) -56.55281 83.63987 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.40083292
+ang_out: (1024, 1024) -75.8011 70.031364 deg
+Detected grasps: 12
+Detected 12 grasps:
+  Grasp 0: center (y,x)=(482.9, 475.9), angle=-39.9 deg, width=26.3px
+  Grasp 1: center (y,x)=(434.4, 497.4), angle=-21.4 deg, width=25.3px
+  Grasp 2: center (y,x)=(443.1, 499.1), angle=-22.0 deg, width=30.2px
+  Grasp 3: center (y,x)=(471.7, 474.2), angle=-26.9 deg, width=28.5px
+  Grasp 4: center (y,x)=(456.3, 499.1), angle=-47.8 deg, width=26.8px
+  Grasp 5: center (y,x)=(451.9, 499.1), angle=-22.1 deg, width=27.0px
+  Grasp 6: center (y,x)=(469.5, 477.6), angle=-26.3 deg, width=28.5px
+  Grasp 7: center (y,x)=(469.5, 495.8), angle=-23.3 deg, width=27.0px
+  Grasp 8: center (y,x)=(458.5, 452.7), angle=-27.4 deg, width=24.9px
+  Grasp 9: center (y,x)=(465.1, 497.4), angle=-24.4 deg, width=26.3px
+  Grasp 10: center (y,x)=(449.7, 495.8), angle=-25.9 deg, width=28.8px
+  Grasp 11: center (y,x)=(456.3, 492.5), angle=-24.5 deg, width=28.7px
+6D grasp: pos=[-0.02314737 -0.021551    0.70800001], quat=[ 9.39925001e-01 -3.41381008e-01 -2.09035579e-17  5.75538072e-17], yaw=-39.9°, width=0.021 m
+6D grasp: pos=[-0.06225844 -0.00897958  0.70800001], quat=[ 9.82595198e-01 -1.85759727e-01 -1.13745027e-17  6.01666032e-17], yaw=-21.4°, width=0.020 m
+6D grasp: pos=[-0.05507477 -0.0077823   0.70800001], quat=[ 9.81613271e-01 -1.90880552e-01 -1.16880629e-17  6.01064775e-17], yaw=-22.0°, width=0.024 m
+6D grasp: pos=[-0.0319274  -0.02274827  0.70800001], quat=[ 9.72616512e-01 -2.32415837e-01 -1.42313656e-17  5.95555849e-17], yaw=-26.9°, width=0.023 m
+6D grasp: pos=[-0.04469836 -0.0077823   0.70800001], quat=[ 9.14401478e-01 -4.04808519e-01 -2.47873729e-17  5.59909422e-17], yaw=-47.8°, width=0.021 m
+6D grasp: pos=[-0.0478911  -0.0077823   0.70800001], quat=[ 9.81418921e-01 -1.91877311e-01 -1.17490967e-17  6.00945770e-17], yaw=-22.1°, width=0.022 m
+6D grasp: pos=[-0.03352377 -0.02035372  0.70800001], quat=[ 9.73800876e-01 -2.27402404e-01 -1.39243813e-17  5.96281063e-17], yaw=-26.3°, width=0.023 m
+6D grasp: pos=[-0.03352377 -0.00957822  0.70800001], quat=[ 9.79416021e-01 -2.01852068e-01 -1.23598744e-17  5.99719348e-17], yaw=-23.3°, width=0.022 m
+6D grasp: pos=[-0.0375147  -0.00897958  0.70800001], quat=[ 9.77431966e-01 -2.11250447e-01 -1.29353592e-17  5.98504464e-17], yaw=-24.4°, width=0.021 m
+6D grasp: pos=[-0.04948747 -0.00957822  0.70800001], quat=[ 9.74469776e-01 -2.24518718e-01 -1.37478065e-17  5.96690646e-17], yaw=-25.9°, width=0.023 m
+6D grasp: pos=[-0.04469836 -0.01197278  0.70800001], quat=[ 9.77184594e-01 -2.12391781e-01 -1.30052457e-17  5.98352993e-17], yaw=-24.5°, width=0.023 m
