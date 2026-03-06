@@ -1,0 +1,38 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=10
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 101.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.2561294
+ang_out: (1024, 1024) -77.410645 77.0431 deg
+Detected grasps: 8
+Detected 8 grasps:
+  Grasp 0: center (y,x)=(481.6, 486.6), angle=18.5 deg, width=43.2px
+  Grasp 1: center (y,x)=(466.1, 499.8), angle=43.0 deg, width=37.4px
+  Grasp 2: center (y,x)=(479.4, 489.9), angle=19.2 deg, width=41.0px
+  Grasp 3: center (y,x)=(474.9, 494.9), angle=45.0 deg, width=36.3px
+  Grasp 4: center (y,x)=(435.4, 499.9), angle=36.1 deg, width=28.1px
+  Grasp 5: center (y,x)=(479.3, 471.8), angle=38.7 deg, width=40.5px
+  Grasp 6: center (y,x)=(472.8, 461.8), angle=38.7 deg, width=42.0px
+  Grasp 7: center (y,x)=(477.1, 468.4), angle=38.8 deg, width=40.3px
+6D grasp: pos=[-0.02394555 -0.01496597  0.70800001], quat=[0.         0.         0.16037775 0.98705571], yaw=18.5°, width=0.034 m
+6D grasp: pos=[-0.03671651 -0.00718367  0.70800001], quat=[0.         0.         0.36635092 0.93047676], yaw=43.0°, width=0.030 m
+6D grasp: pos=[-0.02634011 -0.01317005  0.70800001], quat=[0.         0.         0.16697721 0.98596075], yaw=19.2°, width=0.033 m
+6D grasp: pos=[-0.02953285 -0.01017686  0.70800001], quat=[0.         0.         0.38257947 0.92392259], yaw=45.0°, width=0.029 m
+6D grasp: pos=[-0.06146025 -0.00718367  0.70800001], quat=[0.         0.         0.30966461 0.95084585], yaw=36.1°, width=0.022 m
+6D grasp: pos=[-0.02634011 -0.02394555  0.70800001], quat=[0.         0.         0.33154724 0.94343862], yaw=38.7°, width=0.032 m
+6D grasp: pos=[-0.03112922 -0.02993194  0.70800001], quat=[0.         0.         0.33142437 0.94348179], yaw=38.7°, width=0.034 m
+6D grasp: pos=[-0.02793648 -0.02634011  0.70800001], quat=[0.         0.         0.33255228 0.94308482], yaw=38.8°, width=0.032 m
+
+============================================================
+New run | encoder=vit_t | no_grasps=10
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------

@@ -1,0 +1,1 @@
+Namespace(batch_size=4, dataset_name='jacquard', epochs=200, exp_name='total_vit_t_default', gpu_num=0, lr=1e-05, print_freq=50, prompt='default', resume_ckp=None, root='./datasets/Jacquard_Samples', sam_encoder_type='vit_t', save=True, save_dir='final_result', seen=False, split=0.9, validate=False)

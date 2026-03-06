@@ -549,11 +549,11 @@ def detect_grasps(q_img, ang_img, width_img=None, no_grasps=1, use_crop=0):
             # -------------------------------
 
             if not use_crop:
-                MIN_WIDTH_PX = 25
-                MAX_WIDTH_PX = 55
+                MIN_WIDTH_PX = 25* 0.1
+                MAX_WIDTH_PX = 55* 10
             else: 
-                MIN_WIDTH_PX = 180
-                MAX_WIDTH_PX = 380
+                MIN_WIDTH_PX = 180* 0.1
+                MAX_WIDTH_PX = 380* 10
                 
             if g.width < MIN_WIDTH_PX or g.width > MAX_WIDTH_PX:
                 continue

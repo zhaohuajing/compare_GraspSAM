@@ -32,7 +32,7 @@ def rectangle_to_pose_topdown(
     grasp,
     depth_img,
     intrinsics: CameraIntrinsics,
-    grasp_height_offset=0.0,
+    grasp_height_offset=0.05,
 ):
     """
     Convert a planar grasp rectangle to a 6D grasp pose assuming:

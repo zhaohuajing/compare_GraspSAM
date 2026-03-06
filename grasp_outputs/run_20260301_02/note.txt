@@ -1,0 +1,216 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=55
+============================================================
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+
+============================================================
+New run | encoder=vit_t | no_grasps=55
+============================================================
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------

@@ -1,0 +1,516 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=25
+============================================================
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 101.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.011709 19.387617 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.55419921875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.25828 18.283552 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.234278 19.790192 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.23681640625 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.437518 18.895014 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.46240234375 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.401244 19.66014 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.92919921875 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.350455 18.620743 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.13623046875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.295903 19.479809 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.884688 18.763306 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.92919921875 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.217565 19.199207 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.6872635 18.575493 deg
+Detected grasps: 0
+Detected 0 grasps:
+
+============================================================
+New run | encoder=vit_t | no_grasps=25
+============================================================
+loading checkpoint from :  epoch59.pth
+
+============================================================
+New run | encoder=vit_t | no_grasps=25
+============================================================
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 101.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.915711 19.597466 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.55419921875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -11.172717 18.362816 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -11.097279 18.485325 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.23681640625 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -11.106261 19.979303 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.46240234375 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.542687 18.491789 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.92919921875 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.908195 19.717077 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.13623046875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.848076 19.582762 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.79248 18.207483 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.92919921875 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.7625885 19.434084 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.0
+ang_out: (1024, 1024) -10.888461 19.590382 deg
+Detected grasps: 0
+Detected 0 grasps:
+
+============================================================
+New run | encoder=vit_t | no_grasps=25
+============================================================
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 101.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.18826753
+ang_out: (1024, 1024) -10.840056 19.135012 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.55419921875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.17360231
+ang_out: (1024, 1024) -10.840398 19.290531 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.17257279
+ang_out: (1024, 1024) -11.092339 18.501802 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.23681640625 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.1790813
+ang_out: (1024, 1024) -11.035569 17.806982 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.46240234375 MB
+Reserved : 156.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.17901142
+ang_out: (1024, 1024) -10.911619 18.52217 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.92919921875 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.1913435
+ang_out: (1024, 1024) -11.464596 19.544096 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 115.13623046875 MB
+Reserved : 164.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.18721631
+ang_out: (1024, 1024) -10.908226 18.696032 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.19014548
+ang_out: (1024, 1024) -11.023989 19.331564 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 113.92919921875 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.18484804
+ang_out: (1024, 1024) -10.744582 19.896662 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 114.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.16209978
+ang_out: (1024, 1024) -10.832039 17.969751 deg
+Detected grasps: 0
+Detected 0 grasps:
+
+============================================================
+New run | encoder=vit_t | no_grasps=25
+============================================================
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 85.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.16225547
+ang_out: (1024, 1024) -13.007074 17.822515 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 98.57861328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.15972032
+ang_out: (1024, 1024) -13.128285 16.89706 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 96.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.16224293
+ang_out: (1024, 1024) -13.14285 18.061659 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 97.57861328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.16123933
+ang_out: (1024, 1024) -13.213006 18.158283 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 98.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.16003095
+ang_out: (1024, 1024) -13.199201 17.884983 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 97.06298828125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.16407345
+ang_out: (1024, 1024) -13.038192 18.300451 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 97.31298828125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.1628971
+ang_out: (1024, 1024) -12.972134 17.989939 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 96.57861328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.1573555
+ang_out: (1024, 1024) -13.198205 17.231478 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 98.57861328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.16269252
+ang_out: (1024, 1024) -13.167565 18.093037 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  epoch58.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 97.07861328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.16465014
+ang_out: (1024, 1024) -13.235431 18.227484 deg
+Detected grasps: 0
+Detected 0 grasps:
+
+============================================================
+New run | encoder=vit_t | no_grasps=25
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 85.51806640625 MB
+Reserved : 112.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0005342264 0.88128597
+ang_out: (1024, 1024) -82.14132 80.180595 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 98.57861328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 2.7703703e-05 0.06700502
+ang_out: (1024, 1024) -32.03244 43.416267 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 96.45361328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.4890109
+ang_out: (1024, 1024) -80.466835 83.668 deg
+Detected grasps: 0
+Detected 0 grasps:
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 97.57861328125 MB
+Reserved : 144.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 1.155846e-05 0.06557312
+ang_out: (1024, 1024) -36.674694 60.48409 deg
+Detected grasps: 4
+Detected 4 grasps:
+  Grasp 0: center (y,x)=(690.0, 439.0), angle=14.1 deg, width=44.5px
+  Grasp 1: center (y,x)=(213.0, 294.0), angle=32.3 deg, width=44.5px
+  Grasp 2: center (y,x)=(628.0, 390.0), angle=31.2 deg, width=47.7px
+  Grasp 3: center (y,x)=(805.0, 245.0), angle=31.1 deg, width=53.4px
+6D grasp: pos=[ 0.22254709 -0.06845198  1.1090001 ], quat=[0.         0.         0.12234212 0.99248799], yaw=14.1°, width=0.056 m
+6D grasp: pos=[ 0.14738466 -0.116256    1.1270001 ], quat=[0.         0.         0.26871507 0.96321971], yaw=31.2°, width=0.061 m
+6D grasp: pos=[ 0.39176231 -0.26774881  1.186     ], quat=[0.         0.         0.26814781 0.96337778], yaw=31.1°, width=0.071 m

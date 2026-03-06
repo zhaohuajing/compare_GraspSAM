@@ -322,10 +322,14 @@ def main(args, i=0):
     # Added option to test with local rgbd files
 
     elif args.dataset_name == "from_rgbd":
-
-        rgbd_root="./datasets/sample_scene_ucn"
+        # rgbd_root="./datasets/sample_scene_ucn/topView/uoc_sample_scene"
+        # rgbd_root="./datasets/sample_scene_ucn/topView/topview_color_segMask_legend"
+        rgbd_root="./datasets/sample_scene_ucn/topView/YCB_scene"
+        # rgbd_root = os.path.expanduser('~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/segmentation_rgbd')
+        print(f"rgbd_root = {rgbd_root}")
         rgbd_pairs = [
-            ("./datasets/sample_scene_ucn/from_rgbd-color.png", "./datasets/sample_scene_ucn/from_rgbd-depth.png"),
+            # (f"{rgbd_root}/input/from_rgbd-color.png", f"{rgbd_root}/input/from_rgbd-depth.png"),
+            (f"{rgbd_root}/from_rgbd-color.png", f"{rgbd_root}/from_rgbd-depth.png"),
             # or ("color.png", "0.npy")
         ]
 
@@ -462,17 +466,18 @@ def main(args, i=0):
                 #--------------------------------------------------
 
                 # Load instance mask (scene-level)
-                # mask_full = np.load("./datasets/sample_scene_ucn/im_label.npy")  # or pass path via args
+                # mask_full = np.load(f"{rgbd_root}/im_label.npy")  # or pass path via args
                 # mask_full = (mask_full == 2).astype(np.uint8)  # 2 for top-down gazebo rgbd cylinder; pick instance 1 if only one detected, or check masks if multiple instances detected
 
 
                 # -------------------------------------------------
                 # Load UCN instance mask and select instance 
                 # -------------------------------------------------
-                mask_np = np.load("./datasets/sample_scene_ucn/im_label.npy")
+                # mask_np = np.load(f"{rgbd_root}/output/segmentation_from_rgbd/im_label.npy")
+                mask_np = np.load(f"{rgbd_root}/im_label.npy")
 
                 # Select object instance = 2
-                mask_np = (mask_np == 1).astype(np.float32)
+                mask_np = (mask_np == 3).astype(np.float32) # for ycb: 1 for mug, 3 for banana
 
                 # print("Mask values:", mask_np[200])
                 print("Mask shape:", mask_np.shape)
@@ -515,7 +520,8 @@ def main(args, i=0):
 
                 # Depth: load explicitly from file
                 depth_full = cv2.imread(
-                    "./datasets/sample_scene_ucn/from_rgbd-depth.png",
+                    # f"{rgbd_root}/input/from_rgbd-depth.png",
+                    f"{rgbd_root}/from_rgbd-depth.png",
                     cv2.IMREAD_UNCHANGED
                 ).astype(np.float32)
 
@@ -929,9 +935,9 @@ def main(args, i=0):
                     # Visualized image mask
                     #----------------------------
 
-                    fig, ax = plt.subplots(1)
+                    fig, ax = plt.subplots()
                     plt.imshow(mask_np, cmap='gray')
-                    plt.title("Binary Mask Instance 2")
+                    # plt.title("Binary Mask Instance 2")
                     plt.show()
                     plt.savefig(os.path.join(out_dir, f"sample_{idx}_masks.png"))
                     plt.close()

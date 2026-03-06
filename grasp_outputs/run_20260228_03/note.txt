@@ -1,0 +1,125 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=5
+============================================================
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+
+============================================================
+New run | encoder=vit_t | no_grasps=25
+============================================================
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 93.51806640625 MB
+Reserved : 130.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.015801637 0.7403883
+ang_out: (1024, 1024) -80.353134 84.69071 deg
+Detected grasps: 2
+Detected 2 grasps:
+  Grasp 0: center (y,x)=(797.0, 637.0), angle=56.4 deg, width=37.8px
+  Grasp 1: center (y,x)=(686.0, 637.0), angle=56.3 deg, width=29.9px
+6D grasp: pos=[0.35279105 0.11604969 1.09800006], quat=[0.         0.         0.47292668 0.88110179], yaw=56.4°, width=0.047 m
+6D grasp: pos=[0.21754603 0.1172123  1.1090001 ], quat=[0.         0.         0.47152612 0.8818521 ], yaw=56.3°, width=0.037 m
+
+============================================================
+New run | encoder=vit_t | no_grasps=25
+============================================================
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 93.51806640625 MB
+Reserved : 130.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.019358637 0.7551729
+ang_out: (1024, 1024) -85.60588 83.82695 deg
+Detected grasps: 2
+Detected 2 grasps:
+  Grasp 0: center (y,x)=(797.0, 637.0), angle=57.5 deg, width=34.5px
+  Grasp 1: center (y,x)=(685.0, 637.0), angle=56.1 deg, width=27.5px
+6D grasp: pos=[0.35279105 0.11604969 1.09800006], quat=[0.         0.         0.4810539  0.87669102], yaw=57.5°, width=0.043 m
+6D grasp: pos=[0.21629577 0.1172123  1.1090001 ], quat=[0.         0.         0.46990498 0.88271701], yaw=56.1°, width=0.034 m
+
+============================================================
+New run | encoder=vit_t | no_grasps=25
+============================================================
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 93.51806640625 MB
+Reserved : 130.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.016235963 0.73836195
+ang_out: (1024, 1024) -78.325134 84.66265 deg
+Detected grasps: 25
+Detected 25 grasps:
+  Grasp 0: center (y,x)=(619.0, 523.0), angle=47.4 deg, width=6.7px
+  Grasp 1: center (y,x)=(845.0, 605.0), angle=64.7 deg, width=15.0px
+  Grasp 2: center (y,x)=(443.0, 882.0), angle=46.6 deg, width=0.1px
+  Grasp 3: center (y,x)=(603.0, 634.0), angle=47.4 deg, width=3.8px
+  Grasp 4: center (y,x)=(460.0, 681.0), angle=43.5 deg, width=0.0px
+  Grasp 5: center (y,x)=(797.0, 637.0), angle=56.1 deg, width=38.1px
+  Grasp 6: center (y,x)=(717.0, 652.0), angle=53.3 deg, width=4.5px
+  Grasp 7: center (y,x)=(989.0, 605.0), angle=64.6 deg, width=7.3px
+  Grasp 8: center (y,x)=(412.0, 665.0), angle=41.3 deg, width=0.0px
+  Grasp 9: center (y,x)=(909.0, 619.0), angle=62.2 deg, width=0.0px
+  Grasp 10: center (y,x)=(430.0, 573.0), angle=53.6 deg, width=14.4px
+  Grasp 11: center (y,x)=(396.0, 585.0), angle=53.0 deg, width=0.0px
+  Grasp 12: center (y,x)=(382.0, 301.0), angle=58.9 deg, width=0.0px
+  Grasp 13: center (y,x)=(941.0, 589.0), angle=61.2 deg, width=6.5px
+  Grasp 14: center (y,x)=(909.0, 573.0), angle=60.0 deg, width=0.2px
+  Grasp 15: center (y,x)=(878.0, 557.0), angle=61.9 deg, width=0.1px
+  Grasp 16: center (y,x)=(686.0, 637.0), angle=56.4 deg, width=30.1px
+  Grasp 17: center (y,x)=(461.0, 585.0), angle=51.7 deg, width=0.0px
+  Grasp 18: center (y,x)=(749.0, 652.0), angle=54.9 deg, width=3.1px
+  Grasp 19: center (y,x)=(605.0, 572.0), angle=59.2 deg, width=1.3px
+  Grasp 20: center (y,x)=(381.0, 556.0), angle=54.1 deg, width=9.8px
+  Grasp 21: center (y,x)=(926.0, 653.0), angle=61.3 deg, width=0.0px
+  Grasp 22: center (y,x)=(604.0, 697.0), angle=44.0 deg, width=0.0px
+  Grasp 23: center (y,x)=(604.0, 729.0), angle=42.4 deg, width=0.0px
+  Grasp 24: center (y,x)=(604.0, 249.0), angle=37.5 deg, width=0.0px
+6D grasp: pos=[0.35279105 0.11604969 1.09800006], quat=[0.         0.         0.46997853 0.88267785], yaw=56.1°, width=0.047 m
+6D grasp: pos=[0.21754603 0.1172123  1.1090001 ], quat=[0.         0.         0.47256132 0.88129779], yaw=56.4°, width=0.038 m
+
+============================================================
+New run | encoder=vit_t | no_grasps=25
+============================================================
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 93.51806640625 MB
+Reserved : 130.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.01688429 0.74287623
+ang_out: (1024, 1024) -79.98591 83.01552 deg
+Detected grasps: 2
+Detected 2 grasps:
+  Grasp 0: center (y,x)=(797.0, 637.0), angle=56.4 deg, width=36.2px
+  Grasp 1: center (y,x)=(686.0, 637.0), angle=56.5 deg, width=28.2px
+6D grasp: pos=[0.35279105 0.11604969 1.09800006], quat=[0.         0.         0.47221554 0.88148312], yaw=56.4°, width=0.045 m
+6D grasp: pos=[0.21754603 0.1172123  1.1090001 ], quat=[0.         0.         0.47306894 0.88102541], yaw=56.5°, width=0.035 m
+
+============================================================
+New run | encoder=vit_t | no_grasps=25
+============================================================
+loading checkpoint from :  epoch199.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 93.51806640625 MB
+Reserved : 130.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.018297702 0.742816
+ang_out: (1024, 1024) -86.404945 82.63115 deg
+Detected grasps: 2
+Detected 2 grasps:
+  Grasp 0: center (y,x)=(797.0, 637.0), angle=57.8 deg, width=35.5px
+  Grasp 1: center (y,x)=(685.0, 637.0), angle=55.0 deg, width=27.9px
+6D grasp: pos=[0.35279105 0.11604969 1.09800006], quat=[0.         0.         0.4831649  0.87552937], yaw=57.8°, width=0.044 m
+6D grasp: pos=[0.21629577 0.1172123  1.1090001 ], quat=[0.         0.         0.46154753 0.88711548], yaw=55.0°, width=0.035 m
