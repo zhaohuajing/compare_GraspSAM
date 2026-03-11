@@ -1,0 +1,40 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=10
+============================================================
+loading checkpoint from :  efficienttam_ti_1.pt
+loaded. missing: 1017 unexpected: 455
+--------------------------------------------------------------------------------
+Allocated: 85.51806640625 MB
+Reserved : 92.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 1.3184787e-07 0.0146468915
+ang_out: (1024, 1024) -79.96467 68.75749 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 1
+idx =  1
+q_out: <class 'numpy.ndarray'> (1024, 1024) 2.8894672e-07 0.015427471
+ang_out: (1024, 1024) -77.586105 66.698074 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 2
+idx =  2
+q_out: <class 'numpy.ndarray'> (1024, 1024) 7.6012265e-07 0.013884511
+ang_out: (1024, 1024) -83.598175 66.86132 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 3
+idx =  3
+q_out: <class 'numpy.ndarray'> (1024, 1024) 4.9809394e-08 0.016308371
+ang_out: (1024, 1024) -70.03157 79.91081 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 4
+idx =  4
+q_out: <class 'numpy.ndarray'> (1024, 1024) 7.395269e-09 0.013736198
+ang_out: (1024, 1024) -81.22317 70.79424 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 5

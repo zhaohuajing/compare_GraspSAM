@@ -1,0 +1,538 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=10
+============================================================
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 85.51806640625 MB
+Reserved : 92.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.5710071
+ang_out: (1024, 1024) -28.275082 14.463695 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(605.0, 493.0), angle=-23.6 deg, width=22.9px
+  Grasp 1: center=(438.0, 429.0), angle=-17.6 deg, width=28.4px
+  Grasp 2: center=(419.0, 468.0), angle=0.2 deg, width=18.0px
+  Grasp 3: center=(738.0, 693.0), angle=-15.7 deg, width=15.7px
+  Grasp 4: center=(289.0, 385.0), angle=-10.6 deg, width=25.9px
+success rate : 0.00% | correct : 0,  failed : 1
+idx =  1
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.66773117
+ang_out: (1024, 1024) -37.060356 12.543268 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(420.0, 445.0), angle=-29.8 deg, width=34.3px
+  Grasp 1: center=(597.0, 581.0), angle=-28.8 deg, width=27.9px
+  Grasp 2: center=(580.0, 642.0), angle=-25.0 deg, width=30.4px
+  Grasp 3: center=(619.0, 506.0), angle=-29.3 deg, width=29.1px
+  Grasp 4: center=(627.0, 476.0), angle=-20.6 deg, width=26.0px
+success rate : 0.00% | correct : 0,  failed : 2
+idx =  2
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.6938713
+ang_out: (1024, 1024) -63.48527 10.880394 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(517.0, 277.0), angle=4.0 deg, width=32.8px
+  Grasp 1: center=(492.0, 485.0), angle=5.0 deg, width=34.1px
+  Grasp 2: center=(563.0, 285.0), angle=4.6 deg, width=32.4px
+  Grasp 3: center=(426.0, 851.0), angle=10.2 deg, width=33.1px
+  Grasp 4: center=(548.0, 873.0), angle=5.8 deg, width=31.1px
+success rate : 33.33% | correct : 1,  failed : 2
+idx =  3
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.7978459
+ang_out: (1024, 1024) -33.24259 65.09788 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(651.0, 821.0), angle=-11.4 deg, width=35.6px
+  Grasp 1: center=(485.0, 243.0), angle=0.8 deg, width=32.5px
+  Grasp 2: center=(508.0, 677.0), angle=-10.3 deg, width=36.0px
+  Grasp 3: center=(532.0, 853.0), angle=-9.0 deg, width=31.4px
+  Grasp 4: center=(620.0, 644.0), angle=-7.2 deg, width=33.1px
+success rate : 50.00% | correct : 2,  failed : 2
+idx =  4
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.6604543
+ang_out: (1024, 1024) -27.962683 22.076468 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(315.0, 347.0), angle=-28.0 deg, width=26.8px
+  Grasp 1: center=(601.0, 643.0), angle=-17.3 deg, width=20.0px
+  Grasp 2: center=(732.0, 771.0), angle=-16.5 deg, width=20.5px
+  Grasp 3: center=(786.0, 694.0), angle=-8.2 deg, width=10.2px
+  Grasp 4: center=(499.0, 444.0), angle=-21.2 deg, width=22.5px
+success rate : 40.00% | correct : 2,  failed : 3
+idx =  5
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.9239579
+ang_out: (1024, 1024) -87.32433 88.29278 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(531.0, 521.0), angle=-19.8 deg, width=72.0px
+  Grasp 1: center=(571.0, 644.0), angle=-62.7 deg, width=63.1px
+  Grasp 2: center=(564.0, 603.0), angle=79.6 deg, width=70.6px
+  Grasp 3: center=(538.0, 685.0), angle=61.7 deg, width=50.7px
+  Grasp 4: center=(478.0, 190.0), angle=2.0 deg, width=19.2px
+success rate : 50.00% | correct : 3,  failed : 3
+idx =  6
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.8712595
+ang_out: (1024, 1024) -80.1391 76.94536 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(474.0, 480.0), angle=-20.2 deg, width=60.0px
+  Grasp 1: center=(570.0, 629.0), angle=-32.7 deg, width=57.3px
+  Grasp 2: center=(556.0, 658.0), angle=-23.2 deg, width=53.5px
+  Grasp 3: center=(523.0, 628.0), angle=-1.3 deg, width=50.0px
+  Grasp 4: center=(525.0, 571.0), angle=1.9 deg, width=51.3px
+success rate : 42.86% | correct : 3,  failed : 4
+idx =  7
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.93580157
+ang_out: (1024, 1024) -15.6451435 14.085983 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(556.0, 556.0), angle=-6.8 deg, width=76.5px
+  Grasp 1: center=(474.0, 554.0), angle=-4.8 deg, width=72.7px
+  Grasp 2: center=(836.0, 389.0), angle=-2.5 deg, width=36.3px
+  Grasp 3: center=(852.0, 97.0), angle=-8.4 deg, width=32.3px
+  Grasp 4: center=(515.0, 397.0), angle=-2.4 deg, width=38.6px
+success rate : 50.00% | correct : 4,  failed : 4
+idx =  8
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0791861
+ang_out: (1024, 1024) -38.645435 31.69249 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(153.0, 444.0), angle=6.8 deg, width=45.8px
+  Grasp 1: center=(181.0, 413.0), angle=-22.2 deg, width=41.9px
+  Grasp 2: center=(691.0, 877.0), angle=15.6 deg, width=46.5px
+  Grasp 3: center=(721.0, 848.0), angle=-24.1 deg, width=37.7px
+  Grasp 4: center=(524.0, 500.0), angle=23.8 deg, width=21.2px
+success rate : 55.56% | correct : 5,  failed : 4
+idx =  9
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.9073689
+ang_out: (1024, 1024) -78.71131 81.94432 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(581.0, 922.0), angle=20.5 deg, width=47.9px
+  Grasp 1: center=(469.0, 236.0), angle=-2.5 deg, width=49.0px
+  Grasp 2: center=(565.0, 218.0), angle=-13.7 deg, width=51.6px
+  Grasp 3: center=(524.0, 221.0), angle=8.0 deg, width=34.6px
+  Grasp 4: center=(490.0, 913.0), angle=-2.4 deg, width=34.9px
+success rate : 60.00% | correct : 6,  failed : 4
+idx =  10
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.91417205
+ang_out: (1024, 1024) -34.758034 27.840374 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(790.0, 317.0), angle=-27.6 deg, width=53.1px
+  Grasp 1: center=(226.0, 642.0), angle=-10.7 deg, width=37.1px
+  Grasp 2: center=(842.0, 411.0), angle=27.8 deg, width=36.8px
+  Grasp 3: center=(682.0, 452.0), angle=-17.3 deg, width=16.0px
+  Grasp 4: center=(650.0, 468.0), angle=-19.6 deg, width=14.9px
+success rate : 63.64% | correct : 7,  failed : 4
+idx =  11
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.9825232
+ang_out: (1024, 1024) -59.21323 56.883278 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(465.0, 931.0), angle=51.7 deg, width=35.5px
+  Grasp 1: center=(444.0, 896.0), angle=-24.3 deg, width=27.9px
+  Grasp 2: center=(748.0, 276.0), angle=-9.8 deg, width=31.5px
+  Grasp 3: center=(458.0, 562.0), angle=-52.1 deg, width=15.6px
+  Grasp 4: center=(491.0, 498.0), angle=-50.8 deg, width=14.3px
+success rate : 66.67% | correct : 8,  failed : 4
+idx =  12
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0458287
+ang_out: (1024, 1024) -47.289024 11.035409 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(834.0, 626.0), angle=-47.2 deg, width=52.8px
+  Grasp 1: center=(162.0, 721.0), angle=-26.7 deg, width=48.1px
+  Grasp 2: center=(164.0, 684.0), angle=-21.3 deg, width=49.7px
+  Grasp 3: center=(818.0, 577.0), angle=-15.1 deg, width=40.7px
+  Grasp 4: center=(149.0, 596.0), angle=-14.2 deg, width=43.0px
+success rate : 69.23% | correct : 9,  failed : 4
+idx =  13
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.80078214
+ang_out: (1024, 1024) -31.490135 9.487789 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(355.0, 593.0), angle=-11.9 deg, width=46.7px
+  Grasp 1: center=(405.0, 541.0), angle=-30.8 deg, width=48.8px
+  Grasp 2: center=(389.0, 580.0), angle=-6.1 deg, width=38.7px
+  Grasp 3: center=(628.0, 460.0), angle=-16.7 deg, width=40.6px
+  Grasp 4: center=(628.0, 569.0), angle=-7.5 deg, width=40.2px
+success rate : 71.43% | correct : 10,  failed : 4
+idx =  14
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0011499
+ang_out: (1024, 1024) -37.466545 14.485516 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(457.0, 572.0), angle=-15.9 deg, width=69.6px
+  Grasp 1: center=(425.0, 586.0), angle=-22.3 deg, width=68.8px
+  Grasp 2: center=(397.0, 594.0), angle=-16.8 deg, width=70.1px
+  Grasp 3: center=(500.0, 583.0), angle=-18.4 deg, width=71.9px
+  Grasp 4: center=(500.0, 549.0), angle=-22.8 deg, width=65.6px
+success rate : 73.33% | correct : 11,  failed : 4
+idx =  15
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.91909814
+ang_out: (1024, 1024) -84.51549 81.75411 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(470.0, 493.0), angle=-70.4 deg, width=51.8px
+  Grasp 1: center=(436.0, 450.0), angle=-57.4 deg, width=48.4px
+  Grasp 2: center=(554.0, 705.0), angle=-53.6 deg, width=37.8px
+  Grasp 3: center=(651.0, 659.0), angle=-54.9 deg, width=44.0px
+  Grasp 4: center=(631.0, 637.0), angle=18.0 deg, width=45.6px
+success rate : 68.75% | correct : 11,  failed : 5
+idx =  16
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.8494681
+ang_out: (1024, 1024) -26.724236 10.536876 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(473.0, 573.0), angle=-25.2 deg, width=57.3px
+  Grasp 1: center=(419.0, 609.0), angle=-12.4 deg, width=59.6px
+  Grasp 2: center=(658.0, 459.0), angle=-17.6 deg, width=50.6px
+  Grasp 3: center=(444.0, 611.0), angle=-16.3 deg, width=51.4px
+  Grasp 4: center=(692.0, 555.0), angle=-14.3 deg, width=47.6px
+success rate : 70.59% | correct : 12,  failed : 5
+idx =  17
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.8864228
+ang_out: (1024, 1024) -42.988155 38.73516 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(394.0, 540.0), angle=-6.2 deg, width=58.8px
+  Grasp 1: center=(357.0, 529.0), angle=-21.3 deg, width=53.2px
+  Grasp 2: center=(484.0, 604.0), angle=29.8 deg, width=61.2px
+  Grasp 3: center=(422.0, 601.0), angle=15.6 deg, width=54.7px
+  Grasp 4: center=(489.0, 565.0), angle=-2.6 deg, width=55.5px
+success rate : 72.22% | correct : 13,  failed : 5
+idx =  18
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0750906
+ang_out: (1024, 1024) -77.510956 82.054016 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(492.0, 547.0), angle=32.8 deg, width=75.0px
+  Grasp 1: center=(476.0, 589.0), angle=23.7 deg, width=76.1px
+  Grasp 2: center=(460.0, 540.0), angle=46.5 deg, width=69.5px
+  Grasp 3: center=(996.0, 413.0), angle=3.0 deg, width=46.4px
+  Grasp 4: center=(755.0, 213.0), angle=1.6 deg, width=42.2px
+success rate : 73.68% | correct : 14,  failed : 5
+idx =  19
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0777287
+ang_out: (1024, 1024) -74.520134 76.88151 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(492.0, 557.0), angle=54.9 deg, width=75.5px
+  Grasp 1: center=(500.0, 586.0), angle=-72.0 deg, width=73.6px
+  Grasp 2: center=(499.0, 611.0), angle=60.7 deg, width=72.3px
+  Grasp 3: center=(885.0, 173.0), angle=-2.4 deg, width=58.3px
+  Grasp 4: center=(340.0, 204.0), angle=-1.7 deg, width=40.7px
+success rate : 75.00% | correct : 15,  failed : 5
+idx =  20
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0843745
+ang_out: (1024, 1024) -79.50117 67.93525 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(478.0, 524.0), angle=16.4 deg, width=76.4px
+  Grasp 1: center=(443.0, 565.0), angle=8.9 deg, width=66.8px
+  Grasp 2: center=(482.0, 189.0), angle=-22.5 deg, width=46.6px
+  Grasp 3: center=(212.0, 222.0), angle=-17.0 deg, width=44.4px
+  Grasp 4: center=(962.0, 302.0), angle=-10.0 deg, width=35.3px
+success rate : 76.19% | correct : 16,  failed : 5
+idx =  21
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0247859
+ang_out: (1024, 1024) -74.196365 63.28196 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(492.0, 571.0), angle=13.2 deg, width=77.0px
+  Grasp 1: center=(491.0, 548.0), angle=63.1 deg, width=73.8px
+  Grasp 2: center=(691.0, 128.0), angle=-3.9 deg, width=40.7px
+  Grasp 3: center=(539.0, 204.0), angle=-1.2 deg, width=42.8px
+  Grasp 4: center=(874.0, 554.0), angle=-7.6 deg, width=47.4px
+success rate : 77.27% | correct : 17,  failed : 5
+idx =  22
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0438532
+ang_out: (1024, 1024) -79.9437 69.67206 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(501.0, 573.0), angle=15.2 deg, width=75.8px
+  Grasp 1: center=(493.0, 546.0), angle=45.7 deg, width=72.2px
+  Grasp 2: center=(531.0, 571.0), angle=-12.0 deg, width=74.2px
+  Grasp 3: center=(310.0, 413.0), angle=-8.4 deg, width=42.8px
+  Grasp 4: center=(699.0, 588.0), angle=-5.9 deg, width=38.4px
+success rate : 78.26% | correct : 18,  failed : 5
+idx =  23
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0930315
+ang_out: (1024, 1024) -83.202415 73.10206 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(512.0, 581.0), angle=-39.4 deg, width=85.9px
+  Grasp 1: center=(334.0, 429.0), angle=9.4 deg, width=59.8px
+  Grasp 2: center=(417.0, 581.0), angle=0.6 deg, width=44.4px
+  Grasp 3: center=(918.0, 437.0), angle=-7.8 deg, width=48.1px
+  Grasp 4: center=(805.0, 469.0), angle=-1.7 deg, width=53.3px
+success rate : 79.17% | correct : 19,  failed : 5
+idx =  24
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0178658
+ang_out: (1024, 1024) -79.16139 44.060013 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(531.0, 582.0), angle=-77.8 deg, width=65.2px
+  Grasp 1: center=(531.0, 555.0), angle=-42.1 deg, width=70.8px
+  Grasp 2: center=(747.0, 30.0), angle=-3.6 deg, width=39.6px
+  Grasp 3: center=(278.0, 637.0), angle=-4.5 deg, width=40.7px
+  Grasp 4: center=(86.0, 141.0), angle=-9.0 deg, width=36.9px
+success rate : 80.00% | correct : 20,  failed : 5
+idx =  25
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0889498
+ang_out: (1024, 1024) -69.86012 25.510916 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(516.0, 578.0), angle=-48.8 deg, width=72.2px
+  Grasp 1: center=(570.0, 571.0), angle=-39.1 deg, width=70.4px
+  Grasp 2: center=(532.0, 531.0), angle=-45.3 deg, width=68.6px
+  Grasp 3: center=(820.0, 174.0), angle=-3.7 deg, width=45.5px
+  Grasp 4: center=(757.0, 512.0), angle=-10.8 deg, width=42.0px
+success rate : 80.77% | correct : 21,  failed : 5
+idx =  26
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.97044516
+ang_out: (1024, 1024) -78.72804 48.392914 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(499.0, 565.0), angle=-33.0 deg, width=64.7px
+  Grasp 1: center=(477.0, 572.0), angle=-66.8 deg, width=65.5px
+  Grasp 2: center=(489.0, 412.0), angle=-3.9 deg, width=43.9px
+  Grasp 3: center=(484.0, 252.0), angle=-49.2 deg, width=38.5px
+  Grasp 4: center=(965.0, 365.0), angle=-3.7 deg, width=44.5px
+success rate : 81.48% | correct : 22,  failed : 5
+idx =  27
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0422632
+ang_out: (1024, 1024) -68.084755 83.4019 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(469.0, 546.0), angle=72.5 deg, width=71.0px
+  Grasp 1: center=(453.0, 578.0), angle=35.9 deg, width=61.6px
+  Grasp 2: center=(516.0, 569.0), angle=-22.4 deg, width=66.7px
+  Grasp 3: center=(996.0, 215.0), angle=-5.7 deg, width=47.8px
+  Grasp 4: center=(955.0, 412.0), angle=4.1 deg, width=45.8px
+success rate : 82.14% | correct : 23,  failed : 5
+idx =  28
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.6869935
+ang_out: (1024, 1024) -23.33709 15.066059 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(481.0, 666.0), angle=-11.8 deg, width=48.6px
+  Grasp 1: center=(393.0, 557.0), angle=-7.2 deg, width=48.0px
+  Grasp 2: center=(293.0, 603.0), angle=-1.1 deg, width=49.1px
+  Grasp 3: center=(435.0, 526.0), angle=-6.9 deg, width=40.2px
+  Grasp 4: center=(428.0, 610.0), angle=7.8 deg, width=32.5px
+success rate : 82.76% | correct : 24,  failed : 5
+idx =  29
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.89106053
+ang_out: (1024, 1024) -74.59922 75.54129 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(488.0, 562.0), angle=-28.0 deg, width=48.7px
+  Grasp 1: center=(571.0, 594.0), angle=-11.8 deg, width=37.6px
+  Grasp 2: center=(537.0, 549.0), angle=-2.8 deg, width=41.2px
+  Grasp 3: center=(459.0, 460.0), angle=11.7 deg, width=54.9px
+  Grasp 4: center=(425.0, 626.0), angle=-61.1 deg, width=32.1px
+success rate : 83.33% | correct : 25,  failed : 5
+idx =  30
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.7875028
+ang_out: (1024, 1024) -78.15118 27.279999 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(306.0, 531.0), angle=-66.9 deg, width=40.7px
+  Grasp 1: center=(312.0, 502.0), angle=-69.1 deg, width=43.5px
+  Grasp 2: center=(581.0, 615.0), angle=-29.0 deg, width=39.5px
+  Grasp 3: center=(429.0, 556.0), angle=4.0 deg, width=42.2px
+  Grasp 4: center=(315.0, 461.0), angle=-59.3 deg, width=37.6px
+success rate : 83.87% | correct : 26,  failed : 5
+idx =  31
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.93592376
+ang_out: (1024, 1024) -61.765034 23.458117 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(452.0, 556.0), angle=-59.6 deg, width=63.5px
+  Grasp 1: center=(458.0, 523.0), angle=-56.7 deg, width=55.8px
+  Grasp 2: center=(500.0, 540.0), angle=-42.7 deg, width=75.8px
+  Grasp 3: center=(517.0, 508.0), angle=-54.8 deg, width=72.6px
+  Grasp 4: center=(461.0, 660.0), angle=-21.6 deg, width=21.5px
+success rate : 84.38% | correct : 27,  failed : 5
+idx =  32
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.8166651
+ang_out: (1024, 1024) -78.69107 56.188774 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(428.0, 670.0), angle=20.7 deg, width=55.5px
+  Grasp 1: center=(438.0, 514.0), angle=-6.2 deg, width=46.9px
+  Grasp 2: center=(487.0, 688.0), angle=-3.6 deg, width=42.6px
+  Grasp 3: center=(429.0, 548.0), angle=8.5 deg, width=46.3px
+  Grasp 4: center=(389.0, 506.0), angle=36.2 deg, width=50.5px
+success rate : 84.85% | correct : 28,  failed : 5
+idx =  33
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.9662925
+ang_out: (1024, 1024) -69.33424 15.929815 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(499.0, 556.0), angle=-52.4 deg, width=72.6px
+  Grasp 1: center=(475.0, 597.0), angle=-60.1 deg, width=68.6px
+  Grasp 2: center=(516.0, 533.0), angle=-42.4 deg, width=71.7px
+  Grasp 3: center=(444.0, 625.0), angle=-56.2 deg, width=58.8px
+  Grasp 4: center=(426.0, 525.0), angle=-4.3 deg, width=23.1px
+success rate : 85.29% | correct : 29,  failed : 5
+idx =  34
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0082334
+ang_out: (1024, 1024) -66.66915 83.69525 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(500.0, 586.0), angle=76.4 deg, width=68.7px
+  Grasp 1: center=(468.0, 506.0), angle=69.9 deg, width=64.2px
+  Grasp 2: center=(518.0, 629.0), angle=67.1 deg, width=56.4px
+  Grasp 3: center=(551.0, 429.0), angle=6.6 deg, width=59.0px
+  Grasp 4: center=(295.0, 269.0), angle=9.5 deg, width=46.5px
+success rate : 85.71% | correct : 30,  failed : 5
+idx =  35
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0461881
+ang_out: (1024, 1024) -69.56996 48.229675 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(461.0, 564.0), angle=-48.0 deg, width=72.8px
+  Grasp 1: center=(492.0, 532.0), angle=-66.0 deg, width=64.9px
+  Grasp 2: center=(907.0, 396.0), angle=-6.4 deg, width=52.0px
+  Grasp 3: center=(477.0, 236.0), angle=1.9 deg, width=38.2px
+  Grasp 4: center=(250.0, 411.0), angle=1.0 deg, width=37.3px
+success rate : 86.11% | correct : 31,  failed : 5
+idx =  36
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.111988
+ang_out: (1024, 1024) -18.025774 29.550327 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(437.0, 555.0), angle=26.4 deg, width=83.5px
+  Grasp 1: center=(509.0, 587.0), angle=20.9 deg, width=78.0px
+  Grasp 2: center=(501.0, 261.0), angle=0.6 deg, width=35.7px
+  Grasp 3: center=(883.0, 398.0), angle=-4.5 deg, width=11.8px
+  Grasp 4: center=(250.0, 205.0), angle=2.3 deg, width=24.5px
+success rate : 86.49% | correct : 32,  failed : 5
+idx =  37
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0171826
+ang_out: (1024, 1024) -81.958534 55.153828 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(484.0, 534.0), angle=-79.1 deg, width=61.8px
+  Grasp 1: center=(474.0, 574.0), angle=-79.9 deg, width=48.8px
+  Grasp 2: center=(458.0, 635.0), angle=-75.8 deg, width=58.1px
+  Grasp 3: center=(713.0, 61.0), angle=-1.5 deg, width=23.3px
+  Grasp 4: center=(653.0, 605.0), angle=0.0 deg, width=25.4px
+success rate : 86.84% | correct : 33,  failed : 5
+idx =  38
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.9704142
+ang_out: (1024, 1024) -56.948917 10.352744 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(425.0, 620.0), angle=-31.8 deg, width=51.7px
+  Grasp 1: center=(412.0, 574.0), angle=-39.6 deg, width=48.4px
+  Grasp 2: center=(361.0, 670.0), angle=-21.9 deg, width=45.2px
+  Grasp 3: center=(541.0, 567.0), angle=-22.0 deg, width=47.2px
+  Grasp 4: center=(586.0, 428.0), angle=-40.1 deg, width=42.4px
+success rate : 87.18% | correct : 34,  failed : 5
+idx =  39
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0206102
+ang_out: (1024, 1024) -52.578106 16.001633 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(437.0, 549.0), angle=-37.8 deg, width=68.9px
+  Grasp 1: center=(404.0, 555.0), angle=-10.8 deg, width=51.2px
+  Grasp 2: center=(612.0, 587.0), angle=-1.3 deg, width=47.7px
+  Grasp 3: center=(516.0, 564.0), angle=-1.2 deg, width=52.6px
+  Grasp 4: center=(516.0, 221.0), angle=-5.5 deg, width=30.4px
+success rate : 87.50% | correct : 35,  failed : 5
+idx =  40
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0159191
+ang_out: (1024, 1024) -58.045593 27.649576 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(461.0, 520.0), angle=-18.9 deg, width=68.4px
+  Grasp 1: center=(520.0, 556.0), angle=8.8 deg, width=51.1px
+  Grasp 2: center=(627.0, 635.0), angle=12.4 deg, width=50.3px
+  Grasp 3: center=(362.0, 400.0), angle=0.0 deg, width=27.9px
+  Grasp 4: center=(892.0, 348.0), angle=3.1 deg, width=40.3px
+success rate : 87.80% | correct : 36,  failed : 5
+idx =  41
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.95327795
+ang_out: (1024, 1024) -88.06776 85.78933 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(491.0, 485.0), angle=-73.1 deg, width=50.7px
+  Grasp 1: center=(457.0, 490.0), angle=-46.0 deg, width=54.9px
+  Grasp 2: center=(469.0, 579.0), angle=-58.4 deg, width=50.7px
+  Grasp 3: center=(451.0, 523.0), angle=-78.1 deg, width=53.6px
+  Grasp 4: center=(449.0, 450.0), angle=-39.8 deg, width=49.6px
+success rate : 88.10% | correct : 37,  failed : 5
+idx =  42
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0872906
+ang_out: (1024, 1024) -82.358444 87.70447 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(500.0, 516.0), angle=87.5 deg, width=79.1px
+  Grasp 1: center=(491.0, 468.0), angle=79.9 deg, width=71.3px
+  Grasp 2: center=(474.0, 399.0), angle=62.9 deg, width=53.3px
+  Grasp 3: center=(531.0, 739.0), angle=78.9 deg, width=47.8px
+  Grasp 4: center=(554.0, 547.0), angle=63.1 deg, width=41.8px
+success rate : 88.37% | correct : 38,  failed : 5
+idx =  43
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.1065723
+ang_out: (1024, 1024) -59.85409 58.230106 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(525.0, 560.0), angle=-26.4 deg, width=83.7px
+  Grasp 1: center=(947.0, 205.0), angle=-14.1 deg, width=46.7px
+  Grasp 2: center=(405.0, 301.0), angle=-9.5 deg, width=30.3px
+  Grasp 3: center=(563.0, 694.0), angle=-10.4 deg, width=35.2px
+  Grasp 4: center=(205.0, 61.0), angle=6.1 deg, width=31.2px
+success rate : 88.64% | correct : 39,  failed : 5
+idx =  44
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0651596
+ang_out: (1024, 1024) -72.42034 84.584015 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(459.0, 559.0), angle=68.0 deg, width=82.7px
+  Grasp 1: center=(850.0, 813.0), angle=-9.1 deg, width=38.2px
+  Grasp 2: center=(261.0, 485.0), angle=0.1 deg, width=43.2px
+  Grasp 3: center=(516.0, 110.0), angle=4.9 deg, width=41.4px
+  Grasp 4: center=(755.0, 686.0), angle=-1.5 deg, width=34.0px
+success rate : 88.89% | correct : 40,  failed : 5
+idx =  45
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0988288
+ang_out: (1024, 1024) -79.40132 83.94921 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(462.0, 578.0), angle=35.3 deg, width=81.7px
+  Grasp 1: center=(483.0, 554.0), angle=8.0 deg, width=84.7px
+  Grasp 2: center=(292.0, 269.0), angle=-20.2 deg, width=44.7px
+  Grasp 3: center=(565.0, 398.0), angle=-17.2 deg, width=53.5px
+  Grasp 4: center=(564.0, 244.0), angle=-7.6 deg, width=41.0px
+success rate : 89.13% | correct : 41,  failed : 5
+idx =  46
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0888048
+ang_out: (1024, 1024) -64.41507 79.46448 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(499.0, 563.0), angle=-24.6 deg, width=80.9px
+  Grasp 1: center=(820.0, 397.0), angle=-3.2 deg, width=51.8px
+  Grasp 2: center=(819.0, 334.0), angle=3.0 deg, width=47.8px
+  Grasp 3: center=(181.0, 495.0), angle=0.9 deg, width=43.7px
+  Grasp 4: center=(915.0, 190.0), angle=-6.3 deg, width=28.7px
+success rate : 89.36% | correct : 42,  failed : 5
+idx =  47
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.1097395
+ang_out: (1024, 1024) -84.05268 82.2568 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(500.0, 583.0), angle=30.8 deg, width=77.1px
+  Grasp 1: center=(76.0, 414.0), angle=-2.0 deg, width=20.7px
+  Grasp 2: center=(267.0, 413.0), angle=6.1 deg, width=26.0px
+  Grasp 3: center=(980.0, 978.0), angle=-1.0 deg, width=27.4px
+  Grasp 4: center=(692.0, 676.0), angle=-11.3 deg, width=31.5px
+success rate : 89.58% | correct : 43,  failed : 5

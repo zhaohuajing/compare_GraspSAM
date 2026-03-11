@@ -1,0 +1,298 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=10
+============================================================
+loading checkpoint from :  efficienttam_ti.pt
+loaded. missing: 1017 unexpected: 455
+--------------------------------------------------------------------------------
+Allocated: 85.51806640625 MB
+Reserved : 92.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.12296082
+ang_out: (1024, 1024) -58.70236 78.16408 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 1
+idx =  1
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.13724801
+ang_out: (1024, 1024) -59.39425 77.8626 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 2
+idx =  2
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.1205622
+ang_out: (1024, 1024) -57.84599 78.64824 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 3
+idx =  3
+q_out: <class 'numpy.ndarray'> (1024, 1024) 1.0777121e-06 0.12975998
+ang_out: (1024, 1024) -61.175537 79.09857 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 4
+idx =  4
+q_out: <class 'numpy.ndarray'> (1024, 1024) 1.8185424e-06 0.12738143
+ang_out: (1024, 1024) -59.68479 77.387344 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 5
+idx =  5
+q_out: <class 'numpy.ndarray'> (1024, 1024) 9.651968e-06 0.13651922
+ang_out: (1024, 1024) -62.931057 77.86587 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 6
+idx =  6
+q_out: <class 'numpy.ndarray'> (1024, 1024) 1.347242e-06 0.13577476
+ang_out: (1024, 1024) -64.98026 77.688805 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 7
+idx =  7
+q_out: <class 'numpy.ndarray'> (1024, 1024) 2.3131363e-06 0.13727055
+ang_out: (1024, 1024) -60.62964 79.30838 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 8
+idx =  8
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.9097256e-07 0.13201283
+ang_out: (1024, 1024) -62.208458 78.33882 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 9
+idx =  9
+q_out: <class 'numpy.ndarray'> (1024, 1024) 9.665698e-07 0.12738597
+ang_out: (1024, 1024) -63.820015 77.94081 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 10
+idx =  10
+q_out: <class 'numpy.ndarray'> (1024, 1024) 1.5285603e-06 0.13734089
+ang_out: (1024, 1024) -64.5135 77.91944 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 11
+idx =  11
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.1324189
+ang_out: (1024, 1024) -58.237823 77.42124 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 12
+idx =  12
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.604018e-07 0.14108194
+ang_out: (1024, 1024) -68.08154 77.85406 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 13
+idx =  13
+q_out: <class 'numpy.ndarray'> (1024, 1024) 4.008008e-06 0.13590449
+ang_out: (1024, 1024) -64.5961 78.0582 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 14
+idx =  14
+q_out: <class 'numpy.ndarray'> (1024, 1024) 6.790815e-06 0.13869557
+ang_out: (1024, 1024) -68.23954 78.25194 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 15
+idx =  15
+q_out: <class 'numpy.ndarray'> (1024, 1024) 6.497718e-06 0.13514999
+ang_out: (1024, 1024) -66.48377 79.0743 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 16
+idx =  16
+q_out: <class 'numpy.ndarray'> (1024, 1024) 6.3683738e-06 0.13097724
+ang_out: (1024, 1024) -66.24867 76.83241 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 17
+idx =  17
+q_out: <class 'numpy.ndarray'> (1024, 1024) 4.9465407e-06 0.13540779
+ang_out: (1024, 1024) -64.77656 77.25212 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 18
+idx =  18
+q_out: <class 'numpy.ndarray'> (1024, 1024) 7.516506e-06 0.13829325
+ang_out: (1024, 1024) -64.077 80.314095 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 19
+idx =  19
+q_out: <class 'numpy.ndarray'> (1024, 1024) 6.7644196e-06 0.13519709
+ang_out: (1024, 1024) -62.781 77.94057 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 20
+idx =  20
+q_out: <class 'numpy.ndarray'> (1024, 1024) 5.9830563e-06 0.13768852
+ang_out: (1024, 1024) -61.97507 77.657036 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 21
+idx =  21
+q_out: <class 'numpy.ndarray'> (1024, 1024) 5.3485633e-06 0.1393483
+ang_out: (1024, 1024) -64.7857 77.45648 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 22
+idx =  22
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.8796e-07 0.13364229
+ang_out: (1024, 1024) -62.992523 79.17841 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 23
+idx =  23
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.773521e-06 0.14007713
+ang_out: (1024, 1024) -61.06923 77.13228 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 24
+idx =  24
+q_out: <class 'numpy.ndarray'> (1024, 1024) 6.351589e-06 0.13409553
+ang_out: (1024, 1024) -66.3213 77.631165 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 25
+idx =  25
+q_out: <class 'numpy.ndarray'> (1024, 1024) 7.349284e-06 0.13414305
+ang_out: (1024, 1024) -63.152725 79.05883 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 26
+idx =  26
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.951675e-06 0.14326939
+ang_out: (1024, 1024) -62.689407 77.07678 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 27
+idx =  27
+q_out: <class 'numpy.ndarray'> (1024, 1024) 6.951609e-06 0.140293
+ang_out: (1024, 1024) -63.22561 77.850914 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 28
+idx =  28
+q_out: <class 'numpy.ndarray'> (1024, 1024) 3.6544947e-07 0.12440161
+ang_out: (1024, 1024) -65.64877 79.210236 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 29
+idx =  29
+q_out: <class 'numpy.ndarray'> (1024, 1024) 2.1243688e-08 0.13551699
+ang_out: (1024, 1024) -65.59518 78.67612 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 30
+idx =  30
+q_out: <class 'numpy.ndarray'> (1024, 1024) 4.5354233e-07 0.12931839
+ang_out: (1024, 1024) -66.37356 78.95473 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 31
+idx =  31
+q_out: <class 'numpy.ndarray'> (1024, 1024) 5.498486e-07 0.13991112
+ang_out: (1024, 1024) -61.41559 77.45791 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 32
+idx =  32
+q_out: <class 'numpy.ndarray'> (1024, 1024) 1.3573599e-06 0.120419316
+ang_out: (1024, 1024) -62.604588 79.040535 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 33
+idx =  33
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.095381e-06 0.14107032
+ang_out: (1024, 1024) -64.11161 77.92749 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 34
+idx =  34
+q_out: <class 'numpy.ndarray'> (1024, 1024) 9.087354e-06 0.13800675
+ang_out: (1024, 1024) -60.67812 78.09723 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 35
+idx =  35
+q_out: <class 'numpy.ndarray'> (1024, 1024) 6.681863e-06 0.13801266
+ang_out: (1024, 1024) -64.90198 78.7388 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 36
+idx =  36
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.451097e-06 0.13804916
+ang_out: (1024, 1024) -60.509365 77.919136 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 37
+idx =  37
+q_out: <class 'numpy.ndarray'> (1024, 1024) 2.511325e-06 0.1393126
+ang_out: (1024, 1024) -62.509766 78.10728 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 38
+idx =  38
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.927776e-06 0.13214119
+ang_out: (1024, 1024) -62.860447 78.57522 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 39
+idx =  39
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.639379e-06 0.13473988
+ang_out: (1024, 1024) -63.867878 78.51195 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 40
+idx =  40
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.0598534e-07 0.13685015
+ang_out: (1024, 1024) -62.20966 78.5939 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 41
+idx =  41
+q_out: <class 'numpy.ndarray'> (1024, 1024) 7.750805e-06 0.13669725
+ang_out: (1024, 1024) -62.72288 81.13528 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 42
+idx =  42
+q_out: <class 'numpy.ndarray'> (1024, 1024) 4.9913656e-06 0.1349264
+ang_out: (1024, 1024) -64.16219 78.906204 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 43
+idx =  43
+q_out: <class 'numpy.ndarray'> (1024, 1024) 9.170327e-06 0.14040786
+ang_out: (1024, 1024) -61.704506 77.17764 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 44
+idx =  44
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.3917075e-06 0.13992535
+ang_out: (1024, 1024) -59.65263 78.28682 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 45
+idx =  45
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.324398e-06 0.141416
+ang_out: (1024, 1024) -62.667072 78.82945 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 46
+idx =  46
+q_out: <class 'numpy.ndarray'> (1024, 1024) 7.933792e-06 0.1375355
+ang_out: (1024, 1024) -62.143303 77.19912 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 47
+idx =  47
+q_out: <class 'numpy.ndarray'> (1024, 1024) 8.21076e-06 0.13850726
+ang_out: (1024, 1024) -61.633724 78.54634 deg
+Detected grasps: 0
+Detected 0 grasps:
+success rate : 0.00% | correct : 0,  failed : 48

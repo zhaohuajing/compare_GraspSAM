@@ -1,0 +1,30 @@
+(GraspSAM) root@25ceba144c19:~/graspnet_ws/src/GraspSam_ros2/compare_GraspSAM# python eval.py   --root ./datasets/Jacquard_Samples/Samples/1a9fa4c269cfcc1b738e43095496b061/   --ckp_path ./pretrained_checkpoint/mobile_sam.pt   --sam-encoder-type vit_t
+len jaccquard: 5
+len jaccquard: 5
+default sam encoder is loading
+default sam decoder is loading
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 85.51806640625 MB
+Reserved : 92.0 MB
+Total    : 5918.4375 MB
+q_out: <class 'numpy.ndarray'> (1024, 1024) 1.5064205e-06 0.6647107
+ang_out: <class 'numpy.ndarray'> (1024, 1024) -83.16779 86.22009 deg
+w_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 427.86508 px
+Detected 5 grasps:
+  Grasp 0: center=(642.0, 458.0), angle=38.1 deg, width=50.8px
+  Grasp 1: center=(370.0, 139.0), angle=33.5 deg, width=96.8px
+  Grasp 2: center=(370.0, 204.0), angle=14.6 deg, width=42.4px
+  Grasp 3: center=(466.0, 426.0), angle=41.9 deg, width=1.0px
+  Grasp 4: center=(914.0, 122.0), angle=55.1 deg, width=109.1px
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 100.00% | correct : 1,  failed : 0
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 50.00% | correct : 1,  failed : 1
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 33.33% | correct : 1,  failed : 2
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 25.00% | correct : 1,  failed : 3
+Clipping input data to the valid range for imshow with RGB data ([0..1] for floats or [0..255] for integers).
+success rate : 40.00% | correct : 2,  failed : 3
