@@ -27,7 +27,7 @@ from data.utils.grasp_utils import *
 
 Sample input: 
 
-python eval.py --ckp_path ./final_result/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch54.pth \
+python eval_functional_jac_loader.py --ckp_path ./trained_checkpoint/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch54.pth \
         --sam-encoder-type vit_t --root ./datasets/CGN_scene_Jac_form/UOC_sample_scene/ --no-grasps 20
 """
 
@@ -137,6 +137,52 @@ def setup_model(model_type, sam_encoder_type):
 
 
 #-----------------------------
+# Add function for data loading from prior custom defined rgbd loader, pending confirmation
+#----------------------------
+
+def load_sample(root: str): #, sample_id: str, instance_id: int):
+
+    # TEMP setting of sample_id for kinova_gen3_real_YCB test; make it variable later
+    sample_id = "1_from_rgbd"
+    instance_id = 1
+
+
+    rgb_path = os.path.join(root, f'{sample_id}_RGB.png')
+    depth_path = os.path.join(root, f'{sample_id}_perfect_depth.tiff')
+    # mask_path = pick_mask_path(root, sample_id, instance_id)
+
+    if not os.path.exists(rgb_path):
+        raise FileNotFoundError(rgb_path)
+    if not os.path.exists(depth_path):
+        raise FileNotFoundError(depth_path)
+    # if not os.path.exists(mask_path):
+    #     raise FileNotFoundError(mask_path)
+
+    rgb = cv2.cvtColor(cv2.imread(rgb_path, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
+    # TIFF float32 meters
+    depth = cv2.imread(depth_path, cv2.IMREAD_UNCHANGED)
+    depth = depth.astype(np.float32)
+
+    # mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
+
+    # if (not instance_id) or instance_id == 0:
+    #     mask = (mask > 0).astype(np.float32)
+    # else:
+    #     mask = (mask == instance_id).astype(np.float32)
+
+    # Ensure same size
+    H, W = rgb.shape[:2]
+    if depth.shape[:2] != (H, W):
+        depth = cv2.resize(depth, (W, H), interpolation=cv2.INTER_NEAREST)
+    # if mask.shape[:2] != (H, W):
+    #     mask = cv2.resize(mask, (W, H), interpolation=cv2.INTER_NEAREST)
+    #     mask = (mask > 0).astype(np.float32)
+
+    return rgb, depth #, mask
+
+
+
+#-----------------------------
 # Add function for data saving
 #----------------------------
 
@@ -169,6 +215,23 @@ def grasp_to_dict(g):
         }
 
     raise TypeError(f"Unsupported grasp type: {type(g)}")
+
+def grasp_to_dict_with_pose(g):
+    d = {
+        'x': float(g.center[1]),
+        'y': float(g.center[0]),
+        'angle': float(g.angle),
+        'width_px': float(g.width),
+        'length_px': float(getattr(g, 'length', 0.0)),
+        'score': float(getattr(g, 'score', 0.0)),
+    }
+    if getattr(g, 'pos', None) is not None:
+        d['pos'] = [float(v) for v in np.asarray(g.pos).reshape(-1)[:3]]
+    if getattr(g, 'quat', None) is not None:
+        d['quat'] = [float(v) for v in np.asarray(g.quat).reshape(-1)[:4]]
+    if getattr(g, 'width_m', None) is not None:
+        d['width_m'] = float(g.width_m)
+    return d
 
 #-----------------------------
 # Added function ends
@@ -525,10 +588,56 @@ def main(args, i=0):
                 ], dtype=np.float32)
 
 
-                #  Save as npy
-                np.save(
-                    os.path.join(out_dir, f"sample_{idx}_grasps.npy"),
-                    grasp_array
+                # #  Save as npy
+                # np.save(
+                #     os.path.join(out_dir, f"sample_{idx}_grasps.npy"),
+                #     grasp_array
+                # )
+
+
+                # for g in gs:
+                #     try:
+                #         g.pos, g.quat, g.width_m = rectangle_to_pose_topdown(
+                #             g,
+                #             depth_for_pose,
+                #             intrinsics,
+                #             grasp_height_offset=0.01,
+                #         )
+                #     except Exception:
+                #         g.pos, g.quat, g.width_m = None, None, None
+
+
+                # Intrinsics must be scaled to current image size
+                # The intrinsics provided are for intr_w x intr_h.
+                out_size = 1024
+                sx = out_size / float(args.intr_w)
+                sy = out_size / float(args.intr_h)
+                intrinsics = CameraIntrinsics(
+                    fx=args.fx * sx,
+                    fy=args.fy * sy,
+                    cx=args.cx * sx,
+                    cy=args.cy * sy,
+                )
+
+
+                rgb_u8, depth_m = load_sample(args.root) #, sid, args.instance_id)
+                depth_for_pose = depth_m
+
+                for g in gs:
+                    g.pos, g.quat, g.width_m = rectangle_to_pose_topdown(
+                        g,
+                        depth_for_pose,
+                        intrinsics,
+                        grasp_height_offset=0.01,
+                    )
+
+                # Save maps
+                np.savez(
+                    # os.path.join(out_dir, f'sample_{k}_maps.npz'),
+                    os.path.join(out_dir, f'sample_0_maps.npz'),
+                    q=q_out,
+                    angle=ang_out,
+                    width=w_out,
                 )
 
                 #  Save as human-readable JSON
@@ -567,11 +676,18 @@ def main(args, i=0):
                 # with open(json_path, "w") as f:
                 #     json.dump(out_json, f, indent=2)
 
-                grasp_dicts = []
-                for g in gs:
-                    grasp_dicts.append(grasp_to_dict(g))
+                # grasp_dicts = []
+                # for g in gs:
+                #     grasp_dicts.append(grasp_to_dict(g))
 
-                with open(json_path, "w") as f:
+                # with open(json_path, "w") as f:
+                #     json.dump(grasp_dicts, f, indent=2)
+
+
+                grasp_dicts = [grasp_to_dict_with_pose(g) for g in gs]
+                # with open(os.path.join(out_dir, f'sample_{k}_grasps.json'), 'w') as f:
+                with open(os.path.join(out_dir, f'sample_0_grasps.json'), 'w') as f:
+                    # json.dump({'sample_id': sid, 'grasps': grasp_dicts}, f, indent=2)
                     json.dump(grasp_dicts, f, indent=2)
 
 
@@ -581,28 +697,28 @@ def main(args, i=0):
                 # Added part ends
                 #------------------------------
 
-                success = calculate_iou_match(q_out, ang_out, 
-                                              # test_dataset.get_gtbb(didx, rot, zoom_factor), 
-                                              gtbb,
-                                              # no_grasps=1, 
-                                              no_grasps=no_grasps, 
-                                              grasp_width=w_out,
-                                              gs=gs)
+                # success = calculate_iou_match(q_out, ang_out, 
+                #                               # test_dataset.get_gtbb(didx, rot, zoom_factor), 
+                #                               gtbb,
+                #                               # no_grasps=1, 
+                #                               no_grasps=no_grasps, 
+                #                               grasp_width=w_out,
+                #                               gs=gs)
             
-            if success:
-                results["correct"] += 1
-            else:
-                results["failed"] += 1
+            # if success:
+            #     results["correct"] += 1
+            # else:
+            #     results["failed"] += 1
             
-            success_rate = 100 * results["correct"] / (results["correct"] + results["failed"])
+            # success_rate = 100 * results["correct"] / (results["correct"] + results["failed"])
             
             
-            log_print("success rate : {:.2f}% | correct : {},  failed : {}".format(success_rate, results["correct"], results["failed"]))
+            # log_print("success rate : {:.2f}% | correct : {},  failed : {}".format(success_rate, results["correct"], results["failed"]))
 
     log_f.close()
 
 
-    return 100 * results["correct"] / (results["correct"] + results["failed"])
+    # return 100 * results["correct"] / (results["correct"] + results["failed"])
 
 
 
@@ -619,6 +735,14 @@ if __name__ == "__main__":
     parser.add_argument("--root", type=str, help="dataset root")
     parser.add_argument("--ckp_path", type=str, help="ckp_path")
     parser.add_argument("--no-grasps", type=int, default=10, help="Top-K grasps to evaluate")
+
+    # Added: Intrinsics for converting rectangle->6D
+    parser.add_argument('--fx', type=float, default=554.3827128226441)
+    parser.add_argument('--fy', type=float, default=554.3827128226441)
+    parser.add_argument('--cx', type=float, default=320.0)
+    parser.add_argument('--cy', type=float, default=240.0)
+    parser.add_argument('--intr_w', type=int, default=640)
+    parser.add_argument('--intr_h', type=int, default=480)
 
 
     # Added to avoid hard-coding encode type

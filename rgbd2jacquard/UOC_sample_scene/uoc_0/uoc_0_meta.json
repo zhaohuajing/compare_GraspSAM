@@ -1,0 +1,53 @@
+{
+  "sample_id": "uoc_0",
+  "output": {
+    "RGB": "uoc_0_RGB.png",
+    "mask_union": "uoc_0_mask.png",
+    "perfect_depth_tiff": "uoc_0_perfect_depth.tiff",
+    "mask_instances": [
+      "uoc_0_mask_instance_1.png",
+      "uoc_0_mask_instance_2.png",
+      "uoc_0_mask_instance_3.png",
+      "uoc_0_mask_instance_4.png",
+      "uoc_0_mask_instance_5.png",
+      "uoc_0_mask_instance_6.png",
+      "uoc_0_mask_instance_7.png",
+      "uoc_0_mask_instance_8.png",
+      "uoc_0_mask_instance_9.png",
+      "uoc_0_mask_instance_10.png",
+      "uoc_0_mask_instance_11.png",
+      "uoc_0_mask_instance_12.png"
+    ]
+  },
+  "instance_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "conversion": {
+    "input_resolution": [
+      640,
+      480
+    ],
+    "output_resolution": [
+      1024,
+      1024
+    ],
+    "resize_method": "pad-to-square then resize",
+    "depth_units": "meters (float32 TIFF)"
+  },
+  "inputs": {
+    "segmentation_mat": "/home/csrobot/graspnet_ws/src/graspsam_ros2/compare_GraspSAM/rgbd2jacquard/segmentation.mat",
+    "sample_npz": "/home/csrobot/graspnet_ws/src/graspsam_ros2/compare_GraspSAM/rgbd2jacquard/sample.npz"
+  },
+  "depth_source": "sample.npz depth[0,2,:,:] (Z channel, meters)"
+}

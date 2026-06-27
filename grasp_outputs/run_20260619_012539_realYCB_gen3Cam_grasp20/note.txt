@@ -1,0 +1,36 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=20
+============================================================
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 85.51806640625 MB
+Reserved : 92.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.9643277
+ang_out: (1024, 1024) -74.26678 81.92831 deg
+Detected grasps: 20
+Detected 20 grasps:
+  Grasp 0: center=(644.0, 788.0), angle=-29.8 deg, width=47.9px
+  Grasp 1: center=(264.0, 277.0), angle=-3.7 deg, width=38.0px
+  Grasp 2: center=(346.0, 790.0), angle=4.1 deg, width=42.5px
+  Grasp 3: center=(389.0, 310.0), angle=-6.6 deg, width=35.9px
+  Grasp 4: center=(316.0, 629.0), angle=1.0 deg, width=42.1px
+  Grasp 5: center=(316.0, 678.0), angle=5.4 deg, width=26.9px
+  Grasp 6: center=(260.0, 845.0), angle=-2.4 deg, width=33.2px
+  Grasp 7: center=(294.0, 566.0), angle=-1.9 deg, width=21.9px
+  Grasp 8: center=(357.0, 298.0), angle=-6.4 deg, width=36.0px
+  Grasp 9: center=(369.0, 244.0), angle=-21.5 deg, width=18.4px
+  Grasp 10: center=(452.0, 706.0), angle=0.7 deg, width=31.4px
+  Grasp 11: center=(774.0, 869.0), angle=-5.3 deg, width=21.5px
+  Grasp 12: center=(326.0, 309.0), angle=-6.4 deg, width=25.0px
+  Grasp 13: center=(333.0, 710.0), angle=7.6 deg, width=26.5px
+  Grasp 14: center=(420.0, 645.0), angle=-58.5 deg, width=39.7px
+  Grasp 15: center=(422.0, 564.0), angle=-9.5 deg, width=34.6px
+  Grasp 16: center=(261.0, 777.0), angle=4.1 deg, width=29.3px
+  Grasp 17: center=(327.0, 343.0), angle=-0.5 deg, width=21.2px
+  Grasp 18: center=(773.0, 229.0), angle=-20.8 deg, width=16.5px
+  Grasp 19: center=(341.0, 746.0), angle=-1.7 deg, width=27.1px
+success rate : 0.00% | correct : 0,  failed : 1
