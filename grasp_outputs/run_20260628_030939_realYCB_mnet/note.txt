@@ -1,0 +1,25 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=10
+============================================================
+loading checkpoint from :  epoch61.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 85.51806640625 MB
+Reserved : 92.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 1.0779476
+ang_out: (1024, 1024) -59.465195 23.52064 deg
+Detected grasps: 10
+Detected 10 grasps:
+  Grasp 0: center=(517.0, 663.0), angle=-4.2 deg, width=44.0px
+  Grasp 1: center=(486.0, 694.0), angle=1.6 deg, width=32.4px
+  Grasp 2: center=(725.0, 741.0), angle=-10.4 deg, width=32.9px
+  Grasp 3: center=(750.0, 189.0), angle=-21.4 deg, width=32.5px
+  Grasp 4: center=(261.0, 565.0), angle=-17.4 deg, width=38.6px
+  Grasp 5: center=(293.0, 198.0), angle=-4.0 deg, width=26.2px
+  Grasp 6: center=(342.0, 217.0), angle=-3.5 deg, width=41.0px
+  Grasp 7: center=(421.0, 677.0), angle=-3.9 deg, width=21.3px
+  Grasp 8: center=(276.0, 516.0), angle=-19.4 deg, width=32.7px
+  Grasp 9: center=(252.0, 613.0), angle=4.1 deg, width=22.3px

@@ -1,0 +1,49 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=5
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 92.45361328125 MB
+Reserved : 104.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.05834949 0.317684
+ang_out: (1024, 1024) -58.072067 86.11045 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(662.0, 599.0), angle=18.7 deg, width=41.2px
+  Grasp 1: center=(502.0, 487.0), angle=19.3 deg, width=45.6px
+  Grasp 2: center=(374.0, 551.0), angle=18.7 deg, width=44.6px
+  Grasp 3: center=(262.0, 471.0), angle=17.4 deg, width=43.8px
+  Grasp 4: center=(550.0, 519.0), angle=19.3 deg, width=47.2px
+success rate : 100.00% | correct : 1,  failed : 0
+
+============================================================
+New run | encoder=vit_t | no_grasps=5
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+
+============================================================
+New run | encoder=vit_t | no_grasps=5
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 92.45361328125 MB
+Reserved : 104.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 3.8724387e-08 0.043143634
+ang_out: (1024, 1024) -35.02064 64.487885 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(489.0, 490.0), angle=33.1 deg, width=46.2px
+  Grasp 1: center=(522.0, 410.0), angle=40.5 deg, width=44.1px
+  Grasp 2: center=(281.0, 442.0), angle=30.5 deg, width=48.4px
+  Grasp 3: center=(617.0, 586.0), angle=30.6 deg, width=45.9px
+  Grasp 4: center=(249.0, 490.0), angle=31.3 deg, width=47.0px
+success rate : 100.00% | correct : 1,  failed : 0

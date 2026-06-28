@@ -70,10 +70,12 @@ def rectangle_to_pose_topdown(
     v = int(round(v))
 
     z = depth_img[v, u]
-    if z <= 0 or np.isnan(z):
+    print(f"[grasp_pose_convert_utils]: grasp.center = {grasp.center}, z = {z}")
+    if z < 0 or np.isnan(z):
         raise ValueError("Invalid depth at grasp center")
 
-    z = z + grasp_height_offset
+    # z = z + grasp_height_offset
+    z = z - 2*grasp_height_offset
 
     # Pixel -> camera coordinates
     x = (u - intrinsics.cx) * z / intrinsics.fx

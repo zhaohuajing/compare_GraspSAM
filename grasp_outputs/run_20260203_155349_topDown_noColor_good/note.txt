@@ -1,0 +1,21 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=5
+============================================================
+loading checkpoint from :  mobile_sam.pt
+loaded. missing: 605 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 81.51806640625 MB
+Reserved : 92.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 2.7557394e-07 0.20548049
+ang_out: (1024, 1024) -70.761566 64.60546 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(46.0, 45.0), angle=14.9 deg, width=24.0px
+  Grasp 1: center=(462.0, 493.0), angle=17.2 deg, width=20.2px
+  Grasp 2: center=(286.0, 45.0), angle=14.6 deg, width=25.2px
+  Grasp 3: center=(622.0, 61.0), angle=15.1 deg, width=23.2px
+  Grasp 4: center=(638.0, 141.0), angle=15.3 deg, width=22.2px
+success rate : 0.00% | correct : 0,  failed : 1

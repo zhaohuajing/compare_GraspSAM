@@ -143,8 +143,8 @@ def setup_model(model_type, sam_encoder_type):
 def load_sample(root: str): #, sample_id: str, instance_id: int):
 
     # TEMP setting of sample_id for kinova_gen3_real_YCB test; make it variable later
-    sample_id = "1_from_rgbd"
-    instance_id = 1
+    sample_id = "0_from_rgbd"
+    instance_id = 0
 
 
     rgb_path = os.path.join(root, f'{sample_id}_RGB.png')
