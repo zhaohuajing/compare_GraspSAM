@@ -29,6 +29,11 @@ Sample input:
 
 python eval_functional_jac_loader.py --ckp_path ./trained_checkpoint/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch54.pth \
         --sam-encoder-type vit_t --root ./datasets/CGN_scene_Jac_form/UOC_sample_scene/ --no-grasps 20
+
+
+
+python eval_functional_jac_loader.py --ckp_path ./trained_checkpoint/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch61.pth \
+        --sam-encoder-type vit_t --root ./rgbd2jacquard/Kinova_Gen3_real_YCB/sample2_mnet_scene/ --no-grasps 5
 """
 
 # ------------------------------------------------------------------
@@ -220,6 +225,8 @@ def grasp_to_dict_with_pose(g):
     d = {
         'x': float(g.center[1]),
         'y': float(g.center[0]),
+        # 'x': float(g.center[0]),
+        # 'y': float(g.center[1]),
         'angle': float(g.angle),
         'width_px': float(g.width),
         'length_px': float(getattr(g, 'length', 0.0)),
@@ -232,6 +239,7 @@ def grasp_to_dict_with_pose(g):
     if getattr(g, 'width_m', None) is not None:
         d['width_m'] = float(g.width_m)
     return d
+
 
 #-----------------------------
 # Added function ends
@@ -476,7 +484,7 @@ def main(args, i=0):
                 zoom_s = float(_scalar(zoom_factor))
 
                 # then use these
-                gtbb = test_dataset.get_gtbb(didx_s, rot_s, zoom_s)
+                # gtbb = test_dataset.get_gtbb(didx_s, rot_s, zoom_s)
 
 
                 #------------------------------
@@ -490,7 +498,7 @@ def main(args, i=0):
                 import matplotlib.pyplot as plt
 
                 gs = detect_grasps(q_out, ang_out, width_img=w_out, no_grasps=args.no_grasps)
-                gt = gtbb  # already a GraspRectangles
+                # gt = gtbb  # already a GraspRectangles
 
 
 
@@ -741,8 +749,10 @@ if __name__ == "__main__":
     parser.add_argument('--fy', type=float, default=554.3827128226441)
     parser.add_argument('--cx', type=float, default=320.0)
     parser.add_argument('--cy', type=float, default=240.0)
-    parser.add_argument('--intr_w', type=int, default=640)
-    parser.add_argument('--intr_h', type=int, default=480)
+    parser.add_argument('--intr_w', type=int, default=640) # for gazebo panda sim camera
+    parser.add_argument('--intr_h', type=int, default=480) # for gazebo panda sim camera
+    # parser.add_argument('--intr_w', type=int, default=480) # for physical kinova gen3 camera color (rgb) camera
+    # parser.add_argument('--intr_h', type=int, default=270) # for physical kinova gen3 camera color (rgb) camera
 
 
     # Added to avoid hard-coding encode type

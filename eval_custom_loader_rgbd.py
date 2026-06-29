@@ -268,8 +268,10 @@ def map_grasps_back(gs, x_min, y_min, scale_x, scale_y):
 
 def grasp_to_dict_with_pose(g):
     d = {
-        'x': float(g.center[1]),
-        'y': float(g.center[0]),
+        # 'x': float(g.center[1]),
+        # 'y': float(g.center[0]),
+        'x': float(g.center[0]),
+        'y': float(g.center[1]),
         'angle': float(g.angle),
         'width_px': float(g.width),
         'length_px': float(getattr(g, 'length', 0.0)),

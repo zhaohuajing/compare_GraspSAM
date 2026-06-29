@@ -21,6 +21,9 @@ class CameraIntrinsics:
         # scale_x = 1024 / 640
         # scale_y = 1024 / 480
 
+        # scale_x = 1024 / 480
+        # scale_y = 1024 / 270
+
         # self.fx *= scale_x
         # self.fy *= scale_y
         # self.cx *= scale_x
@@ -66,6 +69,7 @@ def rectangle_to_pose_topdown(
     """
 
     u, v = grasp.center
+    # v, u = grasp.center # test swaping x and y - x using center[1], y using center[0]
     u = int(round(u))
     v = int(round(v))
 
@@ -81,7 +85,14 @@ def rectangle_to_pose_topdown(
     x = (u - intrinsics.cx) * z / intrinsics.fx
     y = (v - intrinsics.cy) * z / intrinsics.fy
 
+    # y = (u - intrinsics.cx) * z / intrinsics.fy
+    # x = (v - intrinsics.cy) * z / intrinsics.fx
+
+    x = (v - intrinsics.cx) * z / intrinsics.fx
+    y = (u - intrinsics.cy) * z / intrinsics.fy
+
     position = np.array([x, y, z])
+    # position = np.array([y, x, z])
 
     # Orientation:
     #   - yaw from grasp angle

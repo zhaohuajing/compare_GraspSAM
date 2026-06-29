@@ -226,6 +226,8 @@ def main():
     ap.add_argument("--cy", type=float, default=240.0)
     ap.add_argument("--intr_w", type=int, default=640)
     ap.add_argument("--intr_h", type=int, default=480)
+    # ap.add_argument("--intr_w", type=int, default=480) # kinova gen3 camera depth
+    # ap.add_argument("--intr_h", type=int, default=270) # kinova gen3 camera depth
 
     ap.add_argument("--frame_mode", choices=["optical", "ros_cam"], default="optical",
                     help="optical: plot raw eval poses/cloud. ros_cam: apply optical->ROS camera conversion to both.")
