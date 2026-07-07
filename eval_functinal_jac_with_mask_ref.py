@@ -13,8 +13,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-# from data.jacquard_data import JacquardDataset
-from data.jacquard_data_custom import JacquardDataset
+from data.jacquard_data import JacquardDataset
 from data.grasp_anything_data import GraspAnythingDataset
 
 from model.planar_grasp_sam import PlanarGraspSAM
@@ -139,59 +138,49 @@ def setup_model(model_type, sam_encoder_type):
     return model
 
 
-def grasp_pred_to_dict(grasp_pred):
-    """
-    Normalize model.total_forward() grasp output into a dict with keys:
-    pos, cos, sin, width.
-
-    This lets custom_no_gt inference avoid relying on model.compute_loss(), which
-    was originally designed for Jacquard GT supervision/evaluation.
-    """
-    if isinstance(grasp_pred, dict):
-        # common variants
-        if all(k in grasp_pred for k in ['pos', 'cos', 'sin', 'width']):
-            return grasp_pred
-        if 'pred' in grasp_pred and isinstance(grasp_pred['pred'], dict):
-            return grasp_pred['pred']
-
-    if isinstance(grasp_pred, (list, tuple)) and len(grasp_pred) >= 4:
-        return {
-            'pos': grasp_pred[0],
-            'cos': grasp_pred[1],
-            'sin': grasp_pred[2],
-            'width': grasp_pred[3],
-        }
-
-    raise TypeError(f"Unsupported grasp_pred type/structure: {type(grasp_pred)}")
-
-
 #-----------------------------
 # Add function for data loading from prior custom defined rgbd loader, pending confirmation
 #----------------------------
 
-def load_sample(root: str, sample_id: str = "0_from_rgbd"):
-    """
-    Load RGB and float32-meter depth from a Jacquard-like custom RGB-D folder.
+def load_sample(root: str): #, sample_id: str, instance_id: int):
 
-    This is used only for rectangle->6D pose conversion. The actual neural-network
-    input still comes from JacquardDataset.
-    """
+    # TEMP setting of sample_id for kinova_gen3_real_YCB test; make it variable later
+    sample_id = "0_from_rgbd"
+    instance_id = 0
+
+
     rgb_path = os.path.join(root, f'{sample_id}_RGB.png')
     depth_path = os.path.join(root, f'{sample_id}_perfect_depth.tiff')
+    # mask_path = pick_mask_path(root, sample_id, instance_id)
 
     if not os.path.exists(rgb_path):
         raise FileNotFoundError(rgb_path)
     if not os.path.exists(depth_path):
         raise FileNotFoundError(depth_path)
+    # if not os.path.exists(mask_path):
+    #     raise FileNotFoundError(mask_path)
 
     rgb = cv2.cvtColor(cv2.imread(rgb_path, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
-    depth = cv2.imread(depth_path, cv2.IMREAD_UNCHANGED).astype(np.float32)
+    # TIFF float32 meters
+    depth = cv2.imread(depth_path, cv2.IMREAD_UNCHANGED)
+    depth = depth.astype(np.float32)
 
+    # mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
+
+    # if (not instance_id) or instance_id == 0:
+    #     mask = (mask > 0).astype(np.float32)
+    # else:
+    #     mask = (mask == instance_id).astype(np.float32)
+
+    # Ensure same size
     H, W = rgb.shape[:2]
     if depth.shape[:2] != (H, W):
         depth = cv2.resize(depth, (W, H), interpolation=cv2.INTER_NEAREST)
+    # if mask.shape[:2] != (H, W):
+    #     mask = cv2.resize(mask, (W, H), interpolation=cv2.INTER_NEAREST)
+    #     mask = (mask > 0).astype(np.float32)
 
-    return rgb, depth
+    return rgb, depth #, mask
 
 
 
@@ -293,24 +282,12 @@ def main(args, i=0):
     
     if args.dataset_name == "jacquard":
         
-        jac_kwargs = dict(
-            root=args.root,
-            crop_size=1024,
-            include_mask=True,
-            random_rotate=False,
-            random_zoom=False,
-            custom_no_gt=bool(args.custom_no_gt),
-            mask_id=args.mask_id,
-            sample_id=args.sample_id,
-        )
-
-        train_dataset = JacquardDataset(start=0.0, end=0.9, seen=True, **jac_kwargs)
-        test_dataset = JacquardDataset(start=0.9, end=1.0, seen=False, **jac_kwargs)
-
-        log_print(
-            f"JacquardDataset loaded | custom_no_gt={args.custom_no_gt} | "
-            f"mask_id={args.mask_id} | sample_id={args.sample_id}"
-        )
+        train_dataset = JacquardDataset(root=args.root, crop_size=1024, include_mask=True, 
+                                        random_rotate=False, random_zoom=False,
+                                        start=0.0, end=0.9, seen=True)
+        test_dataset = JacquardDataset(root=args.root, crop_size=1024, include_mask=True, 
+                                       random_rotate=False, random_zoom=False,   
+                                       start=0.9, end=1.0, seen=False)
 
     elif args.dataset_name == "grasp_anything":
         
@@ -448,28 +425,18 @@ def main(args, i=0):
                 
             grasp_pred, mask_pred = model.total_forward(imgs=images, targets=targets)    
             
-            # Standard Jacquard evaluation uses compute_loss() because GT maps exist.
-            # Custom RGB-D inference may have no meaningful GT grasps, so fall back to
-            # direct prediction unpacking if compute_loss() fails.
-            try:
-                lossd = model.compute_loss(grasp_pred, mask_pred, targets, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0)
+            lossd = model.compute_loss(grasp_pred, mask_pred, targets, 2.0, 1.0, 1.0, 1.0, 1.0, 1.0)
 
-                loss = lossd["g_loss"]
-                results['g_loss'] += loss.item() / ld
-                for ln, l in lossd['g_losses'].items():
-                    if ln not in results['g_losses']:
-                        results['g_losses'][ln] = 0
-                    results['g_losses'][ln] += l.item() / ld
 
-                pred_dict = lossd['pred']
-            except Exception as e:
-                if not args.custom_no_gt:
-                    raise
-                log_print("[custom_no_gt] compute_loss failed; using raw grasp_pred instead:", repr(e))
-                pred_dict = grasp_pred_to_dict(grasp_pred)
+            loss = lossd["g_loss"]
+            results['g_loss'] += loss.item() / ld
+            for ln, l in lossd['g_losses'].items():
+                if ln not in results['g_losses']:
+                    results['g_losses'][ln] = 0
+                results['g_losses'][ln] += l.item() / ld
 
-            q_out, ang_out, w_out = post_process_output(pred_dict['pos'], pred_dict['cos'],
-                                                        pred_dict['sin'], pred_dict['width'])
+            q_out, ang_out, w_out = post_process_output(lossd['pred']['pos'], lossd['pred']['cos'],
+                                                        lossd['pred']['sin'], lossd['pred']['width'])
 
             
 
@@ -507,11 +474,8 @@ def main(args, i=0):
                 rot_s = float(_scalar(rot))
                 zoom_s = float(_scalar(zoom_factor))
 
-                # then use these when GT exists. For custom RGB-D inference, no GT boxes are meaningful.
-                if args.custom_no_gt:
-                    gtbb = None
-                else:
-                    gtbb = test_dataset.get_gtbb(didx_s, rot_s, zoom_s)
+                # then use these
+                gtbb = test_dataset.get_gtbb(didx_s, rot_s, zoom_s)
 
 
                 #------------------------------
@@ -564,7 +528,7 @@ def main(args, i=0):
                 for g in gs:
                     g.plot(ax, color='red')
 
-                # plt.show()  # disabled for docker/headless runs
+                plt.show()
                 plt.savefig(os.path.join(out_dir, f"sample_{idx}.png"))
                 plt.close()
 
@@ -618,7 +582,7 @@ def main(args, i=0):
                 )
 
 
-                rgb_u8, depth_m = load_sample(args.root, sample_id=args.sample_id)
+                rgb_u8, depth_m = load_sample(args.root) #, sid, args.instance_id)
                 depth_for_pose = depth_m
 
                 for g in gs:
@@ -765,14 +729,6 @@ if __name__ == "__main__":
     # Optional: also allow masking qmap for testing (off by default)
     parser.add_argument('--apply_mask_to_q', type=int, default=0, choices=[0, 1],
                         help='If 1, multiply q_out by the mask before detect_grasps')
-
-    # Custom RGB-D / UOC-to-Jacquard-like input options
-    parser.add_argument('--custom_no_gt', type=int, default=0, choices=[0, 1],
-                        help='If 1, load custom Jacquard-like RGB-D data without requiring meaningful *_grasps.txt')
-    parser.add_argument('--mask-id', dest='mask_id', type=int, default=0,
-                        help='0 uses <sample_id>_mask.png; N uses <sample_id>_mask_instance_N.png')
-    parser.add_argument('--sample-id', dest='sample_id', type=str, default='0_from_rgbd',
-                        help='Sample id prefix, e.g., 0_from_rgbd')
 
 
         # Added: Intrinsics for converting rectangle->6D

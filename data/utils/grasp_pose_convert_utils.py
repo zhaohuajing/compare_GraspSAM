@@ -4,6 +4,13 @@ import numpy as np
 from scipy.spatial.transform import Rotation as R
 
 
+# IMPORTANT:
+# In this GraspSAM branch, grasp.center behaves effectively as (u_like, v_like)
+# for the detected rectangle, but the correct depth lookup for our converted
+# Jacquard-like images is depth_img[u, v], not depth_img[v, u].
+# Do not change this unless the upstream Grasp.center convention changes.
+
+
 class CameraIntrinsics:
     """
     Minimal pinhole camera model
@@ -73,13 +80,15 @@ def rectangle_to_pose_topdown(
     u = int(round(u))
     v = int(round(v))
 
-    z = depth_img[v, u]
+    # z = depth_img[v, u]
+    z = depth_img[u,v] # this is correct!
     print(f"[grasp_pose_convert_utils]: grasp.center = {grasp.center}, z = {z}")
     if z < 0 or np.isnan(z):
         raise ValueError("Invalid depth at grasp center")
 
     # z = z + grasp_height_offset
     z = z - 2*grasp_height_offset
+    # z = max(float(z) - 2 * float(grasp_height_offset), 1e-4) # consider adding a lower bound later
 
     # Pixel -> camera coordinates
     x = (u - intrinsics.cx) * z / intrinsics.fx
