@@ -27,11 +27,13 @@ from data.utils.grasp_utils import *
 
 Sample input: 
 
-python eval.py   --root ./datasets/YCB_scene_Jac_form/mask_1  --ckp_path ./final_result/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch54.pth   \
-        --sam-encoder-type vit_t   --no-grasps 5   --remove_background 0 --apply_mask_to_q 1
-
-python eval.py --ckp_path ./final_result/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch54.pth \
+python eval_functional_jac_loader.py --ckp_path ./trained_checkpoint/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch54.pth \
         --sam-encoder-type vit_t --root ./datasets/CGN_scene_Jac_form/UOC_sample_scene/ --no-grasps 20
+
+
+
+python eval_functional_jac_loader.py --ckp_path ./trained_checkpoint/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch61.pth \
+        --sam-encoder-type vit_t --root ./rgbd2jacquard/Kinova_Gen3_real_YCB/sample2_mnet_scene/ --no-grasps 5
 """
 
 # ------------------------------------------------------------------
@@ -138,49 +140,59 @@ def setup_model(model_type, sam_encoder_type):
     return model
 
 
+
 #-----------------------------
 # Add function for data loading from prior custom defined rgbd loader, pending confirmation
 #----------------------------
 
-def load_sample(root: str): #, sample_id: str, instance_id: int):
+
+def pick_mask_path(root: str, sample_id: str, instance_id: int) -> str:
+    if instance_id and instance_id > 0:
+        p = os.path.join(root, f'{sample_id}_mask_instance_{instance_id}.png')
+        if os.path.exists(p):
+            return p
+        # fall back to union
+    return os.path.join(root, f'{sample_id}_mask.png')
+
+def load_sample(root: str, sample_id: str, instance_id: int):
 
     # TEMP setting of sample_id for kinova_gen3_real_YCB test; make it variable later
-    sample_id = "0_from_rgbd"
-    instance_id = 0
+    # sample_id = "0_from_rgbd"
+    # instance_id = 0
 
 
     rgb_path = os.path.join(root, f'{sample_id}_RGB.png')
     depth_path = os.path.join(root, f'{sample_id}_perfect_depth.tiff')
-    # mask_path = pick_mask_path(root, sample_id, instance_id)
+    mask_path = pick_mask_path(root, sample_id, instance_id)
 
     if not os.path.exists(rgb_path):
         raise FileNotFoundError(rgb_path)
     if not os.path.exists(depth_path):
         raise FileNotFoundError(depth_path)
-    # if not os.path.exists(mask_path):
-    #     raise FileNotFoundError(mask_path)
+    if not os.path.exists(mask_path):
+        raise FileNotFoundError(mask_path)
 
     rgb = cv2.cvtColor(cv2.imread(rgb_path, cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
     # TIFF float32 meters
     depth = cv2.imread(depth_path, cv2.IMREAD_UNCHANGED)
     depth = depth.astype(np.float32)
 
-    # mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
+    mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
 
-    # if (not instance_id) or instance_id == 0:
-    #     mask = (mask > 0).astype(np.float32)
-    # else:
-    #     mask = (mask == instance_id).astype(np.float32)
+    if (not instance_id) or instance_id == 0:
+        mask = (mask > 0).astype(np.float32)
+    else:
+        mask = (mask == instance_id).astype(np.float32)
 
     # Ensure same size
     H, W = rgb.shape[:2]
     if depth.shape[:2] != (H, W):
         depth = cv2.resize(depth, (W, H), interpolation=cv2.INTER_NEAREST)
-    # if mask.shape[:2] != (H, W):
-    #     mask = cv2.resize(mask, (W, H), interpolation=cv2.INTER_NEAREST)
-    #     mask = (mask > 0).astype(np.float32)
+    if mask.shape[:2] != (H, W):
+        mask = cv2.resize(mask, (W, H), interpolation=cv2.INTER_NEAREST)
+        mask = (mask > 0).astype(np.float32)
 
-    return rgb, depth #, mask
+    return rgb, depth, mask
 
 
 
@@ -289,6 +301,14 @@ def main(args, i=0):
                                        random_rotate=False, random_zoom=False,   
                                        start=0.9, end=1.0, seen=False)
 
+
+        # train_dataset = JacquardDataset(root=args.root, crop_size=256, include_mask=True, 
+        #                                 random_rotate=False, random_zoom=False,
+        #                                 start=0.0, end=0.9, seen=True)
+        # test_dataset = JacquardDataset(root=args.root, crop_size=256, include_mask=True, 
+        #                                random_rotate=False, random_zoom=False,   
+        #                                start=0.9, end=1.0, seen=False)
+
     elif args.dataset_name == "grasp_anything":
         
         train_dataset = GraspAnythingDataset(root=args.root, include_mask=True, 
@@ -298,6 +318,7 @@ def main(args, i=0):
                                             random_rotate=False, random_zoom=False,
                                             start=0.9, end=1.0, seen=False)
 
+    
     if args.seen_set:
         indices = list(range(test_dataset.__len__()))
         split = int(np.floor(args.split * train_dataset.__len__()))
@@ -405,12 +426,6 @@ def main(args, i=0):
             masks = masks.to(args.device)
             grasps = [g.to(args.device) for g in grasps]
             # grasps = grasps.to(args.device)
-
-            if args.remove_background == 1:
-                m = masks.float()
-                m = (m > 0).float()   # non-zero -> 1.0, zero -> 0.0
-                m3 = m.repeat(1,3,1,1)  # expand [B,1,H,W] -> [B,3,H,W]
-                images = images * m3  #+ args.bg_value * (1 - m3)
         
             targets = {}
             targets["masks"] = masks
@@ -422,6 +437,23 @@ def main(args, i=0):
                 log_print("Total    :", torch.cuda.get_device_properties(0).total_memory / 1024**2, "MB")
 
                 # input()
+
+
+            # Intrinsics must be scaled to current image size
+            # The intrinsics provided are for intr_w x intr_h.
+            out_size = 1024
+            sx = out_size / float(args.intr_w)
+            sy = out_size / float(args.intr_h)
+            intrinsics = CameraIntrinsics(
+                fx=args.fx * sx,
+                fy=args.fy * sy,
+                cx=args.cx * sx,
+                cy=args.cy * sy,
+            )
+
+            # rgb_u8, depth_m = load_sample(args.root) #, sid, args.instance_id)
+            rgb_u8, depth_m, mask01 = load_sample(args.root, args.sample_id, args.instance_id)
+            depth_for_pose = depth_m
                 
             grasp_pred, mask_pred = model.total_forward(imgs=images, targets=targets)    
             
@@ -435,272 +467,273 @@ def main(args, i=0):
                     results['g_losses'][ln] = 0
                 results['g_losses'][ln] += l.item() / ld
 
+
+            
+
             q_out, ang_out, w_out = post_process_output(lossd['pred']['pos'], lossd['pred']['cos'],
                                                         lossd['pred']['sin'], lossd['pred']['width'])
 
             
 
-            if args.seen_set:
-                success = calculate_iou_match(q_out, ang_out, 
-                                          train_dataset.get_gtbb(didx, rot, zoom_factor), 
-                                          no_grasps=1, 
-                                          grasp_width=w_out)
-            else:
-
-                #------------------------------
-                # Added to force scalar rot/zoom_factor/didx before calling get_gtbb
-                #------------------------------
-
-                # ---- make dataloader outputs scalar (batch_size=1 expected) ----
-                
-
-                def _scalar(x):
-                    # tensor -> python scalar
-                    if isinstance(x, torch.Tensor):
-                        return x.item() if x.numel() == 1 else x[0].item()
-                    # list/tuple -> first element
-                    if isinstance(x, (list, tuple)):
-                        return _scalar(x[0])
-                    # numpy scalar -> python scalar
-                    try:
-                        import numpy as np
-                        if isinstance(x, np.ndarray):
-                            return x.item() if x.size == 1 else x.reshape(-1)[0].item()
-                    except Exception:
-                        pass
-                    return x
-
-                didx_s = int(_scalar(didx))
-                rot_s = float(_scalar(rot))
-                zoom_s = float(_scalar(zoom_factor))
-
-                # then use these
-                gtbb = test_dataset.get_gtbb(didx_s, rot_s, zoom_s)
-
-
-                #------------------------------
-                # Add a one-off visualization for one sample
-                #------------------------------
-
-                # out_dir = "grasp_outputs"
-                os.makedirs(out_dir, exist_ok=True)    
-
-                from data.utils.grasp_utils import GraspRectangles, detect_grasps
-                import matplotlib.pyplot as plt
-
-                # Optionally apply mask to qmap (sometimes improves localization)
-                if args.apply_mask_to_q == 1:
-                    # masks is a tensor; take batch 0, channel 0
-                    m_np = masks[0, 0].detach().cpu().numpy().astype(np.float32)
-                    q_out = q_out * m_np
-                    w_out = w_out * m_np
-
-                gs = detect_grasps(q_out, ang_out, width_img=w_out, no_grasps=args.no_grasps)
-                gt = gtbb  # already a GraspRectangles
-
-
-
-                #--------------------------
-                # Added for output inspection
-                #--------------------------
-                log_print("idx = ", idx)
-                log_print("q_out:", type(q_out), q_out.shape, q_out.min(), q_out.max())
-                log_print("ang_out:", ang_out.shape,
-                          np.degrees(ang_out.min()), np.degrees(ang_out.max()), "deg")
-
-                log_print("Detected grasps:", len(gs))
-
-                #--------------------------
-                # Added for result inspection and plots
-                #--------------------------
-
-                # added for result inspection
-                log_print(f"Detected {len(gs)} grasps:")
-                for i, g in enumerate(gs):
-                    log_print(f"  Grasp {i}: center=({g.center[0]:.1f}, {g.center[1]:.1f}), "
-                          f"angle={np.degrees(g.angle):.1f} deg, width={g.width:.1f}px")
-
-
-                fig, ax = plt.subplots(1)
-                ax.imshow(images[0].permute(1,2,0).cpu().numpy(), cmap='gray')
-
-                # gt.plot(ax, color='green') # COMMENT OUT IF USING CUSTOMER IMAGES WITHOUT GROUND TRUTH BOXES
-                for g in gs:
-                    g.plot(ax, color='red')
-
-                plt.show()
-                plt.savefig(os.path.join(out_dir, f"sample_{idx}.png"))
-                plt.close()
-
-                # --------------------------
-                # Visualize grasp quality map
-                # --------------------------
-
-                fig, ax = plt.subplots(1, figsize=(6, 6))
-
-                # IMPORTANT: clamp visualization range so low values are visible
-                # im = ax.imshow(
-                #     q_out,
-                #     # cmap='Greys', #'jet',
-                #     vmin=0.0,
-                #     vmax=max(0.05, np.percentile(q_out, 99.5))
-                # )
-
-                # ax.imshow(rgb_vis)
-                im = ax.imshow(q_out, 
-                          cmap='jet', 
-                          alpha=0.9,
-                          vmin=0.0,
-                          vmax=np.percentile(q_out, 99.5),
-                          # vmax=1,
-                          )
-
-
-                for g in gs:
-                    g.plot(ax, color='white')
-
-                ax.set_title("Grasp Quality Map (q_out)")
-                plt.colorbar(im, ax=ax) #, fraction=0.046)
-
-                plt.tight_layout()
-                plt.savefig(os.path.join(out_dir, f"sample_{idx}_qmap.png"))
-                plt.close()
-
-                #--------------------------------
-                # Added for converting grasp rectangle to 6d pose
-                #--------------------------------
-                # Intrinsics must be scaled to current image size
-                # The intrinsics provided are for intr_w x intr_h.
-                out_size = 1024
-                sx = out_size / float(args.intr_w)
-                sy = out_size / float(args.intr_h)
-                intrinsics = CameraIntrinsics(
-                    fx=args.fx * sx,
-                    fy=args.fy * sy,
-                    cx=args.cx * sx,
-                    cy=args.cy * sy,
-                )
-
-
-                rgb_u8, depth_m = load_sample(args.root) #, sid, args.instance_id)
-                depth_for_pose = depth_m
-
-                for g in gs:
-                    g.pos, g.quat, g.width_m = rectangle_to_pose_topdown(
-                        g,
-                        depth_for_pose,
-                        intrinsics,
-                        grasp_height_offset=0.01,
-                    )
-
-
-
-
-                #-----------------------------
-                # Add data saving for grasps
-                #-----------------------------
-
-                # Save dense grasp maps per sample
-
-                np.savez(
-                    os.path.join(out_dir, f"sample_{idx}_maps.npz"),
-                    q=q_out,
-                    angle=ang_out,
-                    width=w_out
-                )
-
-                # Convert grasps to a clean array and save
-
-                grasp_array = np.array([
-                    [
-                        g.center[0],     # x (px)
-                        g.center[1],     # y (px)
-                        g.angle,         # rad
-                        g.width          # px
-                    ]
-                    for g in gs
-                ], dtype=np.float32)
-
-
-                #  Save as npy
-                np.save(
-                    os.path.join(out_dir, f"sample_{idx}_grasps.npy"),
-                    grasp_array
-                )
-
-                #  Save as human-readable JSON
-                # grasp_list = [
-                #     {
-                #         "x": float(g.center[0]),
-                #         "y": float(g.center[1]),
-                #         "angle_rad": float(g.angle),
-                #         "angle_deg": float(np.degrees(g.angle)),
-                #         "width_px": float(g.width)
-                #     }
-                #     for g in gs
-                # ]
-
-                json_path = os.path.join(out_dir, f"sample_{idx}_grasps.json")
-
-                # with open(os.path.join(out_dir, f"sample_{idx}_grasps.json"), "w") as f:
-                #     json.dump(grasp_list, f, indent=2)
-
-
-                # out_json = {
-                #     "sample_id": idx,
-                #     "num_grasps": len(grasps),
-                #     "grasps": []
-                # }
-
-                # for g in grasps:
-                #     out_json["grasps"].append([
-                #         float(g.center[0]),
-                #         float(g.center[1]),
-                #         float(g.angle),
-                #         float(g.width),
-                #         float(g.score)
-                #     ])
-
-                # with open(json_path, "w") as f:
-                #     json.dump(out_json, f, indent=2)
-
-                # grasp_dicts = []
-                # for g in gs:
-                #     grasp_dicts.append(grasp_to_dict(g))
-
-                # with open(json_path, "w") as f:
-                #     json.dump(grasp_dicts, f, indent=2)
-
-                grasp_dicts = [grasp_to_dict_with_pose(g) for g in gs]
-                # with open(os.path.join(out_dir, f'sample_{k}_grasps.json'), 'w') as f:
-                with open(os.path.join(out_dir, f'sample_0_grasps.json'), 'w') as f:
-                    # json.dump({'sample_id': sid, 'grasps': grasp_dicts}, f, indent=2)
-                    json.dump(grasp_dicts, f, indent=2)
-
-
-
-
-                #------------------------------
-                # Added part ends
-                #------------------------------
-
-                # success = calculate_iou_match(q_out, ang_out, 
-                #                               # test_dataset.get_gtbb(didx, rot, zoom_factor), 
-                #                               gtbb,
-                #                               # no_grasps=1, 
-                #                               no_grasps=no_grasps, 
-                #                               grasp_width=w_out,
-                #                               gs=gs)
-            
-            # if success:
-            #     results["correct"] += 1
+            # if args.seen_set:
+            #     success = calculate_iou_match(q_out, ang_out, 
+            #                               train_dataset.get_gtbb(didx, rot, zoom_factor), 
+            #                               no_grasps=1, 
+            #                               grasp_width=w_out)
             # else:
-            #     results["failed"] += 1
+
+            #------------------------------
+            # Added to force scalar rot/zoom_factor/didx before calling get_gtbb
+            #------------------------------
+
+            # ---- make dataloader outputs scalar (batch_size=1 expected) ----
             
-            # success_rate = 100 * results["correct"] / (results["correct"] + results["failed"])
+
+            def _scalar(x):
+                # tensor -> python scalar
+                if isinstance(x, torch.Tensor):
+                    return x.item() if x.numel() == 1 else x[0].item()
+                # list/tuple -> first element
+                if isinstance(x, (list, tuple)):
+                    return _scalar(x[0])
+                # numpy scalar -> python scalar
+                try:
+                    import numpy as np
+                    if isinstance(x, np.ndarray):
+                        return x.item() if x.size == 1 else x.reshape(-1)[0].item()
+                except Exception:
+                    pass
+                return x
+
+            didx_s = int(_scalar(didx))
+            rot_s = float(_scalar(rot))
+            zoom_s = float(_scalar(zoom_factor))
+
+            # then use these
+            # gtbb = test_dataset.get_gtbb(didx_s, rot_s, zoom_s)
+
+
+            #------------------------------
+            # Add a one-off visualization for one sample
+            #------------------------------
+
+            # out_dir = "grasp_outputs"
+            os.makedirs(out_dir, exist_ok=True)    
+
+            from data.utils.grasp_utils import GraspRectangles, detect_grasps
+            import matplotlib.pyplot as plt
+
+            gs = detect_grasps(q_out, ang_out, width_img=w_out, no_grasps=args.no_grasps)
+            # gt = gtbb  # already a GraspRectangles
+
+
+
+            #--------------------------
+            # Added for output inspection
+            #--------------------------
+            log_print("idx = ", idx)
+            log_print("q_out:", type(q_out), q_out.shape, q_out.min(), q_out.max())
+            log_print("ang_out:", ang_out.shape,
+                      np.degrees(ang_out.min()), np.degrees(ang_out.max()), "deg")
+
+            log_print("Detected grasps:", len(gs))
+
+            #--------------------------
+            # Added for result inspection and plots
+            #--------------------------
+
+            # added for result inspection
+            log_print(f"Detected {len(gs)} grasps:")
+            for i, g in enumerate(gs):
+                log_print(f"  Grasp {i}: center=({g.center[0]:.1f}, {g.center[1]:.1f}), "
+                      f"angle={np.degrees(g.angle):.1f} deg, width={g.width:.1f}px")
+
+
+            fig, ax = plt.subplots(1)
+            ax.imshow(images[0].permute(1,2,0).cpu().numpy(), cmap='gray')
+
+            # gt.plot(ax, color='green') # COMMENT OUT IF USING CUSTOMER IMAGES WITHOUT GROUND TRUTH BOXES
+            for g in gs:
+                g.plot(ax, color='red')
+
+            plt.show()
+            plt.savefig(os.path.join(out_dir, f"sample_{idx}.png"))
+            plt.close()
+
+            # --------------------------
+            # Visualize grasp quality map
+            # --------------------------
+
+            fig, ax = plt.subplots(1, figsize=(6, 6))
+
+            # IMPORTANT: clamp visualization range so low values are visible
+            # im = ax.imshow(
+            #     q_out,
+            #     # cmap='Greys', #'jet',
+            #     vmin=0.0,
+            #     vmax=max(0.05, np.percentile(q_out, 99.5))
+            # )
+
+            # ax.imshow(rgb_vis)
+            im = ax.imshow(q_out, 
+                      cmap='jet', 
+                      alpha=0.9,
+                      vmin=0.0,
+                      vmax=np.percentile(q_out, 99.5),
+                      # vmax=1,
+                      )
+
+
+            for g in gs:
+                g.plot(ax, color='white')
+
+            ax.set_title("Grasp Quality Map (q_out)")
+            plt.colorbar(im, ax=ax) #, fraction=0.046)
+
+            plt.tight_layout()
+            plt.savefig(os.path.join(out_dir, f"sample_{idx}_qmap.png"))
+            plt.close()
+
+
+
+            #-----------------------------
+            # Add data saving for grasps
+            #-----------------------------
+
+            # Save dense grasp maps per sample
+
+            np.savez(
+                os.path.join(out_dir, f"sample_{idx}_maps.npz"),
+                q=q_out,
+                angle=ang_out,
+                width=w_out
+            )
+
+            # Convert grasps to a clean array and save
+
+            grasp_array = np.array([
+                [
+                    g.center[0],     # x (px)
+                    g.center[1],     # y (px)
+                    g.angle,         # rad
+                    g.width          # px
+                ]
+                for g in gs
+            ], dtype=np.float32)
+
+
+            # #  Save as npy
+            # np.save(
+            #     os.path.join(out_dir, f"sample_{idx}_grasps.npy"),
+            #     grasp_array
+            # )
+
+
+            # for g in gs:
+            #     try:
+            #         g.pos, g.quat, g.width_m = rectangle_to_pose_topdown(
+            #             g,
+            #             depth_for_pose,
+            #             intrinsics,
+            #             grasp_height_offset=0.01,
+            #         )
+            #     except Exception:
+            #         g.pos, g.quat, g.width_m = None, None, None
+
+
             
-            
-            # log_print("success rate : {:.2f}% | correct : {},  failed : {}".format(success_rate, results["correct"], results["failed"]))
+
+            for g in gs:
+                g.pos, g.quat, g.width_m = rectangle_to_pose_topdown(
+                    g,
+                    depth_for_pose,
+                    intrinsics,
+                    grasp_height_offset=0.01,
+                )
+
+            # Save maps
+            np.savez(
+                # os.path.join(out_dir, f'sample_{k}_maps.npz'),
+                os.path.join(out_dir, f'sample_0_maps.npz'),
+                q=q_out,
+                angle=ang_out,
+                width=w_out,
+            )
+
+            #  Save as human-readable JSON
+            # grasp_list = [
+            #     {
+            #         "x": float(g.center[0]),
+            #         "y": float(g.center[1]),
+            #         "angle_rad": float(g.angle),
+            #         "angle_deg": float(np.degrees(g.angle)),
+            #         "width_px": float(g.width)
+            #     }
+            #     for g in gs
+            # ]
+
+            json_path = os.path.join(out_dir, f"sample_{idx}_grasps.json")
+
+            # with open(os.path.join(out_dir, f"sample_{idx}_grasps.json"), "w") as f:
+            #     json.dump(grasp_list, f, indent=2)
+
+
+            # out_json = {
+            #     "sample_id": idx,
+            #     "num_grasps": len(grasps),
+            #     "grasps": []
+            # }
+
+            # for g in grasps:
+            #     out_json["grasps"].append([
+            #         float(g.center[0]),
+            #         float(g.center[1]),
+            #         float(g.angle),
+            #         float(g.width),
+            #         float(g.score)
+            #     ])
+
+            # with open(json_path, "w") as f:
+            #     json.dump(out_json, f, indent=2)
+
+            # grasp_dicts = []
+            # for g in gs:
+            #     grasp_dicts.append(grasp_to_dict(g))
+
+            # with open(json_path, "w") as f:
+            #     json.dump(grasp_dicts, f, indent=2)
+
+
+            grasp_dicts = [grasp_to_dict_with_pose(g) for g in gs]
+            # with open(os.path.join(out_dir, f'sample_{k}_grasps.json'), 'w') as f:
+            with open(os.path.join(out_dir, f'sample_0_grasps.json'), 'w') as f:
+                # json.dump({'sample_id': sid, 'grasps': grasp_dicts}, f, indent=2)
+                json.dump(grasp_dicts, f, indent=2)
+
+
+
+
+            #------------------------------
+            # Added part ends
+            #------------------------------
+
+            # success = calculate_iou_match(q_out, ang_out, 
+            #                               # test_dataset.get_gtbb(didx, rot, zoom_factor), 
+            #                               gtbb,
+            #                               # no_grasps=1, 
+            #                               no_grasps=no_grasps, 
+            #                               grasp_width=w_out,
+            #                               gs=gs)
+        
+        # if success:
+        #     results["correct"] += 1
+        # else:
+        #     results["failed"] += 1
+        
+        # success_rate = 100 * results["correct"] / (results["correct"] + results["failed"])
+        
+        
+        # log_print("success rate : {:.2f}% | correct : {},  failed : {}".format(success_rate, results["correct"], results["failed"]))
 
     log_f.close()
 
@@ -722,16 +755,8 @@ if __name__ == "__main__":
     parser.add_argument("--root", type=str, help="dataset root")
     parser.add_argument("--ckp_path", type=str, help="ckp_path")
     parser.add_argument("--no-grasps", type=int, default=10, help="Top-K grasps to evaluate")
-    parser.add_argument('--remove_background', type=int, default=0, choices=[0, 1],
-                        help='If 1, apply mask to RGB input (background filled with bg_value)')
-    parser.add_argument('--bg_value', type=float, default=0.0,
-                        help='Background fill value in the SAME normalized tensor space as images')
-    # Optional: also allow masking qmap for testing (off by default)
-    parser.add_argument('--apply_mask_to_q', type=int, default=0, choices=[0, 1],
-                        help='If 1, multiply q_out by the mask before detect_grasps')
 
-
-        # Added: Intrinsics for converting rectangle->6D
+    # Added: Intrinsics for converting rectangle->6D
     parser.add_argument('--fx', type=float, default=554.3827128226441)
     parser.add_argument('--fy', type=float, default=554.3827128226441)
     parser.add_argument('--cx', type=float, default=320.0)
@@ -741,6 +766,8 @@ if __name__ == "__main__":
     # parser.add_argument('--intr_w', type=int, default=480) # for physical kinova gen3 camera color (rgb) camera
     # parser.add_argument('--intr_h', type=int, default=270) # for physical kinova gen3 camera color (rgb) camera
 
+    parser.add_argument('--sample_id', type=str, default=None, help='Single sample id prefix (without suffix).')
+    parser.add_argument('--instance_id', type=int, default=0, help='0 => use union mask. Otherwise use _mask_instance_<id>.png if present.')
 
 
     # Added to avoid hard-coding encode type

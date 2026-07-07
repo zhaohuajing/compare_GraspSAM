@@ -32,11 +32,10 @@ python3 rgbd_seg_to_jacquard_like.py \
 
 """
 Example:
-python rgbd_seg_to_jacquard_like.py 
-    --rgb ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/input/from_rgbd-color.png \
-    --depth ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/sresults/egmentation_rgbd/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/input/from_rgbd-depth.png 
-    --labels ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/output/segmentation_from_rgbd/im_label.npy \
-    --sample_id 0_from_rgbd --out_size 1024 --depth_scale_to_m 0.001 --out_dir temp/
+python rgbd_seg_to_jacquard_like.py --rgb ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/segmentation_rgbd/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/input/from_rgbd-color.png \
+    --depth ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/segmentation_rgbd/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/input/from_rgbd-depth.png 
+    --labels ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/segmentation_rgbd/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/output/segmentation_from_rgbd/im_label.npy \
+    --sample_id 0_from_rgbd --out_size 1024 --depth_scale_to_m 0.001 --out_dir out/
 """
 
 import argparse
@@ -73,14 +72,20 @@ def to_square_and_resize(arr: np.ndarray, out_size: int = 1024, is_mask: bool = 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--rgb", required=True, help="RGB image path (png/jpg)")
-    ap.add_argument("--depth", required=True, help="Depth image path (uint16 PNG)")
-    ap.add_argument("--labels", required=True, help="Instance label path (.npy), values 0..N")
-    ap.add_argument("--out_dir", required=True, help="Output directory", default="temp")
+
+    ap.add_argument("--rgb", required=True, help="RGB image path (png/jpg)", default="~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/segmentation_rgbd/input/from_rgbd-color.png")
+    ap.add_argument("--depth", required=True, help="Depth image path (uint16 PNG)", default="~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/segmentation_rgbd/input/from_rgbd-depth.png")
+    ap.add_argument("--labels", required=True, help="Instance label path (.npy), values 0..N", default = "~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/segmentation_rgbd/output/segmentation_from_rgbd/im_label.npy")
+    ap.add_argument("--out_dir", required=True, help="Output directory", default="rgbd2jacquard/temp")
     ap.add_argument("--sample_id", default="0_from_rgbd", help="Output sample id prefix")
     ap.add_argument("--out_size", type=int, default=1024, help="Output square size (Jacquard commonly uses 1024)")
     ap.add_argument("--depth_scale_to_m", type=float, default=0.001,
                     help="Meters per depth unit in the input uint16 PNG (0.001 for mm)")
+    
+    # ap.add_argument("--input_base_path", required=False, help="path to UOC", default="~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/")
+    # ap.add_argument("--input_figure_path", required=False, help="path to RGB and depth images (png/jpg)", default="~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/input")
+    # ap.add_argument("--input_label_path", required=False, help="path to im_label", default="~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/output/segmentation_from_rgbd")
+
     args = ap.parse_args()
 
     os.makedirs(args.out_dir, exist_ok=True)

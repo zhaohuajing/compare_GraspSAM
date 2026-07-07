@@ -45,6 +45,9 @@ class JacquardDataset(BaseGraspDataset):
         # graspf = glob.glob(os.path.join(file_path, '*', '*_grasps.txt'))
         # graspf = glob.glob('/SSDc/jongwon_kim/Datasets/Jacquard_Dataset' + '/*/*/' + '*_grasps.txt')
 
+        ################################################################
+        # Plan to COMMENT out: BELOW loading method is functional, but for customer image input, no need to check with provided JAC "grasp" baseline
+        ################################################################
         graspf = glob.glob(os.path.join(root, '**', '*_grasps.txt'), recursive=True) #edited to avoid hard-coded path
 
 
@@ -84,12 +87,16 @@ class JacquardDataset(BaseGraspDataset):
         # print("len filtered jaccquard:", fl)
 
 
+        #########################    
+        # Planned COMMENT-out PARTS END
+        #########################
+
         depthf = [f.replace('grasps.txt', 'perfect_depth.tiff') for f in graspf]
         rgbf = [f.replace('perfect_depth.tiff', 'RGB.png') for f in depthf]
         maskf = [f.replace('perfect_depth.tiff', 'mask.png') for f in depthf]
 
 
-        self.grasp_files = graspf
+        self.grasp_files = graspf # plan to comment out too
         self.depth_files = depthf
         self.rgb_files = rgbf
         self.mask_files = maskf
