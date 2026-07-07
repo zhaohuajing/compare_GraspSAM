@@ -1,0 +1,21 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=5
+============================================================
+JacquardDataset loaded | custom_no_gt=1 | mask_id=3 | sample_id=0_from_rgbd
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 85.51806640625 MB
+Reserved : 92.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.69050837
+ang_out: (1024, 1024) -57.315365 33.150806 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(276.0, 605.0), angle=-6.0 deg, width=24.4px
+  Grasp 1: center=(252.0, 613.0), angle=-4.6 deg, width=30.1px
+  Grasp 2: center=(310.0, 546.0), angle=-13.6 deg, width=32.5px
+  Grasp 3: center=(293.0, 518.0), angle=-21.4 deg, width=23.5px
+  Grasp 4: center=(245.0, 508.0), angle=-17.9 deg, width=17.8px
