@@ -28,10 +28,10 @@ from data.utils.grasp_utils import *
 
 Sample input: 
 
-python eval.py   --root ./datasets/YCB_scene_Jac_form/mask_1  --ckp_path ./final_result/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch54.pth   \
+python eval.py   --root ./datasets/YCB_scene_Jac_form/mask_1  --ckp_path ./trained_checkpoint/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch54.pth   \
         --sam-encoder-type vit_t   --no-grasps 5   --remove_background 0 --apply_mask_to_q 1
 
-python eval.py --ckp_path ./final_result/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch54.pth \
+python eval.py --ckp_path ./trained_checkpoint/total_vit_t_default/jacquard/2026-02-28-04-40-49/epoch54.pth \
         --sam-encoder-type vit_t --root ./datasets/CGN_scene_Jac_form/UOC_sample_scene/ --no-grasps 20
 """
 
