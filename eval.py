@@ -631,7 +631,7 @@ def main(args, i=0):
                         g,
                         depth_for_pose,
                         intrinsics,
-                        grasp_height_offset=0.01,
+                        grasp_height_offset=0.15,
                     )
 
 

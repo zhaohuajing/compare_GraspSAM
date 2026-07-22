@@ -1,0 +1,42 @@
+
+============================================================
+New run | encoder=vit_t | no_grasps=5
+============================================================
+JacquardDataset loaded | custom_no_gt=1 | mask_id=5 | sample_id=0_from_rgbd
+
+============================================================
+New run | encoder=vit_t | no_grasps=5
+============================================================
+JacquardDataset loaded | custom_no_gt=1 | mask_id=5 | sample_id=0_from_rgbd
+loading checkpoint from :  epoch54.pth
+loading checkpoint from :  epoch54.pth
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+loaded. missing: 0 unexpected: 0
+--------------------------------------------------------------------------------
+Allocated: 85.51806640625 MB
+Reserved : 92.0 MB
+Total    : 5730.125 MB
+Allocated: 85.51806640625 MB
+Reserved : 92.0 MB
+Total    : 5730.125 MB
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.8353239
+ang_out: (1024, 1024) -80.92257 74.51866 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(726.0, 181.0), angle=-9.6 deg, width=43.9px
+  Grasp 1: center=(729.0, 246.0), angle=-6.3 deg, width=36.3px
+  Grasp 2: center=(676.0, 245.0), angle=-5.7 deg, width=41.2px
+  Grasp 3: center=(629.0, 254.0), angle=4.8 deg, width=27.6px
+  Grasp 4: center=(621.0, 212.0), angle=-0.5 deg, width=33.6px
+idx =  0
+q_out: <class 'numpy.ndarray'> (1024, 1024) 0.0 0.85384744
+ang_out: (1024, 1024) -80.39745 77.21899 deg
+Detected grasps: 5
+Detected 5 grasps:
+  Grasp 0: center=(726.0, 181.0), angle=-12.9 deg, width=40.5px
+  Grasp 1: center=(729.0, 246.0), angle=-7.9 deg, width=32.1px
+  Grasp 2: center=(677.0, 245.0), angle=-6.4 deg, width=37.3px
+  Grasp 3: center=(629.0, 254.0), angle=4.0 deg, width=25.5px
+  Grasp 4: center=(621.0, 212.0), angle=-1.8 deg, width=31.3px

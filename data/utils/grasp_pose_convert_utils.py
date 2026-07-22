@@ -42,7 +42,7 @@ def rectangle_to_pose_topdown(
     grasp,
     depth_img,
     intrinsics: CameraIntrinsics,
-    grasp_height_offset=0.05,
+    grasp_height_offset=0.15,
 ):
     """
     Convert a planar grasp rectangle to a 6D grasp pose assuming:
@@ -87,7 +87,7 @@ def rectangle_to_pose_topdown(
         raise ValueError("Invalid depth at grasp center")
 
     # z = z + grasp_height_offset
-    z = z - 2*grasp_height_offset
+    z = z - grasp_height_offset
     # z = max(float(z) - 2 * float(grasp_height_offset), 1e-4) # consider adding a lower bound later
 
     # Pixel -> camera coordinates

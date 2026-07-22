@@ -32,10 +32,10 @@ python3 rgbd_seg_to_jacquard_like.py \
 
 """
 Example:
-python rgbd_seg_to_jacquard_like.py 
-    --rgb ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/input/from_rgbd-color.png \
-    --depth ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/sresults/egmentation_rgbd/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/input/from_rgbd-depth.png 
-    --labels ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/output/segmentation_from_rgbd/im_label.npy \
+python rgbd_seg_to_jacquard_like.py \
+    --rgb ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/Saved_Samples/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/input/from_rgbd-color.png \
+    --depth ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/Saved_Samples/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/input/from_rgbd-depth.png \
+    --labels ~/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/Saved_Samples/Kinova_Gen3_real/sample23_physical_YCB_mnet_scene/output/segmentation_from_rgbd/im_label.npy \
     --sample_id 0_from_rgbd --out_size 1024 --depth_scale_to_m 0.001 --out_dir temp/
 """
 
