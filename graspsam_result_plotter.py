@@ -35,9 +35,11 @@ python3 graspsam_result_plotter.py
     --grasps ./grasp_outputs/run_20260628_020526_realYCB_mnet_6DPose/sample_0_grasps.json   
     --top_k 5   --stride 2   --frame_mode optical
 
-python3 graspsam_result_plotter.py   --rgb ./rgbd2jacquard/Kinova_Gen3_real_YCB/sample2_mnet_scene/0_from_rgbd_RGB.png   
-    --depth ./rgbd2jacquard/Kinova_Gen3_real_YCB/sample2_mnet_scene/0_from_rgbd_perfect_depth.tiff   
-    --grasps ./grasp_outputs/run_20260709_203049/sample_0_grasps.json  --top_k 10   --stride 2   --frame_mode optical
+
+python3 graspsam_result_plotter.py   --rgb ./rgbd2jacquard/realtime/0_from_rgbd_RGB.png   
+    --depth ./rgbd2jacquard/realtime/0_from_rgbd_perfect_depth.tiff   
+    --grasps ./grasp_outputs/run_20260/sample_0_grasps.json   --top_k 10   --stride 2   --frame_mode optical
+
 
 
 """
