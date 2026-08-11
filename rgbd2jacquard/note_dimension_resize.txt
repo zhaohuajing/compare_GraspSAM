@@ -1,0 +1,254 @@
+input:  640 x 360
+side:   640
+pad_y:  (640 - 360) / 2 = 140 px in original input scale
+resize: 640 -> 1024, scale = 1.6
+pad_y in 1024 image: 140 * 1.6 = 224 px
+content height: 360 * 1.6 = 576 px
+content region: y = 224 to 799
+
+====================================
+
+The from_rgbd-color image is:
+
+640 x 360
+
+The converted 0_from_rgbd_RGB image is:
+
+1024 x 1024
+
+Its non-black content occupies approximately:
+
+x: 0 to 1023
+y: 224 to 799
+
+with black padding above and below. 
+
+This is consistent with your converter script: it pads the original image to a square using side = max(h, w), then resizes the padded square to out_size x out_size. The script then applies this same square-resize function to RGB, mask, depth, and per-instance masks.
+
+====================================
+
+The correct intrinsics mapping should be letterbox-aware:
+
+scale = 1024 / 640 = 1.6
+pad_x = 0
+pad_y = 224
+
+fx_1024 = fx_640 * 1.6
+fy_1024 = fy_640 * 1.6
+cx_1024 = cx_640 * 1.6
+cy_1024 = cy_640 * 1.6 + 224
+
+
+===================================
+
+
+The current (by 26/08/10) eval.py logic uses separate sx and sy, which would be wrong for this padded image because the image was not directly stretched from 640×360 to 1024×1024. It was padded to 640×640 first, then resized.
+
+One important practical point: because your actual GraspSAM input is generated from a 640×360 RGB-D image, the cleanest parameter convention is to pass intrinsics corresponding to that same 640×360 image:
+
+intr_w = 640
+intr_h = 360
+fx, fy, cx, cy = CameraInfo values for the 640x360 stream
+
+If the only available CameraInfo is for the original 1280×720 color stream, you can either pass the original values with intr_w=1280, intr_h=720, or pass half-scaled intrinsics with intr_w=640, intr_h=360. These are equivalent only if the 640×360 image is produced by a simple 0.5 resize, not a crop.
+
+==============================
+
+
+ros2 info after editing eval.py on 26/08/10:
+
+
+csrobot@nerve-desktop-6:~/kinova_ws$ ros2 topic list | grep -E "camera_info|image"
+/camera/color/camera_info
+/camera/color/image_raw
+/camera/color/image_raw/compressed
+/camera/color/image_raw/compressedDepth
+/camera/color/image_raw/theora
+/camera/depth_registered/camera_info
+/camera/depth_registered/image_rect
+/camera/depth_registered/image_rect/compressed
+/camera/depth_registered/image_rect/compressedDepth
+/camera/depth_registered/image_rect/theora
+/camera/depth_registered/image_rect/zstd
+/camera/image_raw/zstd
+csrobot@nerve-desktop-6:~/kinova_ws$ ros2 topic echo --once /camera/color/camera_info
+ros2 topic echo --once /camera/depth_registered/camera_info
+header:
+stamp:
+sec: 1786387107
+nanosec: 28751867
+frame_id: camera_color_frame
+height: 720
+width: 1280
+distortion_model: plumb_bob
+d:
+
+0.0
+0.0
+0.0
+0.0
+0.0
+k:
+1297.672904
+0.0
+620.914026
+0.0
+1298.631344
+238.280325
+0.0
+0.0
+1.0
+r:
+1.0
+0.0
+0.0
+0.0
+1.0
+0.0
+0.0
+0.0
+1.0
+p:
+1297.008057
+0.0
+620.336773
+0.0
+0.0
+1304.157593
+238.813876
+0.0
+0.0
+0.0
+1.0
+0.0
+binning_x: 0
+binning_y: 0
+roi:
+x_offset: 0
+y_offset: 0
+height: 0
+width: 0
+do_rectify: false
+
+header:
+stamp:
+sec: 1786387108
+nanosec: 492205071
+frame_id: camera_color_frame
+height: 720
+width: 1280
+distortion_model: plumb_bob
+d:
+
+0.0
+0.0
+0.0
+0.0
+0.0
+k:
+1297.672904
+0.0
+620.914026
+0.0
+1298.631344
+238.280325
+0.0
+0.0
+1.0
+r:
+1.0
+0.0
+0.0
+0.0
+1.0
+0.0
+0.0
+0.0
+1.0
+p:
+1297.008057
+0.0
+620.336773
+0.0
+0.0
+1304.157593
+238.813876
+0.0
+0.0
+0.0
+1.0
+0.0
+binning_x: 0
+binning_y: 0
+roi:
+x_offset: 0
+y_offset: 0
+height: 0
+width: 0
+do_rectify: false
+
+csrobot@nerve-desktop-6:~/kinova_ws$ python3 - <<'PY'
+import cv2
+paths = [
+"/home/csrobot/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/input/from_rgbd-color.png",
+"/home/csrobot/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/input/from_rgbd-depth.png",
+"/home/csrobot/graspnet_ws/src/graspsam_ros2/compare_GraspSAM/rgbd2jacquard/realtime/0_from_rgbd_RGB.png",
+"/home/csrobot/graspnet_ws/src/graspsam_ros2/compare_GraspSAM/rgbd2jacquard/realtime/0_from_rgbd_perfect_depth.tiff",
+]
+for p in paths:
+im = cv2.imread(p, cv2.IMREAD_UNCHANGED)
+print(p)
+print(" shape:", None if im is None else im.shape)
+PY
+/home/csrobot/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/input/from_rgbd-color.png
+shape: (360, 640, 3)
+/home/csrobot/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/input/from_rgbd-depth.png
+shape: (360, 640)
+/home/csrobot/graspnet_ws/src/graspsam_ros2/compare_GraspSAM/rgbd2jacquard/realtime/0_from_rgbd_RGB.png
+shape: (1024, 1024, 3)
+/home/csrobot/graspnet_ws/src/graspsam_ros2/compare_GraspSAM/rgbd2jacquard/realtime/0_from_rgbd_perfect_depth.tiff
+shape: (1024, 1024)
+csrobot@nerve-desktop-6:~/kinova_ws$ python3 - <<'PY'
+import rclpy
+from sensor_msgs.msg import CameraInfo
+
+TOPICS = [
+"/camera/color/camera_info",
+"/camera/depth_registered/camera_info",
+]
+
+rclpy.init()
+node = rclpy.create_node("print_camera_info_once")
+done = set()
+
+def make_cb(topic):
+def cb(msg):
+k = msg.k
+print("\n" + "=" * 80)
+print(topic)
+print("frame_id:", msg.header.frame_id)
+print("width,height:", msg.width, msg.height)
+print(f"fx={k[0]:.6f}, fy={k[4]:.6f}, cx={k[2]:.6f}, cy={k[5]:.6f}")
+done.add(topic)
+return cb
+
+subs = [node.create_subscription(CameraInfo, t, make_cb(t), 10) for t in TOPICS]
+
+while rclpy.ok() and len(done) < len(TOPICS):
+rclpy.spin_once(node, timeout_sec=1.0)
+
+node.destroy_node()
+rclpy.shutdown()
+PY
+
+================================================================================
+/camera/color/camera_info
+frame_id: camera_color_frame
+width,height: 1280 720
+fx=1297.672904, fy=1298.631344, cx=620.914026, cy=238.280325
+
+================================================================================
+/camera/depth_registered/camera_info
+frame_id: camera_color_frame
+width,height: 1280 720
+fx=1297.672904, fy=1298.631344, cx=620.914026, cy=238.280325"

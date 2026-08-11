@@ -231,14 +231,22 @@ def main():
     ap.add_argument("--save_image", default="", help="Optional screenshot path")
 
     # Intrinsics as used by eval_functional_jac_loader.py
-    ap.add_argument("--fx", type=float, default=554.3827128226441)
-    ap.add_argument("--fy", type=float, default=554.3827128226441)
-    ap.add_argument("--cx", type=float, default=320.0)
-    ap.add_argument("--cy", type=float, default=240.0)
-    ap.add_argument("--intr_w", type=int, default=640)
-    ap.add_argument("--intr_h", type=int, default=480)
-    # ap.add_argument("--intr_w", type=int, default=480) # kinova gen3 camera depth
-    # ap.add_argument("--intr_h", type=int, default=270) # kinova gen3 camera depth
+    # For gazebo sim
+    # ap.add_argument("--fx", type=float, default=554.3827128226441)
+    # ap.add_argument("--fy", type=float, default=554.3827128226441)
+    # ap.add_argument("--cx", type=float, default=320.0)
+    # ap.add_argument("--cy", type=float, default=240.0)
+    # ap.add_argument("--intr_w", type=int, default=640)
+    # ap.add_argument("--intr_h", type=int, default=480)
+
+    # For kinova gen3
+    ap.add_argument("--fx", type=float, default=1297.672904)
+    ap.add_argument("--fy", type=float, default=1298.631344)
+    ap.add_argument("--cx", type=float, default=620.914026)
+    ap.add_argument("--cy", type=float, default=238.280325)
+    ap.add_argument("--intr_w", type=int, default=1280)
+    ap.add_argument("--intr_h", type=int, default=720)
+
 
     ap.add_argument("--frame_mode", choices=["optical", "ros_cam"], default="optical",
                     help="optical: plot raw eval poses/cloud. ros_cam: apply optical->ROS camera conversion to both.")

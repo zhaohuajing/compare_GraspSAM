@@ -23,7 +23,7 @@ class CameraIntrinsics:
         self.cx = cx
         self.cy = cy
 
-        # #  RGB-D images in GraspSAM are currently 1024×1024, but the camera info is 640×480: will convert in eval.py
+        # #  RGB-D images in GraspSAM are currently 1024×1024, but the camera info (gazebo sim) is 640×480: will convert in eval.py
 
         # scale_x = 1024 / 640
         # scale_y = 1024 / 480
@@ -51,66 +51,49 @@ def rectangle_to_pose_topdown(
     - gripper approaches along camera +Z axis
     - rectangle angle defines yaw in image plane
 
-    Parameters
-    ----------
-    grasp:
-        Grasp object (from grasp_utils)
-        - grasp.center = (u, v)
-        - grasp.angle  = radians
-        - grasp.width  = pixels (full opening)
-    depth_img:
-        HxW depth image (meters)
-    intrinsics:
-        CameraIntrinsics
-    grasp_height_offset:
-        Optional offset added to depth (meters)
-
-    Returns
-    -------
-    position : np.ndarray (3,)
-        [x, y, z] in camera frame
-    quaternion : np.ndarray (4,)
-        [qx, qy, qz, qw]
-    width_m : float
-        Gripper opening in meters
+    IMPORTANT:
+    The detected grasp center corresponds to a pixel on the object surface.
+    Use that surface depth for x/y back-projection. Apply the height offset
+    only to the returned z target; otherwise x/y will be scaled toward the
+    camera optical center.
     """
 
     u, v = grasp.center
-    # v, u = grasp.center # test swaping x and y - x using center[1], y using center[0]
     u = int(round(u))
     v = int(round(v))
 
-    # z = depth_img[v, u]
-    z = depth_img[u,v] # this is correct!
-    print(f"[grasp_pose_convert_utils]: grasp.center = {grasp.center}, z = {z}")
-    if z < 0 or np.isnan(z):
+    H, W = depth_img.shape[:2]
+    if u < 0 or u >= H or v < 0 or v >= W:
+        raise ValueError(
+            f"Grasp center out of depth bounds: center={grasp.center}, "
+            f"rounded=(u={u}, v={v}), depth_shape=({H}, {W})"
+        )
+
+    # In this branch, u is row-like and v is column-like.
+    z_surface = float(depth_img[u, v])
+    print(f"[grasp_pose_convert_utils]: grasp.center={grasp.center}, "
+          f"u(row)={u}, v(col)={v}, z_surface={z_surface}")
+
+    if z_surface <= 0 or np.isnan(z_surface):
         raise ValueError("Invalid depth at grasp center")
 
-    # z = z + grasp_height_offset
-    z = z - grasp_height_offset
-    # z = max(float(z) - 2 * float(grasp_height_offset), 1e-4) # consider adding a lower bound later
+    # Back-project the object surface point.
+    x = (v - intrinsics.cx) * z_surface / intrinsics.fx
+    y = (u - intrinsics.cy) * z_surface / intrinsics.fy
 
-    # Pixel -> camera coordinates
-    x = (u - intrinsics.cx) * z / intrinsics.fx
-    y = (v - intrinsics.cy) * z / intrinsics.fy
+    # EE/TCP target depth. Do not use this reduced depth for x/y.
+    z_target = z_surface - float(grasp_height_offset)
+    z_target = max(z_target, 1e-4)
 
-    # y = (u - intrinsics.cx) * z / intrinsics.fy
-    # x = (v - intrinsics.cy) * z / intrinsics.fx
+    position = np.array([x, y, z_target], dtype=np.float64)
 
-    x = (v - intrinsics.cx) * z / intrinsics.fx
-    y = (u - intrinsics.cy) * z / intrinsics.fy
-
-    position = np.array([x, y, z])
-    # position = np.array([y, x, z])
-
-    # Orientation:
-    #   - yaw from grasp angle
-    #   - flip gripper to point downward
     yaw = grasp.angle
-    rot = R.from_euler("z", yaw) # * R.from_euler("x", np.pi)
+    rot = R.from_euler("z", yaw)
     quaternion = rot.as_quat()  # (x, y, z, w)
 
-    # Metric gripper width
-    width_m = (grasp.width * z) / intrinsics.fx
+    # Metric gripper width is measured at the observed object surface.
+    width_m = (float(grasp.width) * z_surface) / intrinsics.fx
+
+    print(f"[grasp_pose_convert_utils]: position={position}, width_m={width_m}")
 
     return position, quaternion, width_m

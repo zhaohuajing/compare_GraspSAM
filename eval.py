@@ -612,19 +612,58 @@ def main(args, i=0):
                 #--------------------------------
                 # Intrinsics must be scaled to current image size
                 # The intrinsics provided are for intr_w x intr_h.
-                out_size = 1024
-                sx = out_size / float(args.intr_w)
-                sy = out_size / float(args.intr_h)
-                intrinsics = CameraIntrinsics(
-                    fx=args.fx * sx,
-                    fy=args.fy * sy,
-                    cx=args.cx * sx,
-                    cy=args.cy * sy,
-                )
 
+                #----------------------------------
+                # Previously used: basically worked, but generated displacements between 
+                # actually reached pose vs. desired grasp goal pose when executing with kinova gen3 
+                #----------------------------------
+                # out_size = 1024
+                # sx = out_size / float(args.intr_w)
+                # sy = out_size / float(args.intr_h)
+                # intrinsics = CameraIntrinsics(
+                #     fx=args.fx * sx,
+                #     fy=args.fy * sy,
+                #     cx=args.cx * sx,
+                #     cy=args.cy * sy,
+                # )
+
+                # rgb_u8, depth_m = load_sample(args.root, sample_id=args.sample_id)
+                # depth_for_pose = depth_m
+
+                # for g in gs:
+                #     g.pos, g.quat, g.width_m = rectangle_to_pose_topdown(
+                #         g,
+                #         depth_for_pose,
+                #         intrinsics,
+                #         grasp_height_offset=0.15,
+                #     )
+
+                #--------------------------------
+                # New block with letterbox-aware version for camera intrinsics and padding
+                #--------------------------------
 
                 rgb_u8, depth_m = load_sample(args.root, sample_id=args.sample_id)
                 depth_for_pose = depth_m
+
+                out_h, out_w = depth_m.shape[:2]
+                scale = min(out_w / float(args.intr_w), out_h / float(args.intr_h))
+                pad_x = 0.5 * (out_w - float(args.intr_w) * scale)
+                pad_y = 0.5 * (out_h - float(args.intr_h) * scale)
+
+                intrinsics = CameraIntrinsics(
+                    fx=args.fx * scale,
+                    fy=args.fy * scale,
+                    cx=args.cx * scale + pad_x,
+                    cy=args.cy * scale + pad_y,
+                )
+
+                log_print(
+                    f"Pose intrinsics after letterbox: "
+                    f"fx={intrinsics.fx:.3f}, fy={intrinsics.fy:.3f}, "
+                    f"cx={intrinsics.cx:.3f}, cy={intrinsics.cy:.3f}, "
+                    f"scale={scale:.6f}, pad_x={pad_x:.1f}, pad_y={pad_y:.1f}, "
+                    f"image_size=({out_w}, {out_h}), intr_size=({args.intr_w}, {args.intr_h})"
+                )
 
                 for g in gs:
                     g.pos, g.quat, g.width_m = rectangle_to_pose_topdown(
@@ -633,9 +672,6 @@ def main(args, i=0):
                         intrinsics,
                         grasp_height_offset=0.15,
                     )
-
-
-
 
                 #-----------------------------
                 # Add data saving for grasps
@@ -654,8 +690,10 @@ def main(args, i=0):
 
                 grasp_array = np.array([
                     [
-                        g.center[0],     # x (px)
-                        g.center[1],     # y (px)
+                        # g.center[0],     # x (px)
+                        # g.center[1],     # y (px)
+                        g.center[1],     # x (px)
+                        g.center[0],     # y (px)
                         g.angle,         # rad
                         g.width          # px
                     ]
@@ -780,15 +818,21 @@ if __name__ == "__main__":
                         help='Sample id prefix, e.g., 0_from_rgbd')
 
 
-        # Added: Intrinsics for converting rectangle->6D
-    parser.add_argument('--fx', type=float, default=554.3827128226441)
-    parser.add_argument('--fy', type=float, default=554.3827128226441)
-    parser.add_argument('--cx', type=float, default=320.0)
-    parser.add_argument('--cy', type=float, default=240.0)
-    parser.add_argument('--intr_w', type=int, default=640) # for gazebo panda sim camera
-    parser.add_argument('--intr_h', type=int, default=480) # for gazebo panda sim camera
-    # parser.add_argument('--intr_w', type=int, default=480) # for physical kinova gen3 camera color (rgb) camera
-    # parser.add_argument('--intr_h', type=int, default=270) # for physical kinova gen3 camera color (rgb) camera
+    # Added: Intrinsics for converting rectangle->6D
+    # parser.add_argument('--fx', type=float, default=554.3827128226441)
+    # parser.add_argument('--fy', type=float, default=554.3827128226441)
+    # parser.add_argument('--cx', type=float, default=320.0)
+    # parser.add_argument('--cy', type=float, default=240.0)
+    # # parser.add_argument('--intr_w', type=int, default=640) # for gazebo panda sim camera
+    # # parser.add_argument('--intr_h', type=int, default=480) # for gazebo panda sim camera
+
+
+    parser.add_argument('--fx', type=float, default=1297.673)
+    parser.add_argument('--fy', type=float, default=1298.631)
+    parser.add_argument('--cx', type=float, default=620.914)
+    parser.add_argument('--cy', type=float, default=238.280)
+    parser.add_argument('--intr_w', type=int, default=1280) # for physical kinova gen3 camera color (rgb) camera
+    parser.add_argument('--intr_h', type=int, default=720) # for physical kinova gen3 camera color (rgb) camera
 
 
 
