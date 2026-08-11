@@ -83,7 +83,7 @@ def rectangle_to_pose_topdown(
 
     # EE/TCP target depth. Do not use this reduced depth for x/y.
     z_target = z_surface - float(grasp_height_offset)
-    z_target = max(z_target, 1e-4)
+    # z_target = max(z_target, 1e-4)
 
     position = np.array([x, y, z_target], dtype=np.float64)
 
