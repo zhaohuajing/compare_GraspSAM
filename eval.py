@@ -529,10 +529,14 @@ def main(args, i=0):
                 from data.utils.grasp_utils import GraspRectangles, detect_grasps
                 import matplotlib.pyplot as plt
 
+                # Selected-instance mask as a NumPy array.  Keep this available
+                # even when apply_mask_to_q == 0, because pose conversion can use
+                # it to recover depth from nearby valid pixels on the same object
+                # if the exact grasp-center depth pixel is a hole.
+                m_np = masks[0, 0].detach().cpu().numpy().astype(np.float32)
+
                 # Optionally apply mask to qmap (sometimes improves localization)
                 if args.apply_mask_to_q == 1:
-                    # masks is a tensor; take batch 0, channel 0
-                    m_np = masks[0, 0].detach().cpu().numpy().astype(np.float32)
                     q_out = q_out * m_np
                     w_out = w_out * m_np
 
@@ -671,6 +675,8 @@ def main(args, i=0):
                         depth_for_pose,
                         intrinsics,
                         grasp_height_offset=0.15,
+                        mask_img=m_np,
+                        depth_fallback_radii=(0, 5, 10, 20, 40, 80, 120),
                     )
 
                 #-----------------------------

@@ -1,0 +1,76 @@
+{
+  "sample_id": "0_from_rgbd",
+  "input": {
+    "rgb": "/home/csrobot/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/input/from_rgbd-color.png",
+    "depth": "/home/csrobot/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/input/from_rgbd-depth.png",
+    "labels": "/home/csrobot/graspnet_ws/src/unseen_obj_clst_ros2/compare_UnseenObjectClustering/results/segmentation_rgbd/output/im_label.npy"
+  },
+  "output": {
+    "RGB": "0_from_rgbd_RGB.png",
+    "mask_union": "0_from_rgbd_mask.png",
+    "perfect_depth_tiff": "0_from_rgbd_perfect_depth.tiff",
+    "mask_instances": [
+      "0_from_rgbd_mask_instance_1.png",
+      "0_from_rgbd_mask_instance_2.png",
+      "0_from_rgbd_mask_instance_3.png",
+      "0_from_rgbd_mask_instance_4.png",
+      "0_from_rgbd_mask_instance_5.png",
+      "0_from_rgbd_mask_instance_6.png",
+      "0_from_rgbd_mask_instance_7.png",
+      "0_from_rgbd_mask_instance_8.png",
+      "0_from_rgbd_mask_instance_9.png",
+      "0_from_rgbd_mask_instance_10.png"
+    ],
+    "instance_dirs": [
+      "mask_1",
+      "mask_2",
+      "mask_3",
+      "mask_4",
+      "mask_5",
+      "mask_6",
+      "mask_7",
+      "mask_8",
+      "mask_9",
+      "mask_10"
+    ],
+    "dummy_grasps_written": false
+  },
+  "instance_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "instance_pixel_areas_input_res": {
+    "1": 3207,
+    "2": 2755,
+    "3": 74,
+    "4": 1381,
+    "5": 2109,
+    "6": 8817,
+    "7": 547,
+    "8": 1433,
+    "9": 43,
+    "10": 1377
+  },
+  "conversion": {
+    "input_resolution": [
+      640,
+      360
+    ],
+    "output_resolution": [
+      1024,
+      1024
+    ],
+    "resize_method": "pad-to-square then resize",
+    "depth_scale_to_m": 0.001
+  },
+  "recommended_eval_command": "python eval.py --root <this_out_dir> --custom_no_gt 1 --mask-id <instance_id> --ckp_path <checkpoint> --sam-encoder-type vit_t --no-grasps 5 --remove_background 0 --apply_mask_to_q 1",
+  "selected_instance_id": 3
+}

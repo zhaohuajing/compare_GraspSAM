@@ -423,14 +423,43 @@ class GraspRectangle:
             
         self.points = copy_points
 
-    def plot(self, ax, color=None):
+    def plot(self, ax, color=None, width_color='green', side_color='red',
+             linewidth=2.0, alpha=1.0, dual_color=True):
         """
         Plot grasping rectangle.
-        :param ax: Existing matplotlib axis
-        :param color: matplotlib color code (optional)
+
+        By default this uses a two-color grasp visualization:
+          - green: the two parallel gripper digit/jaw lines
+                   (edges 0-1 and 2-3)
+          - red:   the two connecting side lines
+                   (edges 1-2 and 3-0)
+
+        The legacy single-color behavior can still be recovered with
+        dual_color=False.
         """
-        points = np.vstack((self.points, self.points[0]))
-        ax.plot(points[:, 1], points[:, 0], color=color)
+        points = np.asarray(self.points)
+
+        if not dual_color:
+            line_color = color if color is not None else side_color
+            closed = np.vstack((points, points[0]))
+            ax.plot(closed[:, 1], closed[:, 0],
+                    color=line_color, linewidth=linewidth, alpha=alpha)
+            return
+
+        # In this rectangle convention, 0-1 and 2-3 are the two long parallel
+        # edges that indicate the gripper digit/jaw positions when opened.
+        digit_edges = [(0, 1), (2, 3)]
+        side_edges = [(1, 2), (3, 0)]
+
+        for a, b in digit_edges:
+            ax.plot([points[a, 1], points[b, 1]],
+                    [points[a, 0], points[b, 0]],
+                    color=width_color, linewidth=linewidth, alpha=alpha)
+
+        for a, b in side_edges:
+            ax.plot([points[a, 1], points[b, 1]],
+                    [points[a, 0], points[b, 0]],
+                    color=side_color, linewidth=linewidth, alpha=alpha)
 
     def zoom(self, factor, center):
         """
