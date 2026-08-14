@@ -423,16 +423,17 @@ class GraspRectangle:
             
         self.points = copy_points
 
-    def plot(self, ax, color=None, width_color='green', side_color='red',
+    def plot(self, ax, color=None, width_color='red', side_color='green',
              linewidth=2.0, alpha=1.0, dual_color=True):
         """
         Plot grasping rectangle.
 
         By default this uses a two-color grasp visualization:
           - green: the two parallel gripper digit/jaw lines
-                   (edges 0-1 and 2-3)
-          - red:   the two connecting side lines
                    (edges 1-2 and 3-0)
+          - red:   the two connecting side lines
+                   (edges 0-1 and 2-3)
+                   
 
         The legacy single-color behavior can still be recovered with
         dual_color=False.
